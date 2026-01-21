@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://42a07bj3ivdt"]
+
+[ext_resource type="Script" uid="uid://ba2rt7gpec2wo" path="res://Scripts/entities/player.gd" id="1_rkbax"]
+[ext_resource type="Texture2D" uid="uid://dq5gm6x5st1st" path="res://assets/entities/player.png" id="2_g1dw6"]
+[ext_resource type="PackedScene" uid="uid://qf346rsqessh" path="res://Scenes/systems/inventory.tscn" id="3_g1dw6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g1dw6"]
+radius = 7.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g1dw6"]
+
+[node name="Player" type="CharacterBody2D"]
+z_index = 1
+script = ExtResource("1_rkbax")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_g1dw6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+y_sort_enabled = true
+texture = ExtResource("2_g1dw6")
+offset = Vector2(0, -8.5)
+
+[node name="Inventory" parent="." instance=ExtResource("3_g1dw6")]
+max_slots = null
+
+[node name="InteractRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractRange"]
+position = Vector2(0, -7)
+scale = Vector2(4, 4)
+shape = SubResource("RectangleShape2D_g1dw6")
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmj1w5d0yylse"]
+
+[ext_resource type="Texture2D" uid="uid://cu5ritxd18wrb" path="res://assets/items/coin.png" id="1_fyqef"]
+[ext_resource type="Script" uid="uid://su64a26bb4jb" path="res://Scripts/ui/coin_counter.gd" id="1_m6e0p"]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="CoinCounter" type="Control" parent="."]
+layout_mode = 3
+anchor_left = -0.016
+offset_left = 1142.2
+offset_top = 13.0
+offset_right = 1195.0
+offset_bottom = 46.0
+script = ExtResource("1_m6e0p")
+
+[node name="Sprite2D" type="Sprite2D" parent="CoinCounter"]
+position = Vector2(3, 8)
+scale = Vector2(2, 2)
+texture = ExtResource("1_fyqef")
+
+[node name="Label" type="Label" parent="CoinCounter"]
+layout_direction = 2
+layout_mode = 0
+offset_left = 19.0
+offset_top = -4.0
+offset_right = 59.0
+offset_bottom = 19.0
+text = "0"
+
+[connection signal="tree_entered" from="CoinCounter" to="CoinCounter" method="_on_tree_entered"]
+[connection signal="tree_exited" from="CoinCounter" to="CoinCounter" method="_on_tree_exited"]

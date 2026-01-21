@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://bwm1447moq85i"]
+
+[ext_resource type="Shader" uid="uid://dau3adtjihfup" path="res://shaders/grass_tile.gdshader" id="1_s3n7f"]
+[ext_resource type="Texture2D" uid="uid://bcvme7mims22h" path="res://assets/tiles/grass_tile_seamless.png" id="2_odlwa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ic0uy"]
+shader = ExtResource("1_s3n7f")
+shader_parameter/overlay_tex = ExtResource("2_odlwa")
+shader_parameter/scale = 0.015
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l1sdp"]
+texture = ExtResource("2_odlwa")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ioo17"]
+terrain_set_0/mode = 0
+terrain_set_0/terrain_0/name = "Grass"
+terrain_set_0/terrain_0/color = Color(0.0941176, 0.345098, 0.25098, 1)
+sources/0 = SubResource("TileSetAtlasSource_l1sdp")
+
+[node name="GrassLayer" type="TileMapLayer"]
+z_index = -1
+material = SubResource("ShaderMaterial_ic0uy")
+tile_set = SubResource("TileSet_ioo17")

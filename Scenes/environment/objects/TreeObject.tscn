@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://do3bxioy8ahbt"]
+
+[ext_resource type="Script" uid="uid://einb7g05m6ut" path="res://Scripts/environment/objects/tree_object.gd" id="1_y8b2y"]
+[ext_resource type="Texture2D" uid="uid://dyuymt4t428n2" path="res://assets/environment/tree2.png" id="2_lw0fn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rpyvy"]
+size = Vector2(7, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_opvda"]
+size = Vector2(44, 39)
+
+[node name="TreeObject" type="Node2D"]
+z_index = 1
+script = ExtResource("1_y8b2y")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-24, -64)
+texture = ExtResource("2_lw0fn")
+centered = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.5, -5.5)
+shape = SubResource("RectangleShape2D_rpyvy")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -35.5)
+shape = SubResource("RectangleShape2D_opvda")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

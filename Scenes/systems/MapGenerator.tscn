@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=3 uid="uid://coe34frgpgmc4"]
+
+[ext_resource type="Script" uid="uid://cp2vt7y33na3m" path="res://Scripts/systems/map_generator.gd" id="1_dgbp0"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dgbp0"]
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b2p3l"]
+noise = SubResource("FastNoiseLite_dgbp0")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_b2p3l"]
+frequency = 0.35
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xlbuu"]
+noise = SubResource("FastNoiseLite_b2p3l")
+
+[node name="MapGenerator" type="Node2D"]
+script = ExtResource("1_dgbp0")
+noise_texture = SubResource("NoiseTexture2D_b2p3l")
+tree_noise_texture = SubResource("NoiseTexture2D_xlbuu")

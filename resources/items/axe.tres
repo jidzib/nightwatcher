@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AxeItem" load_steps=3 format=3 uid="uid://cumea1is0wgvl"]
+
+[ext_resource type="Script" uid="uid://8vor5qlp741" path="res://Scripts/items/axe.gd" id="1_t485b"]
+[ext_resource type="Texture2D" uid="uid://cqghs6pdg4hap" path="res://assets/items/axe.png" id="2_ih03p"]
+
+[resource]
+script = ExtResource("1_t485b")
+id = 5
+name = "Axe"
+max_stack_size = 1
+texture = ExtResource("2_ih03p")
+metadata/_custom_type_script = "uid://8vor5qlp741"

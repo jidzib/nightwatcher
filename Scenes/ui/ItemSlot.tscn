@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://cq7unly2r1c0k"]
+
+[ext_resource type="Script" uid="uid://swtubnqjo72u" path="res://Scripts/systems/item_slot.gd" id="1_k4ndi"]
+[ext_resource type="Texture2D" uid="uid://cuxve8w8pugdn" path="res://assets/ui/select.png" id="2_4qatt"]
+
+[node name="ItemSlot" type="Control"]
+physics_interpolation_mode = 0
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_k4ndi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 3
+position = Vector2(20, 20)
+
+[node name="Label" type="Label" parent="."]
+z_index = 3
+layout_direction = 3
+layout_mode = 0
+offset_left = -39.0
+offset_top = 25.0
+offset_right = -32.0
+offset_bottom = 42.0
+theme_override_font_sizes/font_size = 12
+text = "1"
+horizontal_alignment = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = 2
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.164706, 0.164706, 0.164706, 0.521569)
+
+[node name="Selected" type="Sprite2D" parent="."]
+visible = false
+z_index = 3
+position = Vector2(20, 20)
+texture = ExtResource("2_4qatt")

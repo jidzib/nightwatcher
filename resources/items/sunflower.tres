@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://b1bdplkj1iiyi"]
+
+[ext_resource type="Script" uid="uid://cs7eeujixbhp1" path="res://Scripts/items/item.gd" id="1_ol3in"]
+[ext_resource type="Texture2D" uid="uid://cbmb8b81gqtlo" path="res://assets/items/sunflower.png" id="2_vxre0"]
+
+[resource]
+script = ExtResource("1_ol3in")
+id = 3
+name = "Sunflower"
+type = "Plant"
+max_stack_size = 100
+texture = ExtResource("2_vxre0")
+metadata/_custom_type_script = "uid://cs7eeujixbhp1"

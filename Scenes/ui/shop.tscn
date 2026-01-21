@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://csryfuy66k5cx"]
+
+[ext_resource type="Script" uid="uid://lu5vgsicpcn7" path="res://Scripts/ui/shop.gd" id="1_e7rdd"]
+
+[node name="Shop" type="CanvasLayer"]
+script = ExtResource("1_e7rdd")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_left = 508.0
+offset_top = 236.0
+offset_right = 808.0
+offset_bottom = 336.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Button" type="Button" parent="."]
+offset_left = 797.0
+offset_top = 213.0
+offset_right = 816.0
+offset_bottom = 233.0
+theme_override_colors/font_color = Color(1, 0, 0, 0.513726)
+theme_override_font_sizes/font_size = 8
+text = "X"
+
+[node name="BuyButton" type="Button" parent="."]
+offset_left = 509.0
+offset_top = 343.0
+offset_right = 547.0
+offset_bottom = 374.0
+text = "Buy"
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="BuyButton" to="." method="_on_buy_button_pressed"]

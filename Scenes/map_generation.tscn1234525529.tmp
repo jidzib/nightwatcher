@@ -1,0 +1,22 @@
+[gd_scene load_steps=7 format=3 uid="uid://coe34frgpgmc4"]
+
+[ext_resource type="Script" uid="uid://cp2vt7y33na3m" path="res://Scripts/map_generation.gd" id="1_dgbp0"]
+[ext_resource type="PackedScene" uid="uid://bwm1447moq85i" path="res://Scenes/grass_layer.tscn" id="2_b2p3l"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dgbp0"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b2p3l"]
+noise = SubResource("FastNoiseLite_dgbp0")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_b2p3l"]
+frequency = 0.35
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xlbuu"]
+noise = SubResource("FastNoiseLite_b2p3l")
+
+[node name="MapGeneration" type="Node2D"]
+script = ExtResource("1_dgbp0")
+noise_texture = SubResource("NoiseTexture2D_b2p3l")
+tree_noise_texture = SubResource("NoiseTexture2D_xlbuu")
+
+[node name="GrassLayer" parent="." instance=ExtResource("2_b2p3l")]

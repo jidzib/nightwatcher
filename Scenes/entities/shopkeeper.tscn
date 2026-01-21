@@ -1,0 +1,56 @@
+[gd_scene load_steps=10 format=3 uid="uid://uwivs4menkdr"]
+
+[ext_resource type="Texture2D" uid="uid://remvdbkonr5d" path="res://assets/entities/irelia.png" id="1_axi3u"]
+[ext_resource type="Script" uid="uid://b6r6i6knhc4hy" path="res://Scripts/entities/shopkeeper.gd" id="1_uguoe"]
+[ext_resource type="PackedScene" uid="uid://csryfuy66k5cx" path="res://Scenes/ui/shop.tscn" id="2_uguoe"]
+[ext_resource type="Script" uid="uid://cs7eeujixbhp1" path="res://Scripts/items/item.gd" id="4_mun5w"]
+[ext_resource type="Resource" uid="uid://hhfxa6irdj05" path="res://resources/items/water_bucket.tres" id="6_cqxkv"]
+[ext_resource type="Resource" uid="uid://bhukxi080780e" path="res://resources/items/hoe.tres" id="7_cqxkv"]
+[ext_resource type="Resource" uid="uid://66xrdeom5ryd" path="res://resources/items/sunflower_seeds.tres" id="8_h3t2n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mun5w"]
+size = Vector2(134, 82)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uguoe"]
+
+[node name="Shopkeeper" type="Node2D"]
+script = ExtResource("1_uguoe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_axi3u")
+
+[node name="Shop" parent="." instance=ExtResource("2_uguoe")]
+visible = false
+item_list = Dictionary[int, ExtResource("4_mun5w")]({
+1: ExtResource("6_cqxkv"),
+2: ExtResource("7_cqxkv"),
+4: ExtResource("8_h3t2n")
+})
+sellPrices = Dictionary[int, int]({
+1: 50,
+2: 100,
+4: 20
+})
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_mun5w")
+
+[node name="Button" type="Button" parent="."]
+offset_left = -10.0
+offset_top = -13.0
+offset_right = 10.0
+offset_bottom = 13.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_uguoe")
+flat = true
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="tree_entered" from="Area2D" to="." method="_on_area_2d_tree_entered"]
+[connection signal="tree_exited" from="Area2D" to="." method="_on_area_2d_tree_exited"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

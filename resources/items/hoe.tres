@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="HoeItem" load_steps=3 format=3 uid="uid://bhukxi080780e"]
+
+[ext_resource type="Script" uid="uid://bocts5nf88pjx" path="res://Scripts/items/hoe.gd" id="1_adivi"]
+[ext_resource type="Texture2D" uid="uid://bkb5rgyartwjm" path="res://assets/items/hoe.png" id="2_3j4sf"]
+
+[resource]
+script = ExtResource("1_adivi")
+id = 2
+name = "Hoe"
+max_stack_size = 1
+texture = ExtResource("2_3j4sf")
+metadata/_custom_type_script = "uid://cs7eeujixbhp1"

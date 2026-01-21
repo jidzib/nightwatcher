@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="WaterBucketItem" load_steps=3 format=3 uid="uid://hhfxa6irdj05"]
+
+[ext_resource type="Script" uid="uid://gj7ppfwobj00" path="res://Scripts/items/water_bucket.gd" id="1_50n0q"]
+[ext_resource type="Texture2D" uid="uid://ffnysqtcgoxx" path="res://assets/items/water_bucket.png" id="2_qm1ec"]
+
+[resource]
+script = ExtResource("1_50n0q")
+id = 1
+name = "Water Bucket"
+type = "Tool"
+max_stack_size = 1
+texture = ExtResource("2_qm1ec")
+metadata/_custom_type_script = "uid://cs7eeujixbhp1"

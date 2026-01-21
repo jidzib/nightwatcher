@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bksna0rtqggux"]
+
+[ext_resource type="Script" uid="uid://cvwgpe8fpats0" path="res://Scripts/environment/objects/crop_object.gd" id="1_n7exj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u82uv"]
+size = Vector2(8, 8)
+
+[node name="Crop" type="Node2D"]
+script = ExtResource("1_n7exj")
+metadata/_custom_type_script = "uid://cvwgpe8fpats0"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_u82uv")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
