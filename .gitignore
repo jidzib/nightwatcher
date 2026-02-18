@@ -1,3 +1,20 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Godot editor cache
+.editor/
+.import/
+
+# Godot temp files
+*.tmp
+
+# Export builds
+/export/
+exports/
+
+# Runtime save data
+*.data
+savegame*
+
+
