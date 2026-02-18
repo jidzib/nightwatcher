@@ -9,7 +9,7 @@ var quantity: int = 0
 
 func _ready():
 	update()
-	
+	 
 func update():
 	if item:
 		sprite.texture = item.texture

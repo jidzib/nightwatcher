@@ -1,0 +1,46 @@
+[gd_scene load_steps=11 format=3 uid="uid://c34lwbykh0clp"]
+
+[ext_resource type="Script" uid="uid://cwltak7xj488x" path="res://Scripts/systems/chunk.gd" id="1_lexys"]
+[ext_resource type="PackedScene" uid="uid://bwm1447moq85i" path="res://Scenes/environment/maps/GrassLayer.tscn" id="2_r8y4k"]
+[ext_resource type="PackedScene" uid="uid://it4sn846ddnx" path="res://Scenes/environment/maps/FarmLayer.tscn" id="3_fbyps"]
+[ext_resource type="Texture2D" uid="uid://mfigddol8fs8" path="res://assets/tiles/water.png" id="4_fbyps"]
+[ext_resource type="Shader" uid="uid://edh1kx3h8q3i" path="res://shaders/water_shader.gdshader" id="4_j2u7c"]
+[ext_resource type="PackedScene" uid="uid://c6inmwsplm8kd" path="res://Scenes/environment/maps/BreakableMap.tscn" id="5_j2u7c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_el0f5"]
+size = Vector2(512, 512)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uym3e"]
+shader = ExtResource("4_j2u7c")
+shader_parameter/wave_speed = 1.5
+shader_parameter/wave_scale = 80.0
+shader_parameter/wave_strength = 0.02
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_811cv"]
+texture = ExtResource("4_fbyps")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_j2u7c"]
+sources/0 = SubResource("TileSetAtlasSource_811cv")
+
+[node name="Chunk" type="Area2D"]
+y_sort_enabled = true
+script = ExtResource("1_lexys")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(256, 256)
+shape = SubResource("RectangleShape2D_el0f5")
+debug_color = Color(0.956863, 0, 0, 0.419608)
+
+[node name="GrassLayer" parent="." instance=ExtResource("2_r8y4k")]
+
+[node name="FarmLayer" parent="." instance=ExtResource("3_fbyps")]
+
+[node name="WaterLayer" type="TileMapLayer" parent="."]
+material = SubResource("ShaderMaterial_uym3e")
+tile_set = SubResource("TileSet_j2u7c")
+
+[node name="BreakableMap" parent="." instance=ExtResource("5_j2u7c")]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

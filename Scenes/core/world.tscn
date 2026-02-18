@@ -1,50 +1,42 @@
-[gd_scene load_steps=11 format=3 uid="uid://ge6i7t7b8xp"]
+[gd_scene load_steps=9 format=3 uid="uid://bycs45aiqiben"]
 
-[ext_resource type="Script" uid="uid://bebjlnni5kl5p" path="res://Scripts/core/world.gd" id="1_gl6hp"]
-[ext_resource type="PackedScene" uid="uid://dmj1w5d0yylse" path="res://Scenes/ui/ui.tscn" id="2_qy3hq"]
-[ext_resource type="PackedScene" uid="uid://uwivs4menkdr" path="res://Scenes/entities/shopkeeper.tscn" id="3_62cjy"]
-[ext_resource type="PackedScene" uid="uid://it4sn846ddnx" path="res://Scenes/environment/maps/FarmLayer.tscn" id="4_e0lxw"]
-[ext_resource type="Texture2D" uid="uid://4nbb3ibgmuyj" path="res://assets/environment/bed.png" id="5_eibgw"]
-[ext_resource type="PackedScene" uid="uid://c21owbvnh6bo1" path="res://Scenes/environment/maps/CropMap.tscn" id="6_oybow"]
-[ext_resource type="PackedScene" uid="uid://3p11t2hapg04" path="res://Scenes/systems/MapContainer.tscn" id="7_q3s1c"]
-[ext_resource type="PackedScene" uid="uid://42a07bj3ivdt" path="res://Scenes/entities/player.tscn" id="8_vkwkk"]
+[ext_resource type="Script" uid="uid://n2b24exff5r2" path="res://Scripts/core/world.gd" id="1_li53p"]
+[ext_resource type="Script" uid="uid://bnxdjaun646i6" path="res://Scripts/systems/chunk_manager.gd" id="2_ghfue"]
+[ext_resource type="Script" uid="uid://cp2vt7y33na3m" path="res://Scripts/systems/map_generator.gd" id="3_ehr0e"]
+[ext_resource type="Script" uid="uid://b0n6acf8tbi8q" path="res://Scripts/ui/grid_overlay.gd" id="4_ghfue"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wse8f"]
-texture = ExtResource("5_eibgw")
-0:0/0 = 0
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_e0an3"]
 
-[sub_resource type="TileSet" id="TileSet_ic0uy"]
-sources/0 = SubResource("TileSetAtlasSource_wse8f")
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_e0an3"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_e0an3")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_p5pve"]
+frequency = 0.35
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_p5pve"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_p5pve")
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
-script = ExtResource("1_gl6hp")
+script = ExtResource("1_li53p")
 
-[node name="UI" parent="." instance=ExtResource("2_qy3hq")]
-
-[node name="Shopkeeper" parent="." instance=ExtResource("3_62cjy")]
-position = Vector2(-30, -42)
-
-[node name="Tiles" type="Node2D" parent="."]
+[node name="ChunkManager" type="Node2D" parent="."]
 y_sort_enabled = true
+script = ExtResource("2_ghfue")
+metadata/_custom_type_script = "uid://bnxdjaun646i6"
 
-[node name="FarmLayer" parent="Tiles" instance=ExtResource("4_e0lxw")]
+[node name="MapGenerator" type="Node2D" parent="."]
+script = ExtResource("3_ehr0e")
+noise_texture = SubResource("NoiseTexture2D_e0an3")
+tree_noise_texture = SubResource("NoiseTexture2D_p5pve")
+metadata/_custom_type_script = "uid://cp2vt7y33na3m"
 
-[node name="InteractLayer" type="TileMapLayer" parent="Tiles"]
-tile_map_data = PackedByteArray(0, 0, 0, 0, 253, 255, 0, 0, 0, 0, 0, 0, 0, 0)
-tile_set = SubResource("TileSet_ic0uy")
+[node name="GridOverlay" type="Node2D" parent="."]
+script = ExtResource("4_ghfue")
 
-[node name="CropMap" parent="Tiles" instance=ExtResource("6_oybow")]
-
-[node name="MapContainer" parent="." instance=ExtResource("7_q3s1c")]
-
-[node name="Player" parent="MapContainer" instance=ExtResource("8_vkwkk")]
-
-[node name="Camera2D" type="Camera2D" parent="MapContainer/Player"]
-process_physics_priority = 1
-ignore_rotation = false
-zoom = Vector2(3, 3)
-position_smoothing_speed = 10.0
-
-[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
-[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
+[connection signal="tree_entered" from="ChunkManager" to="ChunkManager" method="_on_tree_entered"]
+[connection signal="tree_exited" from="ChunkManager" to="ChunkManager" method="_on_tree_exited"]

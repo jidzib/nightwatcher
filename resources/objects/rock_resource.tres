@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BreakableResource" load_steps=2 format=3 uid="uid://dbo2n8boo2go2"]
+
+[ext_resource type="Script" uid="uid://b32ycksahxo2m" path="res://Scripts/resources/data/breakable_resource.gd" id="1_sogec"]
+
+[resource]
+script = ExtResource("1_sogec")
+HP = 0
+ID = 0
+CATEGORY = 0
+tile_coords = Vector2i(0, 0)
+metadata/_custom_type_script = "uid://b32ycksahxo2m"

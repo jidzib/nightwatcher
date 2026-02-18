@@ -1,8 +1,10 @@
 class_name WaterBucketItem
 extends Item
 
-func use(world, position, inventory) -> void:
-	world.can_water(position)
+var range: int = 3
 
-func set_type():
-	type = Enums.ItemType.WATER_BUCKET
+#func use(map, position, inventory) -> void:
+	#map.CROP.can_water(position, range)
+#
+#func set_type():
+	#type = Enums.ItemType.WATER_BUCKET

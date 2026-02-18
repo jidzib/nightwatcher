@@ -1,31 +1,31 @@
 extends Node2D
 class_name MapObject
 
-var TILE_SIZE = 16
-var obj_type
-var INTERACTABLE: Dictionary = {}
-var map_ref: MapContainer
-
+@export var ID : int
+@export var CATEGORY : int = Enums.ObjectCategory.DEFAULT
+@export var texture : Texture2D
+@onready var sprite : Sprite2D = $Sprite
+var interactables : Dictionary
+var hitbox : CollisionShape2D
+var tile_coords : Vector2i
 
 func _ready():
-	initialize_to_map()
+	initialize()
+
+func initialize():
+	#add_child(sprite)
+	sprite.texture = texture
+
+	# SHADERS
+	sprite.material = ShaderMaterial.new()
+	sprite.material.shader = load("res://shaders/outline.gdshader")
+
+func set_highlighted(value: bool):
+	sprite.material.set_shader_parameter("enabled", value)
 	
-func initialize_to_map():
-	var tile = local_to_map(global_position)
-	set_type()
-	set_interactables()
-	map_ref = get_parent().get_parent()
-	map_ref.OBJECT_TYPES[obj_type].register(tile, self)
-
-func local_to_map(coords: Vector2) -> Vector2i:
-	return Vector2i(floor(coords.x/TILE_SIZE), floor(coords.y/TILE_SIZE))
-
-func can_interact_with(item: Item) -> bool:
-	if INTERACTABLE.has(item):
-		return true
-	return false
-
-func set_type():
-	pass	
-func set_interactables():
-	pass
+func pack() -> ObjectResource:
+	var resource = ObjectResource.new()
+	resource.ID = ID
+	resource.tile_coords = position
+	resource.CATEGORY = CATEGORY
+	return resource

@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwvmrpealyaki"]
+
+[ext_resource type="Script" uid="uid://ctvn5p1wppjpg" path="res://Scripts/ui/world_entry.gd" id="1_ax5x8"]
+
+[node name="WorldEntry" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -676.0
+offset_bottom = -673.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ax5x8")
+
+[node name="WorldName" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="Seed" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Play"

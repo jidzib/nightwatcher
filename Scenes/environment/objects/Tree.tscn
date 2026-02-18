@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctm07al3i50t2"]
+
+[ext_resource type="Script" uid="uid://dqjrd71l5bh4c" path="res://Scripts/environment/objects/tree_object.gd" id="1_gf413"]
+[ext_resource type="Texture2D" uid="uid://dyuymt4t428n2" path="res://assets/environment/tree2.png" id="2_gf413"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gf413"]
+size = Vector2(44, 33)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_up6gh"]
+size = Vector2(7, 16)
+
+[node name="Tree" type="Node2D"]
+z_index = 1
+z_as_relative = false
+script = ExtResource("1_gf413")
+HP = 5
+CATEGORY = 1
+texture = ExtResource("2_gf413")
+metadata/_custom_type_script = "uid://dqjrd71l5bh4c"
+
+[node name="VisionBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionBox"]
+position = Vector2(-1, -39)
+shape = SubResource("RectangleShape2D_gf413")
+
+[node name="Hitbox" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-0.5, -8)
+shape = SubResource("RectangleShape2D_up6gh")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+z_index = 1
+z_as_relative = false
+offset = Vector2(0, -32)
+
+[connection signal="body_entered" from="VisionBox" to="." method="_on_vision_box_body_entered"]
+[connection signal="body_exited" from="VisionBox" to="." method="_on_vision_box_body_exited"]

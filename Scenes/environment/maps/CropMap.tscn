@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c21owbvnh6bo1"]
-
-[ext_resource type="Script" uid="uid://c77124jgnkhou" path="res://Scripts/environment/maps/crop_map.gd" id="1_0tb5w"]
-
-[node name="CropMap" type="Node2D"]
-z_index = 1
-y_sort_enabled = true
-script = ExtResource("1_0tb5w")

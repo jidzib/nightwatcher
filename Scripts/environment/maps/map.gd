@@ -2,6 +2,7 @@ extends Node2D
 class_name Map
 
 var objects: Dictionary = {}
+var parent: MapContainer
 
 func register(tile: Vector2i, obj):
 	objects.set(tile, obj)

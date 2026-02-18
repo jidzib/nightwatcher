@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://bycs45aiqiben"]
+
+[ext_resource type="Script" uid="uid://n2b24exff5r2" path="res://scene.gd" id="1_e0an3"]
+[ext_resource type="Script" uid="uid://bnxdjaun646i6" path="res://chunk_manager.gd" id="1_wijl4"]
+[ext_resource type="Script" uid="uid://cp2vt7y33na3m" path="res://Scripts/systems/map_generator.gd" id="2_e0an3"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_e0an3"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_e0an3"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_e0an3")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_p5pve"]
+frequency = 0.35
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_p5pve"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_p5pve")
+
+[node name="Map" type="Node2D"]
+script = ExtResource("1_e0an3")
+
+[node name="ChunkManager" type="Node2D" parent="."]
+y_sort_enabled = true
+script = ExtResource("1_wijl4")
+metadata/_custom_type_script = "uid://bnxdjaun646i6"
+
+[node name="MapGenerator" type="Node2D" parent="."]
+script = ExtResource("2_e0an3")
+noise_texture = SubResource("NoiseTexture2D_e0an3")
+tree_noise_texture = SubResource("NoiseTexture2D_p5pve")
+metadata/_custom_type_script = "uid://cp2vt7y33na3m"
+
+[connection signal="tree_entered" from="ChunkManager" to="ChunkManager" method="_on_tree_entered"]
+[connection signal="tree_exited" from="ChunkManager" to="ChunkManager" method="_on_tree_exited"]

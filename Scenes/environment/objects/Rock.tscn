@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://yxpro6n1vd04"]
+
+[ext_resource type="Script" uid="uid://bj5m5eterc7pm" path="res://Scripts/environment/objects/breakable_object.gd" id="1_r0hvw"]
+[ext_resource type="Texture2D" uid="uid://dvauddy61ab0q" path="res://assets/environment/rock.png" id="2_h6nw4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0hvw"]
+size = Vector2(8, 8)
+
+[node name="Rock" type="Node2D"]
+script = ExtResource("1_r0hvw")
+HP = 5
+ID = 1
+CATEGORY = 1
+texture = ExtResource("2_h6nw4")
+metadata/_custom_type_script = "uid://bj5m5eterc7pm"
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="Hitbox" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_r0hvw")

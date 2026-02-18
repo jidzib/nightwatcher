@@ -9,8 +9,10 @@ This game is a work in progress. The current focus is designing and implementing
 ## Key Systems
 - Interaction system for tile-based and entity-based interactions
 - Use of custom Godot resources for data configuration such as items and crops
-- Procedural map generation using noise
+- Procedural world generation using noise
 - Custom data structures such as inventory and a map with references to all objects on the map
+- Efficient world storage using chunk saving by storing objects using primitive variables
+- Efficient game process using chunk loading by loading complex objects from primitive variables using enums
 
 ## Structure
 - 'Scenes/' - Godot scenes defining structure

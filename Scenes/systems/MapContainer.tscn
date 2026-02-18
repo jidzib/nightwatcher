@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cgdm0bwnp4dy7" path="res://Scripts/systems/map_container.gd" id="1_4ogah"]
 [ext_resource type="PackedScene" uid="uid://coe34frgpgmc4" path="res://Scenes/systems/MapGenerator.tscn" id="4_mpecq"]
 [ext_resource type="Script" uid="uid://c0wr58btlppgj" path="res://Scripts/systems/tile_map.gd" id="4_o7a5k"]
-[ext_resource type="PackedScene" uid="uid://c21owbvnh6bo1" path="res://Scenes/environment/maps/CropMap.tscn" id="4_ya86t"]
+[ext_resource type="PackedScene" uid="uid://b8x1o47b2h6ur" path="res://Scenes/environment/maps/CropMap.tscn" id="4_ya86t"]
 [ext_resource type="PackedScene" uid="uid://c6inmwsplm8kd" path="res://Scenes/environment/maps/BreakableMap.tscn" id="5_3s0xr"]
 [ext_resource type="PackedScene" uid="uid://bwm1447moq85i" path="res://Scenes/environment/maps/GrassLayer.tscn" id="5_ya86t"]
 [ext_resource type="PackedScene" uid="uid://it4sn846ddnx" path="res://Scenes/environment/maps/FarmLayer.tscn" id="6_tqiwi"]
@@ -19,6 +19,7 @@ metadata/_custom_type_script = "uid://cgdm0bwnp4dy7"
 y_sort_enabled = false
 
 [node name="Tiles" type="Node2D" parent="."]
+z_index = -1
 script = ExtResource("4_o7a5k")
 
 [node name="GrassLayer" parent="Tiles" instance=ExtResource("5_ya86t")]
@@ -26,3 +27,8 @@ script = ExtResource("4_o7a5k")
 [node name="FarmLayer" parent="Tiles" instance=ExtResource("6_tqiwi")]
 
 [node name="BreakableMap" parent="." instance=ExtResource("5_3s0xr")]
+
+[node name="Chunks" type="Node2D" parent="."]
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

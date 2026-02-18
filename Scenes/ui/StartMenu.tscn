@@ -1,0 +1,112 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwcxdnwtc7kev"]
+
+[ext_resource type="Script" uid="uid://p4b8wf0jopxn" path="res://Scripts/ui/menu_manager.gd" id="1_d3352"]
+[ext_resource type="Script" uid="uid://v25p11nbw2kf" path="res://Scripts/ui/world_select_menu.gd" id="2_0d5ky"]
+[ext_resource type="Script" uid="uid://bnnr0xt4e3ckh" path="res://Scripts/ui/create_world_menu.gd" id="2_ufv5y"]
+
+[node name="StartMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_d3352")
+
+[node name="Menus" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MainMenu" type="Control" parent="Menus"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menus/MainMenu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayButton" type="Button" parent="Menus/MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "Play"
+
+[node name="SettingsButton" type="Button" parent="Menus/MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="QuitButton" type="Button" parent="Menus/MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="WorldSelectMenu" type="Control" parent="Menus"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_0d5ky")
+
+[node name="WorldList" type="ScrollContainer" parent="Menus/WorldSelectMenu"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 210.0
+offset_bottom = 121.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menus/WorldSelectMenu/WorldList"]
+layout_mode = 2
+
+[node name="CreateWorldButton" type="Button" parent="Menus/WorldSelectMenu"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 133.0
+offset_right = 131.0
+offset_bottom = 164.0
+text = "Create World"
+
+[node name="BackButton" type="Button" parent="Menus/WorldSelectMenu"]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 132.0
+offset_right = 207.0
+offset_bottom = 163.0
+text = "Back"
+
+[node name="CreateWorldMenu" type="Control" parent="Menus"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_ufv5y")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menus/CreateWorldMenu"]
+layout_mode = 0
+offset_right = 164.0
+offset_bottom = 90.0
+
+[node name="WorldName" type="LineEdit" parent="Menus/CreateWorldMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="SeedInput" type="LineEdit" parent="Menus/CreateWorldMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="CreateButton" type="Button" parent="Menus/CreateWorldMenu/VBoxContainer"]
+layout_mode = 2
+text = "Create"
+
+[node name="BackButton" type="Button" parent="Menus/CreateWorldMenu/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="SettingsMenu" type="Control" parent="Menus"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="pressed" from="Menus/MainMenu/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Menus/MainMenu/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Menus/MainMenu/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Menus/WorldSelectMenu/CreateWorldButton" to="." method="_on_create_world_button_pressed"]
+[connection signal="pressed" from="Menus/CreateWorldMenu/VBoxContainer/CreateButton" to="." method="_on_create_button_pressed"]
