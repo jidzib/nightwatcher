@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctm07al3i50t2"]
+[gd_scene load_steps=6 format=3 uid="uid://ctm07al3i50t2"]
 
 [ext_resource type="Script" uid="uid://dqjrd71l5bh4c" path="res://Scripts/environment/objects/tree_object.gd" id="1_gf413"]
 [ext_resource type="Texture2D" uid="uid://dyuymt4t428n2" path="res://assets/environment/tree2.png" id="2_gf413"]
+[ext_resource type="Resource" uid="uid://hxyas03lwbjx" path="res://resources/items/wood.tres" id="2_up6gh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gf413"]
 size = Vector2(44, 33)
@@ -14,6 +15,8 @@ z_index = 1
 z_as_relative = false
 script = ExtResource("1_gf413")
 HP = 5
+item_drop = ExtResource("2_up6gh")
+drop_count = 20
 CATEGORY = 1
 texture = ExtResource("2_gf413")
 metadata/_custom_type_script = "uid://dqjrd71l5bh4c"
@@ -23,6 +26,7 @@ metadata/_custom_type_script = "uid://dqjrd71l5bh4c"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VisionBox"]
 position = Vector2(-1, -39)
 shape = SubResource("RectangleShape2D_gf413")
+debug_color = Color(0.552016, 0.400555, 1, 0.42)
 
 [node name="Hitbox" type="StaticBody2D" parent="."]
 

@@ -8,8 +8,8 @@ func _ready():
 
 func _on_vision_box_body_entered(body: Node2D) -> void:
 	if body.has_method("player"):
-		sprite.modulate.a = 0.6
+		sprite.self_modulate.a = 0.6
 
 func _on_vision_box_body_exited(body: Node2D) -> void:
 	if body.has_method("player"):
-		sprite.modulate.a = 1.0
+		sprite.self_modulate.a = 1.0

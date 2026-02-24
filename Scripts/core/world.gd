@@ -3,6 +3,7 @@ class_name World
 
 @onready var chunk_manager : ChunkManager = $ChunkManager
 @onready var map_generator : MapGenerator = $MapGenerator
+@onready var player: Player = $Player
 #var interaction_manager : InteractionManager = InteractionManager.new()
 
 var ID : int = 0
@@ -10,6 +11,11 @@ var SEED : int = 0
 var WORLD_NAME : String = "World"
 var DIR : String = ""
 
+func _process(delta: float) -> void:
+	if Input.is_action_pressed("save"):
+		chunk_manager.save_all()
+		player.save_player()
+		
 func setup(world_name: String, seed: int):
 	var d := Time.get_datetime_dict_from_system()
 	var timestamp := "%04d-%02d-%02d_%02d-%02d-%02d" % [
@@ -18,7 +24,9 @@ func setup(world_name: String, seed: int):
 	]
 	var directory = "user://worlds/%s/" % timestamp
 	DIR = directory
+	var chunk_directory = DIR + "chunks/"
 	DirAccess.make_dir_recursive_absolute(DIR)
+	DirAccess.make_dir_recursive_absolute(chunk_directory)
 	print("Added user directory ", DIR)
 	var world_data = WorldData.new()
 	world_data.name = world_name
@@ -29,15 +37,19 @@ func setup(world_name: String, seed: int):
 	map_generator.noise_texture.noise.seed = SEED
 	
 func load_world():
-	chunk_manager.DIR = DIR
+	chunk_manager.DIR = DIR + "chunks/"
+	print("Chunk manager DIR: ", chunk_manager.DIR)
 	var chunks: Array = []
 	for x in range(-map_generator.noise_texture.width/32, map_generator.noise_texture.width/32):
 		for y in range(-map_generator.noise_texture.width/32, map_generator.noise_texture.width/32):
-			if ResourceLoader.exists(chunk_manager.get_chunk_path(DIR, Vector2i(x, y))):
+			print("Checking if chunk path ", chunk_manager.get_chunk_path(Vector2i(x, y)), " exists...")
+			if ResourceLoader.exists(chunk_manager.get_chunk_path(Vector2i(x, y))):
+				print("Exists")
 				continue
 			map_generator.generate_chunk(Vector2i(x, y), chunk_manager)
 			chunk_manager.save_chunk(Vector2i(x, y))
 			chunk_manager.offload_chunk(Vector2i(x, y))
 			chunks.append(Vector2i(x, y))
 			await get_tree().process_frame
+	player.load_player()
 	chunk_manager.load_all()

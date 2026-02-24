@@ -1,15 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://cwcxdnwtc7kev"]
 
-[ext_resource type="Script" uid="uid://p4b8wf0jopxn" path="res://Scripts/ui/menu_manager.gd" id="1_d3352"]
-[ext_resource type="Script" uid="uid://v25p11nbw2kf" path="res://Scripts/ui/world_select_menu.gd" id="2_0d5ky"]
-[ext_resource type="Script" uid="uid://bnnr0xt4e3ckh" path="res://Scripts/ui/create_world_menu.gd" id="2_ufv5y"]
+[ext_resource type="Script" uid="uid://p4b8wf0jopxn" path="res://Scripts/ui/menu_manager.gd" id="1_u14sm"]
+[ext_resource type="Script" uid="uid://v25p11nbw2kf" path="res://Scripts/ui/world_select_menu.gd" id="2_73po4"]
+[ext_resource type="Script" uid="uid://bnnr0xt4e3ckh" path="res://Scripts/ui/create_world_menu.gd" id="3_xbdet"]
 
 [node name="StartMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_d3352")
+script = ExtResource("1_u14sm")
 
 [node name="Menus" type="Control" parent="."]
 anchors_preset = 0
@@ -43,7 +43,7 @@ text = "Quit"
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("2_0d5ky")
+script = ExtResource("2_73po4")
 
 [node name="WorldList" type="ScrollContainer" parent="Menus/WorldSelectMenu"]
 layout_mode = 0
@@ -72,22 +72,37 @@ offset_bottom = 163.0
 text = "Back"
 
 [node name="CreateWorldMenu" type="Control" parent="Menus"]
-visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("2_ufv5y")
+script = ExtResource("3_xbdet")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Menus/CreateWorldMenu"]
 layout_mode = 0
-offset_right = 164.0
-offset_bottom = 90.0
+offset_right = 303.0
+offset_bottom = 136.0
 
-[node name="WorldName" type="LineEdit" parent="Menus/CreateWorldMenu/VBoxContainer"]
+[node name="NameContainer" type="HBoxContainer" parent="Menus/CreateWorldMenu/VBoxContainer"]
 layout_mode = 2
 
-[node name="SeedInput" type="LineEdit" parent="Menus/CreateWorldMenu/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="Menus/CreateWorldMenu/VBoxContainer/NameContainer"]
 layout_mode = 2
+text = "Name: "
+
+[node name="NameInput" type="LineEdit" parent="Menus/CreateWorldMenu/VBoxContainer/NameContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SeedContainer" type="HBoxContainer" parent="Menus/CreateWorldMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="SeedLabel" type="Label" parent="Menus/CreateWorldMenu/VBoxContainer/SeedContainer"]
+layout_mode = 2
+text = "Seed:   "
+
+[node name="SeedInput" type="LineEdit" parent="Menus/CreateWorldMenu/VBoxContainer/SeedContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="CreateButton" type="Button" parent="Menus/CreateWorldMenu/VBoxContainer"]
 layout_mode = 2

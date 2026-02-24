@@ -2,6 +2,8 @@ extends MapObject
 class_name BreakableObject
 
 @export var HP : int
+@export var item_drop: Item
+@export var drop_count: int
 
 func pack() -> BreakableResource:
 	var resource = BreakableResource.new()
@@ -17,9 +19,19 @@ func hit(damage: int):
 	# SHAKE
 	hit_shake()
 	# IF HP <= 0: DROP RESOURCES AND REMOVE OBJECT (FROM OBJECTS DICT IN MAP AND FROM SCENE TREE)
-	
-	pass
+	if HP <= 0:
+		for i in range(drop_count):
+			drop_item()
+			
+		remove_object()
 
+func drop_item():
+		var packed_dropped_item = load("res://Scenes/systems/DroppedItem.tscn")
+		var dropped_item = packed_dropped_item.instantiate()
+		dropped_item.item = item_drop
+		dropped_item.position = position
+		get_parent().add_child(dropped_item)
+	
 func hit_shake():
 
 	var tween := create_tween()

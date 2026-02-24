@@ -5,9 +5,8 @@
 
 [resource]
 script = ExtResource("1_50n0q")
-id = 1
+id = 4
 name = "Water Bucket"
-type = "Tool"
 max_stack_size = 1
 texture = ExtResource("2_qm1ec")
 metadata/_custom_type_script = "uid://cs7eeujixbhp1"

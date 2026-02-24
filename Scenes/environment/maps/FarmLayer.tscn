@@ -92,7 +92,7 @@ physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Farm"
 terrain_set_0/terrain_0/color = Color(0.905882, 0.133333, 0.25098, 1)
-sources/0 = SubResource("TileSetAtlasSource_pkg7o")
+sources/1 = SubResource("TileSetAtlasSource_pkg7o")
 
 [node name="FarmLayer" type="TileMapLayer"]
 y_sort_enabled = true

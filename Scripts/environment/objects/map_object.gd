@@ -15,7 +15,7 @@ func _ready():
 func initialize():
 	#add_child(sprite)
 	sprite.texture = texture
-
+	
 	# SHADERS
 	sprite.material = ShaderMaterial.new()
 	sprite.material.shader = load("res://shaders/outline.gdshader")
@@ -29,3 +29,9 @@ func pack() -> ObjectResource:
 	resource.tile_coords = position
 	resource.CATEGORY = CATEGORY
 	return resource
+
+func remove_object():
+	get_parent().objects.erase(tile_coords)
+	queue_free()
+	
+	

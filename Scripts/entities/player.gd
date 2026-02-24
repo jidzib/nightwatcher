@@ -9,7 +9,7 @@ var coins: int = 0
 var tile_range: int = 3
 
 @onready var inventory: Inventory = $Inventory
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 var inventory_slots: Array[int] = [49, 50, 51, 52, 53, 54]
 
@@ -19,12 +19,14 @@ func player():
 	pass
 	
 func _ready():
+	animated_sprite.play("idle")
 	world = get_parent()
 	
 	GlobalSignal.update_player_coins.emit(500)
 	inventory.add_item(load("res://resources/items/hoe.tres"), 1)
 	inventory.add_item(load("res://resources/items/axe.tres"), 1)
 	inventory.add_item(load("res://resources/items/water_bucket.tres"), 1)
+	inventory.add_item(load("res://resources/items/pickaxe.tres"), 1)
 	#inventory.add_item(load("res://resources/items/sunflower_seeds.tres"), 10)
 	
 func _physics_process(delta: float) -> void:
@@ -34,10 +36,15 @@ func _physics_process(delta: float) -> void:
 	
 	if dir == 1 and movement.x < 0:
 		dir *= -1
-		sprite.flip_h = true
+		animated_sprite.flip_h = true
 	elif dir == -1 and movement.x > 0:
 		dir *= -1
-		sprite.flip_h = false
+		animated_sprite.flip_h = false
+	
+	if movement == Vector2.ZERO:
+		animated_sprite.play("idle")
+	else:
+		animated_sprite.play("walk")
 	velocity = lerp(velocity, speed*movement.normalized(), delta*acceleration)
 	move_and_slide()
 
@@ -62,27 +69,48 @@ func _input(event: InputEvent) -> void:
 											Util.get_chunk_from_world(get_global_mouse_position()),
 											Util.get_local_tile_from_world(get_global_mouse_position()),
 											inventory)
+	elif Input.is_action_just_pressed("dash"):
+		roll()	
+		speed = 160
+		await get_tree().create_timer(0.5).timeout
+		speed = 80
+func roll():
+	var sign := signf(movement.x)
+	var duration = 0.5
+	animated_sprite.rotation = 0.0
+	var tween := create_tween()
+	#tween.set_trans(Tween.TRANS_SINE)
+	#tween.set_ease(Tween.EASE_IN)
 
+	tween.tween_property(
+		animated_sprite,
+		"rotation",
+		sign * TAU,
+		duration
+	)
+						
 func _process(delta: float) -> void:
-	var obj = world.chunk_manager.interaction_manager.get_selected_tile()
-	
-	#if obj:
-		#obj.select()
-		
-func get_chunk() -> Vector2i:
-	var tile_x = floor(position.x / Util.TILE_SIZE)
-	var tile_y = floor(position.y / Util.TILE_SIZE)
-	
-	var chunk_x = floor(tile_x / Util.CHUNK_SIZE)
-	var chunk_y = floor(tile_y / Util.CHUNK_SIZE)
-	return Vector2i(chunk_x, chunk_y)
+	var tile = world.chunk_manager.interaction_manager.get_selected_tile()
 
+func save_player():
+	var player_data := PlayerData.new()
+	player_data.position = position
+	player_data.inventory = inventory.get_inventory_as_data()
+	ResourceSaver.save(player_data, world.DIR+"player_data.tres")
+	
+func load_player():
+	if not ResourceLoader.exists(world.DIR+"player_data.tres"):
+		save_player()
+	var player_data = ResourceLoader.load(world.DIR+"player_data.tres")
+	position = player_data.position
+	inventory.load_inventory(player_data.inventory)
+	
 func update_coins(amount: int):
 	coins += amount
 
-func load_data(pos: Vector2, inv: Dictionary[Item, int]):
-	global_position = pos
-	inventory.load_inventory(inv)
+#func load_data(pos: Vector2, inv: Dictionary[Item, int]):
+	#global_position = pos
+	#inventory.load_inventory(inv)
 	
 func _on_tree_entered() -> void:
 	GlobalSignal.update_player_coins.connect(update_coins)

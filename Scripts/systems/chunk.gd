@@ -1,20 +1,28 @@
 extends Area2D
 class_name Chunk
 @export var chunk_coords: Vector2i
-@onready var GRASS: TileMapLayer = $GrassLayer
+@onready var GROUND: TileMapLayer = $GroundLayer
 @onready var FARM: TileMapLayer = $FarmLayer
 @onready var WATER: TileMapLayer = $WaterLayer
 @onready var BREAKABLE : BreakableMap = $BreakableMap
 #@onready var CROP : CropMap = $CropMap
 			
-var OBJECT_MAPS : Dictionary = {}					
+var OBJECT_MAPS : Dictionary = {}
+var TILE_MAPS: Dictionary = {}
+					
 var load_distance: int = 1
 
 var changed = false
 
 func _ready():
 	OBJECT_MAPS = { Enums.ObjectCategory.BREAKABLE : BREAKABLE}
+	TILE_MAPS = {
+		Enums.TileLayer.GRASS : GROUND,
+		Enums.TileLayer.FARM : FARM,
+		Enums.TileLayer.WATER : WATER
+	}
 	
+
 func _on_body_entered(body: Node2D) -> void:
 	if body.has_method("player"):
 		print("Player entered chunk: ", chunk_coords)
@@ -71,3 +79,16 @@ func get_object_at_tile(tile_coords: Vector2i) -> MapObject:
 		if tile_coords in map.objects:
 			return map.objects[tile_coords]
 	return null
+	
+func get_tile_at_tile(tile_coords: Vector2i):
+	for map in TILE_MAPS.values():
+		var tile_source_id = map.get_cell_source_id(tile_coords)
+		if tile_source_id != -1:
+			var tile_atlas_coords = map.get_cell_atlas_coords(tile_coords)
+			var tile = TileLayerData.new()
+			tile.ID = tile_source_id
+			tile.atlas_coords = tile_atlas_coords
+			tile.tile_coords = tile_coords
+			return tile
+	return null
+	

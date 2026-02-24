@@ -18,11 +18,8 @@ func load_world():
 	get_tree().root.add_child(world)
 	var world_data = ResourceLoader.load(world_dir+"world_data.tres")
 	world.DIR = world_dir
-	print(world.DIR)
 	world.WORLD_NAME = world_data.name
 	world.SEED = world_data.SEED
-	var player = load("res://Scenes/entities/player.tscn").instantiate()
-	world.add_child(player)
 	world.load_world()
 	get_tree().current_scene.queue_free()
 	get_tree().current_scene = world

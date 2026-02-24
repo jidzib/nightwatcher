@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4xhm3vymuhfp"]
+
+[ext_resource type="Script" uid="uid://bii86tb30gqxd" path="res://Scripts/systems/dropped_item.gd" id="1_rygcs"]
+[ext_resource type="Resource" uid="uid://b1bdplkj1iiyi" path="res://resources/items/sunflower.tres" id="2_ju6ho"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ju6ho"]
+size = Vector2(8, 8)
+
+[node name="DroppedItem" type="RigidBody2D"]
+script = ExtResource("1_rygcs")
+item = ExtResource("2_ju6ho")
+metadata/_custom_type_script = "uid://bii86tb30gqxd"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_ju6ho")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -13,26 +13,37 @@ func get_selected_tile():
 	var chunk: Chunk = chunk_manager.CHUNKS[chunk_coords]
 	var tile_coords: Vector2i = Util.get_local_tile_from_world(mouse_pos)
 	
-	#print("Mouse position: ", mouse_pos)
-	#print("Chunk coords: ", chunk_coords)
-	#print("Tile coords: ", tile_coords)
-	
 	# First we check objects
 	var obj = chunk.get_object_at_tile(tile_coords)
 	if obj:
-		if obj == selected_object:
-			return
-		
-		if selected_object:
-			selected_object.set_highlighted(false)
-		
-		selected_object = obj
-		
-		selected_object.set_highlighted(true)
-		return obj
+		var select_new = set_selected(obj)
+		if select_new:
+			return obj
 	else:
 		if selected_object:
-			selected_object.set_highlighted(false)
-			selected_object = null
+			deselect()
+	
 	# Then we check tiles
+
+	var tile = chunk.get_tile_at_tile(tile_coords)
+	if tile:
+		return tile
+		
 	return null
+
+func set_selected(obj) -> bool:
+	if obj == selected_object:
+		false
+	if selected_object:
+		selected_object.set_highlighted(false)
+	
+	selected_object = obj
+	
+	selected_object.set_highlighted(true)
+	return true
+		
+func deselect():
+	selected_object.set_highlighted(false)
+	selected_object = null
+	
+	

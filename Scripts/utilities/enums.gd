@@ -30,8 +30,18 @@ enum ItemType {
 	PICKAXE
 }
 
+enum ItemIDs {
+	WOOD,
+	STONE,
+	HOE,
+	SUNFLOWER,
+	WATER_BUCKET,
+	AXE,
+	PICKAXE
+}
+
 enum TileLayer {
 	GRASS,
-	FARM,
-	WATER
+	WATER,
+	FARM
 }

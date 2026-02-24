@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bbect1cb2q5vs" path="res://Scripts/systems/inventory.gd" id="1_3dych"]
 
 [node name="Inventory" type="CanvasLayer"]
+layer = 101
 script = ExtResource("1_3dych")
 metadata/_custom_type_script = "uid://bbect1cb2q5vs"
 

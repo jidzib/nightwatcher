@@ -13,6 +13,8 @@ This game is a work in progress. The current focus is designing and implementing
 - Custom data structures such as inventory and a map with references to all objects on the map
 - Efficient world storage using chunk saving by storing objects using primitive variables
 - Efficient game process using chunk loading by loading complex objects from primitive variables using enums
+- Dropped item system, when it detects a player collision it removes itself from memory after adding itself
+to the player's inventory
 
 ## Structure
 - 'Scenes/' - Godot scenes defining structure
