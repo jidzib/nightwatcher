@@ -1,10 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://42a07bj3ivdt"]
+[gd_scene load_steps=20 format=3 uid="uid://42a07bj3ivdt"]
 
 [ext_resource type="Script" uid="uid://ba2rt7gpec2wo" path="res://Scripts/entities/player.gd" id="1_rkbax"]
 [ext_resource type="Texture2D" uid="uid://dq5gm6x5st1st" path="res://assets/entities/player/player.png" id="2_g1dw6"]
 [ext_resource type="PackedScene" uid="uid://qf346rsqessh" path="res://Scenes/systems/inventory.tscn" id="3_g1dw6"]
 [ext_resource type="Texture2D" uid="uid://di2p0x3iyhnbv" path="res://assets/entities/player/idle.png" id="4_p3bqa"]
 [ext_resource type="Texture2D" uid="uid://djet6knluocso" path="res://assets/entities/player/walk.png" id="5_jixa6"]
+[ext_resource type="Script" uid="uid://db27tosi5iv5" path="res://Scripts/systems/state machines/state_machine.gd" id="6_jp1p5"]
+[ext_resource type="Script" uid="uid://dylvlimxelsk7" path="res://Scripts/systems/state machines/player states/idle.gd" id="7_km1em"]
+[ext_resource type="Script" uid="uid://cbgernmy1tjjk" path="res://Scripts/systems/state machines/player states/walk.gd" id="8_mabrb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g1dw6"]
 radius = 7.0
@@ -116,9 +119,21 @@ position_smoothing_speed = 10.0
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1, -8)
 sprite_frames = SubResource("SpriteFrames_km1em")
-animation = &"walk"
-frame = 1
-frame_progress = 0.460981
+animation = &"idle"
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("6_jp1p5")
+starting_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("walk_state")]
+script = ExtResource("7_km1em")
+walk_state = NodePath("../Walk")
+metadata/_custom_type_script = "uid://drkh3ol85ppw1"
+
+[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
+script = ExtResource("8_mabrb")
+idle_state = NodePath("../Idle")
+metadata/_custom_type_script = "uid://drkh3ol85ppw1"
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

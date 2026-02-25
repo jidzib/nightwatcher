@@ -1,6 +1,6 @@
 shader_type canvas_item;
 
-uniform float strength : hint_range(0.0, 1.0) = 0.2;
+uniform float strength : hint_range(0.0, 1.0) = 0.5;
 uniform sampler2D screen_texture : hint_screen_texture;
 
 void fragment() {
@@ -9,5 +9,5 @@ void fragment() {
     // Example: darken screen
     screen_color.rgb *= (1.0 - strength);
 
-    COLOR = screen_color * vec4(0.5, 0.1, 0.0, 0.1);
+    COLOR = screen_color * vec4(0.2, 0.0, 0.6, 0.5);
 }

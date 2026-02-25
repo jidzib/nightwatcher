@@ -15,12 +15,18 @@ var inventory_slots: Array[int] = [49, 50, 51, 52, 53, 54]
 
 var world: World
 
+enum States {
+	IDLE, WALK
+}
+var state: States = States.IDLE
+@onready var state_machine: StateMachine = $StateMachine
+
 func player():
 	pass
 	
 func _ready():
-	animated_sprite.play("idle")
 	world = get_parent()
+	state_machine.init(self)
 	
 	GlobalSignal.update_player_coins.emit(500)
 	inventory.add_item(load("res://resources/items/hoe.tres"), 1)
@@ -30,6 +36,7 @@ func _ready():
 	#inventory.add_item(load("res://resources/items/sunflower_seeds.tres"), 10)
 	
 func _physics_process(delta: float) -> void:
+	state_machine.process_physics(delta)
 	
 	movement.x = Input.get_action_strength("right") - Input.get_action_strength("left")
 	movement.y = Input.get_action_strength("down") - Input.get_action_strength("up")
@@ -41,14 +48,11 @@ func _physics_process(delta: float) -> void:
 		dir *= -1
 		animated_sprite.flip_h = false
 	
-	if movement == Vector2.ZERO:
-		animated_sprite.play("idle")
-	else:
-		animated_sprite.play("walk")
 	velocity = lerp(velocity, speed*movement.normalized(), delta*acceleration)
 	move_and_slide()
 
 func _input(event: InputEvent) -> void:
+	state_machine.process_input(event)
 	if event is InputEventKey and event.keycode in inventory_slots:
 		if inventory.inventory[int(event.as_text()) - 1]:
 			inventory.selected_slot.selected.visible = false
@@ -69,29 +73,11 @@ func _input(event: InputEvent) -> void:
 											Util.get_chunk_from_world(get_global_mouse_position()),
 											Util.get_local_tile_from_world(get_global_mouse_position()),
 											inventory)
-	elif Input.is_action_just_pressed("dash"):
-		roll()	
-		speed = 160
-		await get_tree().create_timer(0.5).timeout
-		speed = 80
-func roll():
-	var sign := signf(movement.x)
-	var duration = 0.5
-	animated_sprite.rotation = 0.0
-	var tween := create_tween()
-	#tween.set_trans(Tween.TRANS_SINE)
-	#tween.set_ease(Tween.EASE_IN)
-
-	tween.tween_property(
-		animated_sprite,
-		"rotation",
-		sign * TAU,
-		duration
-	)
 						
 func _process(delta: float) -> void:
 	var tile = world.chunk_manager.interaction_manager.get_selected_tile()
-
+	state_machine.process_frame(delta)
+	
 func save_player():
 	var player_data := PlayerData.new()
 	player_data.position = position

@@ -58,6 +58,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+color = Color(0.312561, 0.0987971, 0.793956, 1)
 
 [connection signal="tree_entered" from="ChunkManager" to="ChunkManager" method="_on_tree_entered"]
 [connection signal="tree_exited" from="ChunkManager" to="ChunkManager" method="_on_tree_exited"]
