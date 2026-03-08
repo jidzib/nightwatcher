@@ -3,4 +3,4 @@ class_name WorldData
 
 @export var name : String = ""
 @export var SEED : int = 0
- 
+@export var size : int = 128

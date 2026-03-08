@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DevItem" load_steps=3 format=3 uid="uid://dy5606eisk5v6"]
+
+[ext_resource type="Script" uid="uid://b088cmv7numqw" path="res://Scripts/items/dev_item.gd" id="1_48klb"]
+[ext_resource type="Texture2D" uid="uid://dvauddy61ab0q" path="res://assets/environment/rock.png" id="2_h2qh1"]
+
+[resource]
+script = ExtResource("1_48klb")
+map_object = "ROCK"
+id = 0
+name = ""
+max_stack_size = 100
+texture = ExtResource("2_h2qh1")
+metadata/_custom_type_script = "uid://b088cmv7numqw"

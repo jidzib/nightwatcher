@@ -7,9 +7,9 @@ var type: int = Enums.ItemType.DEFAULT
 @export var max_stack_size: int = 100
 @export var texture: Texture2D
 
-func use(world: World, chunk_coords: Vector2i, tile_coords: Vector2i, inventory: Inventory) -> void:
+func use(world: World, chunk_coords: Vector2i, tile_coords: Vector2i, player: Player) -> void:
 	pass
-func alt_use(world: World, chunk_coords: Vector2i, tile_coords: Vector2i, inventory: Inventory) -> void:
+func alt_use(world: World, chunk_coords: Vector2i, tile_coords: Vector2i, player: Player) -> void:
 	pass
 func set_type():
 	pass

@@ -1,15 +1,12 @@
 extends Item
 class_name AxeItem
 
-func use(world, chunk_coords, tile_coords, inventory):
-	var map = world.chunk_manager.CHUNKS[chunk_coords].BREAKABLE
-	if tile_coords in map.objects:
-		var obj = map.objects[tile_coords]
-		if obj.ID == Enums.ObjectType.TREE:
-			obj.hit(1)
-		pass # hit tree
+func use(world: World, chunk_coords: Vector2i, tile_coords: Vector2i, player: Player):
+	var object = world.chunk_manager.interaction_manager.get_selected_object()
+	if object and object.ID == Enums.ObjectType.TREE:
+		object.hit(1)
 
-func alt_use(world, chunk_coords, tile_coords, inventory):
+func alt_use(world: World, chunk_coords: Vector2i, tile_coords: Vector2i, player: Player):
 	pass
 
 func set_type():

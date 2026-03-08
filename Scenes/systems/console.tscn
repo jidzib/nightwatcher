@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://csqf73l7mshr1"]
+
+[ext_resource type="Script" uid="uid://dp2vnsmspu6uy" path="res://Scripts/systems/console.gd" id="1_lu137"]
+
+[node name="Console" type="CanvasLayer"]
+script = ExtResource("1_lu137")
+
+[node name="InputLine" type="LineEdit" parent="."]
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 426.0
+offset_bottom = 48.0
+theme_override_font_sizes/font_size = 25
+placeholder_text = "Enter command here"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 9.0
+offset_top = -216.0
+offset_right = 429.0
+offset_bottom = -4.0
+color = Color(0, 0, 0, 0.435294)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+z_index = 5
+offset_left = 14.0
+offset_top = -207.0
+offset_right = 423.0
+offset_bottom = -7.0
+
+[node name="Log" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2

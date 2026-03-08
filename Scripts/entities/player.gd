@@ -8,8 +8,10 @@ var dir: int = 1
 var coins: int = 0
 var tile_range: int = 3
 
-@onready var inventory: Inventory = $Inventory
+@onready var inventory: Inventory = $UI/Inventory
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+@onready var camera : Camera2D = $Camera2D
 
 var inventory_slots: Array[int] = [49, 50, 51, 52, 53, 54]
 
@@ -21,11 +23,14 @@ enum States {
 var state: States = States.IDLE
 @onready var state_machine: StateMachine = $StateMachine
 
+@onready var console = $UI/Console
+
 func player():
 	pass
 	
 func _ready():
 	world = get_parent()
+	console.player = self
 	state_machine.init(self)
 	
 	GlobalSignal.update_player_coins.emit(500)
@@ -66,16 +71,18 @@ func _input(event: InputEvent) -> void:
 			inventory.selected_slot.item.use(world,
 											Util.get_chunk_from_world(get_global_mouse_position()),
 											Util.get_local_tile_from_world(get_global_mouse_position()),
-											inventory)				
+											self)				
 	elif Input.is_action_just_pressed("right_click"):
 		if inventory.selected_slot.item:
 			inventory.selected_slot.item.alt_use(world,
 											Util.get_chunk_from_world(get_global_mouse_position()),
 											Util.get_local_tile_from_world(get_global_mouse_position()),
-											inventory)
-						
+											self)
+	elif Input.is_action_just_pressed("open_console"):
+		open_console()
+					
 func _process(delta: float) -> void:
-	var tile = world.chunk_manager.interaction_manager.get_selected_tile()
+	var tile = world.chunk_manager.interaction_manager.process_selection()
 	state_machine.process_frame(delta)
 	
 func save_player():
@@ -94,9 +101,9 @@ func load_player():
 func update_coins(amount: int):
 	coins += amount
 
-#func load_data(pos: Vector2, inv: Dictionary[Item, int]):
-	#global_position = pos
-	#inventory.load_inventory(inv)
+func open_console():
+	console.visible = !console.visible
+	set_physics_process(!is_physics_processing())
 	
 func _on_tree_entered() -> void:
 	GlobalSignal.update_player_coins.connect(update_coins)

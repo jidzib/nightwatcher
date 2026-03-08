@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://42a07bj3ivdt"]
+[gd_scene load_steps=21 format=3 uid="uid://42a07bj3ivdt"]
 
 [ext_resource type="Script" uid="uid://ba2rt7gpec2wo" path="res://Scripts/entities/player.gd" id="1_rkbax"]
 [ext_resource type="Texture2D" uid="uid://dq5gm6x5st1st" path="res://assets/entities/player/player.png" id="2_g1dw6"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://db27tosi5iv5" path="res://Scripts/systems/state machines/state_machine.gd" id="6_jp1p5"]
 [ext_resource type="Script" uid="uid://dylvlimxelsk7" path="res://Scripts/systems/state machines/player states/idle.gd" id="7_km1em"]
 [ext_resource type="Script" uid="uid://cbgernmy1tjjk" path="res://Scripts/systems/state machines/player states/walk.gd" id="8_mabrb"]
+[ext_resource type="PackedScene" uid="uid://csqf73l7mshr1" path="res://Scenes/systems/console.tscn" id="9_s1knu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g1dw6"]
 radius = 7.0
@@ -88,6 +89,7 @@ z_index = 1
 z_as_relative = false
 y_sort_enabled = true
 script = ExtResource("1_rkbax")
+speed = 200
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -7)
@@ -101,8 +103,6 @@ y_sort_enabled = true
 texture = ExtResource("2_g1dw6")
 offset = Vector2(0, -8.5)
 
-[node name="Inventory" parent="." instance=ExtResource("3_g1dw6")]
-
 [node name="InteractRange" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractRange"]
@@ -114,6 +114,10 @@ shape = SubResource("RectangleShape2D_g1dw6")
 process_physics_priority = 1
 ignore_rotation = false
 zoom = Vector2(2, 2)
+limit_left = -2048
+limit_top = -2048
+limit_right = 2048
+limit_bottom = 2048
 position_smoothing_speed = 10.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -134,6 +138,15 @@ metadata/_custom_type_script = "uid://drkh3ol85ppw1"
 script = ExtResource("8_mabrb")
 idle_state = NodePath("../Idle")
 metadata/_custom_type_script = "uid://drkh3ol85ppw1"
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Inventory" parent="UI" instance=ExtResource("3_g1dw6")]
+
+[node name="Console" parent="UI" instance=ExtResource("9_s1knu")]
+visible = false
+offset = Vector2(0, 650)
+transform = Transform2D(1, 0, 0, 1, 0, 650)
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

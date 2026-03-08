@@ -23,7 +23,7 @@ func hit(damage: int):
 		for i in range(drop_count):
 			drop_item()
 			
-		remove_object()
+		remove()
 
 func drop_item():
 		var packed_dropped_item = load("res://Scenes/systems/DroppedItem.tscn")

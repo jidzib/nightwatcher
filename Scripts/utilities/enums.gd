@@ -17,10 +17,6 @@ enum BreakableType {
 	ROCK
 }
 
-enum CropType {
-	SUNFLOWER
-}
-
 enum ItemType {
 	DEFAULT,
 	PLANTABLE,
@@ -37,7 +33,9 @@ enum ItemIDs {
 	SUNFLOWER,
 	WATER_BUCKET,
 	AXE,
-	PICKAXE
+	PICKAXE,
+	DEV_TREE,
+	DEV_ROCK
 }
 
 enum TileLayer {

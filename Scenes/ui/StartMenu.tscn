@@ -4,17 +4,16 @@
 [ext_resource type="Script" uid="uid://v25p11nbw2kf" path="res://Scripts/ui/world_select_menu.gd" id="2_73po4"]
 [ext_resource type="Script" uid="uid://bnnr0xt4e3ckh" path="res://Scripts/ui/create_world_menu.gd" id="3_xbdet"]
 
-[node name="StartMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="StartMenu" type="CanvasLayer"]
 script = ExtResource("1_u14sm")
 
 [node name="Menus" type="Control" parent="."]
+layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 527.0
+offset_top = 323.0
+offset_right = 567.0
+offset_bottom = 363.0
 
 [node name="MainMenu" type="Control" parent="Menus"]
 visible = false
@@ -104,6 +103,26 @@ text = "Seed:   "
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="SizeContainer" type="HBoxContainer" parent="Menus/CreateWorldMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="SizeLabel" type="Label" parent="Menus/CreateWorldMenu/VBoxContainer/SizeContainer"]
+layout_mode = 2
+text = "Size:     "
+
+[node name="SizeInput" type="OptionButton" parent="Menus/CreateWorldMenu/VBoxContainer/SizeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 4
+popup/item_0/text = "Small"
+popup/item_0/id = 0
+popup/item_1/text = "Medium"
+popup/item_1/id = 1
+popup/item_2/text = "Large"
+popup/item_2/id = 2
+popup/item_3/text = "Giganamosaurus"
+popup/item_3/id = 3
+
 [node name="CreateButton" type="Button" parent="Menus/CreateWorldMenu/VBoxContainer"]
 layout_mode = 2
 text = "Create"
@@ -119,6 +138,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(527, 323)
 
 [connection signal="pressed" from="Menus/MainMenu/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="Menus/MainMenu/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

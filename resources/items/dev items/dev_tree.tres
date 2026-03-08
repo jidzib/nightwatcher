@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DevItem" load_steps=3 format=3 uid="uid://c5kvwb7ns0suj"]
+
+[ext_resource type="Script" uid="uid://b088cmv7numqw" path="res://Scripts/items/dev_item.gd" id="1_jh2pv"]
+[ext_resource type="Texture2D" uid="uid://dyuymt4t428n2" path="res://assets/environment/tree.png" id="2_d6g6e"]
+
+[resource]
+script = ExtResource("1_jh2pv")
+map_object = "TREE"
+id = 0
+name = ""
+max_stack_size = 100
+texture = ExtResource("2_d6g6e")
+metadata/_custom_type_script = "uid://b088cmv7numqw"

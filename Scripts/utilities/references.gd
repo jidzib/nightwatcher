@@ -12,5 +12,7 @@ var ITEMS = {
 	Enums.ItemIDs.SUNFLOWER : load("res://resources/items/sunflower.tres"),
 	Enums.ItemIDs.WATER_BUCKET : load("res://resources/items/water_bucket.tres"),
 	Enums.ItemIDs.AXE : load("res://resources/items/axe.tres"),
-	Enums.ItemIDs.PICKAXE : load("res://resources/items/pickaxe.tres")
+	Enums.ItemIDs.PICKAXE : load("res://resources/items/pickaxe.tres"),
+	Enums.ItemIDs.DEV_TREE : load("res://resources/items/dev items/dev_tree.tres"),
+	Enums.ItemIDs.DEV_ROCK : load("res://resources/items/dev items/dev_rock.tres")
 }

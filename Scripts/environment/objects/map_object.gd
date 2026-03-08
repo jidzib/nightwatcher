@@ -6,14 +6,16 @@ class_name MapObject
 @export var texture : Texture2D
 @onready var sprite : Sprite2D = $Sprite
 var interactables : Dictionary
-var hitbox : CollisionShape2D
+@onready var hitbox = $Hitbox/CollisionShape2D
 var tile_coords : Vector2i
+
+@export var tile_footprint : Array[Vector2i] = [Vector2i(0, 0)]
 
 func _ready():
 	initialize()
 
 func initialize():
-	#add_child(sprite)
+
 	sprite.texture = texture
 	
 	# SHADERS
@@ -30,8 +32,7 @@ func pack() -> ObjectResource:
 	resource.CATEGORY = CATEGORY
 	return resource
 
-func remove_object():
-	get_parent().objects.erase(tile_coords)
-	queue_free()
+func remove():
+	get_parent().remove_object(tile_coords)
 	
 	

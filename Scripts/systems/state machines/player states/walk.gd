@@ -1,11 +1,16 @@
 extends State
 
 @export var idle_state : State
+var roll_speed : int
+var original_speed : int
 
 func enter() -> void:
 	print("Entered walk state")
 	parent.animated_sprite.play("walk")
 	parent.state = parent.States.WALK
+	
+	roll_speed = parent.speed * 2
+	original_speed = parent.speed
 
 func process_physics(delta: float) -> State:
 	
@@ -22,7 +27,7 @@ func process_input(event: InputEvent) -> State:
 	return null
 
 func roll():
-	parent.speed = 160
+	parent.speed = roll_speed
 	var sign = signf(parent.movement.x) if abs(parent.movement.x) > abs(parent.movement.y) else signf(parent.movement.y)
 	
 	var duration = 0.5
@@ -36,4 +41,4 @@ func roll():
 		duration
 	)
 	await get_tree().create_timer(0.5).timeout
-	parent.speed = 80
+	parent.speed = original_speed

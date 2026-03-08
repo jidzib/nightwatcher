@@ -9,8 +9,6 @@ var tree_noise: Noise
 var width: int
 var height: int
 
-var TILE_SIZE: int = 16
-
 var GRASS_ID: int = 0
 var WATER_ID: int = 1
 
@@ -21,6 +19,7 @@ func _ready():
 	tree_noise = tree_noise_texture.noise
 	width = noise_texture.width
 	height = noise_texture.height
+	
 
 func generate_chunk(chunk_coords: Vector2i, chunk_manager: ChunkManager):
 	print("Generating chunk: ", chunk_coords)
@@ -47,19 +46,22 @@ func generate_chunk(chunk_coords: Vector2i, chunk_manager: ChunkManager):
 				edge_cells.append(Vector2i(x, y))
 				continue
 				
-			if noise_val > -0.4 and tree_noise_val > 0.3 and randf() > 0.3:
-				chunk.add_object(Enums.ObjectCategory.BREAKABLE,
-								 References.OBJECTS[Enums.ObjectType.TREE],
+			if noise_val > -0.4 and chunk_manager.rng.randf() > 0.95:
+				chunk.add_object(References.OBJECTS[Enums.ObjectType.TREE],
 								 Vector2i(x, y))
 								
-			elif noise_val > -0.4 and tree_noise_val < -0.3 and randf() > 0.3:
-				chunk.add_object(Enums.ObjectCategory.BREAKABLE,
-								References.OBJECTS[Enums.ObjectType.ROCK],
+			elif noise_val > -0.4 and chunk_manager.rng.randf() > 0.95:
+				chunk.add_object(References.OBJECTS[Enums.ObjectType.ROCK],
 								Vector2i(x, y))
 				
 	chunk.GROUND.set_cells_terrain_connect(grass_cells, 0, GRASS_ID)
 	chunk.GROUND.set_cells_terrain_connect(water_cells, 0, WATER_ID)
 	for cell in edge_cells:
 		chunk.GROUND.erase_cell(cell)
-		
+
+func set_size(size : int):
+	noise_texture.width = size
+	noise_texture.height = size
+	tree_noise_texture.width = size
+	tree_noise_texture.height = size
 	
