@@ -5,6 +5,7 @@ extends Control
 var world_entry = load("res://Scenes/ui/WorldEntry.tscn")
 
 func _ready():
+	await get_tree().root.ready
 	for world_path in scan_folder():
 		var world = world_entry.instantiate()
 		var world_data = ResourceLoader.load(world_path+"world_data.tres")
@@ -12,6 +13,7 @@ func _ready():
 		world.setup(world_data.name, world_path)
 		
 func scan_folder():
+	
 	var results : Array[String] = []
 	
 	var dir = DirAccess.open(Util.DIR)

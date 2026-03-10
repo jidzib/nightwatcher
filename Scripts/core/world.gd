@@ -43,6 +43,11 @@ func setup(world_name: String, seed: int):
 func load_world():
 	chunk_manager.DIR = DIR + "chunks/"
 	chunk_manager.rng.seed = SEED
+	var world_data = ResourceLoader.load(DIR + "world_data.tres")
+	if not world_data:
+		print("World directory does not exist")
+		return
+	SIZE = world_data.size
 	chunk_manager.BOUNDS = Vector2i(-SIZE/Util.CHUNK_SIZE, SIZE/Util.CHUNK_SIZE)
 	
 	player.camera.limit_left = -SIZE*Util.TILE_SIZE

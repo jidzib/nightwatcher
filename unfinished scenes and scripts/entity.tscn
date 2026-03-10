@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://7fe077pytrcd"]
 
-[ext_resource type="Script" uid="uid://pr7phq6psay0" path="res://entity.gd" id="1_6e8rh"]
+[ext_resource type="Script" uid="uid://pr7phq6psay0" path="res://unfinished scenes and scripts/entity.gd" id="1_6e8rh"]
 [ext_resource type="Texture2D" uid="uid://remvdbkonr5d" path="res://assets/entities/irelia.png" id="2_uqc13"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uqc13"]
