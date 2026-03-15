@@ -5,7 +5,7 @@ class_name StateMachine
 var current_state : State
 
 func init(parent):
-	for child in parent.state_machine.get_children():
+	for child in get_children():
 		child.parent = parent
 		#change_state(child)
 	change_state(starting_state)

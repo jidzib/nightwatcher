@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Placeable" load_steps=3 format=3 uid="uid://yg0chtbqb34m"]
+
+[ext_resource type="Script" uid="uid://b088cmv7numqw" path="res://Scripts/items/placeable.gd" id="1_laojq"]
+[ext_resource type="Texture2D" uid="uid://bbwgsjcipwy1r" path="res://assets/items/sunflower_seeds.png" id="2_gplx2"]
+
+[resource]
+script = ExtResource("1_laojq")
+map_object = "SUNFLOWER"
+can_place_on = Array[String](["GRASS"])
+id = 9
+name = "Sunflower Seeds"
+max_stack_size = 100
+texture = ExtResource("2_gplx2")
+metadata/_custom_type_script = "uid://b088cmv7numqw"

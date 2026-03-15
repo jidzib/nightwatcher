@@ -13,13 +13,23 @@ func pack() -> BreakableResource:
 	resource.HP = HP
 	return resource
 
+func unpack(resource: ObjectResource):
+	HP = resource.HP
+
+func decode(data: PackedByteArray, i: int) -> void:
+	super.decode(data, i)
+	HP = data[i+3]
+
+func get_data_size() -> int:
+	return 4
+
 func hit(damage: int):
-	# TAKE AWAY HP
 	HP -= damage
-	# SHAKE
 	hit_shake()
-	# IF HP <= 0: DROP RESOURCES AND REMOVE OBJECT (FROM OBJECTS DICT IN MAP AND FROM SCENE TREE)
 	if HP <= 0:
+		var tween = create_tween()
+		break_effect(tween)
+		await tween.finished
 		for i in range(drop_count):
 			drop_item()
 			
@@ -44,4 +54,7 @@ func hit_shake():
 	tween.tween_property(self, "rotation", deg_to_rad(-4), 0.05)
 	tween.tween_property(self, "rotation", deg_to_rad(2), 0.05)
 	tween.tween_property(self, "rotation", 0.0, 0.08)
+
+func break_effect(tween):
+	tween.tween_property(self, "scale", Vector2(1.1, 1.1), 0.1)	
 	

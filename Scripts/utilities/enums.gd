@@ -2,14 +2,14 @@ extends Node
 
 enum ObjectCategory {
 	DEFAULT,
-	BREAKABLE,
-	CROP
+	BREAKABLE
 }
 
 enum ObjectType {
 	TREE,
 	ROCK,
-	CROP
+	FOLIAGE,
+	SUNFLOWER
 }
 
 enum BreakableType {
@@ -35,7 +35,8 @@ enum ItemIDs {
 	AXE,
 	PICKAXE,
 	DEV_TREE,
-	DEV_ROCK
+	DEV_ROCK,
+	SUNFLOWER_SEEDS
 }
 
 enum TileLayer {

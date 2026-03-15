@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgny28fc5ligq"
-path="res://.godot/imported/house.png-b3f1f58952f4a484d3ab49c0dae41ddb.ctex"
+uid="uid://bt4dkjkwxw1n2"
+path="res://.godot/imported/torso.png-8d97dd0d154f895ea2eaea659b92e509.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/house.png"
-dest_files=["res://.godot/imported/house.png-b3f1f58952f4a484d3ab49c0dae41ddb.ctex"]
+source_file="res://assets/entities/player/torso.png"
+dest_files=["res://.godot/imported/torso.png-8d97dd0d154f895ea2eaea659b92e509.ctex"]
 
 [params]
 

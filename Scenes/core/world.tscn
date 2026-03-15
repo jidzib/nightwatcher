@@ -1,7 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://bycs45aiqiben"]
+[gd_scene load_steps=13 format=3 uid="uid://bycs45aiqiben"]
 
 [ext_resource type="Script" uid="uid://n2b24exff5r2" path="res://Scripts/core/world.gd" id="1_li53p"]
-[ext_resource type="PackedScene" uid="uid://7fe077pytrcd" path="res://unfinished scenes and scripts/entity.tscn" id="2_75kd4"]
 [ext_resource type="Script" uid="uid://bnxdjaun646i6" path="res://Scripts/systems/chunk_manager.gd" id="2_ghfue"]
 [ext_resource type="Script" uid="uid://cp2vt7y33na3m" path="res://Scripts/systems/map_generator.gd" id="3_ehr0e"]
 [ext_resource type="Script" uid="uid://b0n6acf8tbi8q" path="res://Scripts/ui/grid_overlay.gd" id="4_ghfue"]
@@ -31,8 +30,6 @@ shader_parameter/strength = 0.5
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_li53p")
-
-[node name="Entity" parent="." instance=ExtResource("2_75kd4")]
 
 [node name="ChunkManager" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -66,6 +63,22 @@ mouse_filter = 2
 color = Color(0.312561, 0.0987971, 0.793956, 1)
 
 [node name="LoadingScreen" parent="." instance=ExtResource("8_5opad")]
+
+[node name="FPSCounter" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="FPSCounter"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+color = Color(0, 0, 1, 1)
+energy = 0.0
+blend_mode = 2
+shadow_color = Color(0, 0, 1, 0.615686)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
+color = Color(0.022006, 0.242181, 0.933467, 1)
 
 [connection signal="tree_entered" from="ChunkManager" to="ChunkManager" method="_on_tree_entered"]
 [connection signal="tree_exited" from="ChunkManager" to="ChunkManager" method="_on_tree_exited"]

@@ -1,15 +1,10 @@
 class_name HoeItem
 extends Item
 
-var range: int = 3
-
-#func use(map, position, inventory):
-	#map.TILE_MAP.till_at_world_pos(position, range)
-	#map.CROP.can_harvest(position, inventory, range)
-#
-#func alt_use(map, position, inventory):
-	#map.TILE_MAP.until_at_world_pos(position, range)
-	#pass
-#
-#func set_type():
-	#type = Enums.ItemType.HOE
+func use(world: World, chunk_coords: Vector2i, tile_coords: Vector2i, player: Player) -> void:
+	var chunk = world.chunk_manager.CHUNKS[chunk_coords]
+	if chunk.get_tile_at_tile(tile_coords) == Enums.TileLayer.GRASS:
+		pass # ADD FARM TILE
+	
+func alt_use(world: World, chunk_coords: Vector2i, tile_coords: Vector2i, player: Player) -> void:
+	pass

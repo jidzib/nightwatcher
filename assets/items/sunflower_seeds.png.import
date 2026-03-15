@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://di2p0x3iyhnbv"
-path="res://.godot/imported/idle.png-3dccba5532f032c086eb755663af943a.ctex"
+uid="uid://bbwgsjcipwy1r"
+path="res://.godot/imported/sunflower_seeds.png-c0781270e3bb27afb164e1a1a6a78b29.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/entities/player/idle.png"
-dest_files=["res://.godot/imported/idle.png-3dccba5532f032c086eb755663af943a.ctex"]
+source_file="res://assets/items/sunflower_seeds.png"
+dest_files=["res://.godot/imported/sunflower_seeds.png-c0781270e3bb27afb164e1a1a6a78b29.ctex"]
 
 [params]
 

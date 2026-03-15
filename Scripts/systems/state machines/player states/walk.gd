@@ -1,13 +1,15 @@
 extends State
 
 @export var idle_state : State
+
+@export var using_item_state : State
+
 var roll_speed : int
 var original_speed : int
 
 func enter() -> void:
 	print("Entered walk state")
-	parent.animated_sprite.play("walk")
-	parent.state = parent.States.WALK
+	parent.movement_state = parent.MovementStates.WALK
 	
 	roll_speed = parent.speed * 2
 	original_speed = parent.speed
@@ -31,11 +33,11 @@ func roll():
 	var sign = signf(parent.movement.x) if abs(parent.movement.x) > abs(parent.movement.y) else signf(parent.movement.y)
 	
 	var duration = 0.5
-	parent.animated_sprite.rotation = 0.0
+	parent.sprite.rotation = 0.0
 	var tween := create_tween()
 
 	tween.tween_property(
-		parent.animated_sprite,
+		parent.sprite,
 		"rotation",
 		sign * TAU,
 		duration

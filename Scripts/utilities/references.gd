@@ -1,8 +1,10 @@
 extends Node
 
 var OBJECTS = {
-	Enums.ObjectType.TREE : load("res://Scenes/environment/objects/Tree.tscn"),
-	Enums.ObjectType.ROCK : load("res://Scenes/environment/objects/Rock.tscn")
+	Enums.ObjectType.TREE : preload("res://Scenes/environment/objects/Tree.tscn"),
+	Enums.ObjectType.ROCK : preload("res://Scenes/environment/objects/Rock.tscn"),
+	Enums.ObjectType.FOLIAGE : preload("res://Scenes/environment/objects/Foliage.tscn"),
+	Enums.ObjectType.SUNFLOWER : preload("res://Scenes/environment/objects/Sunflower.tscn")
 }
 
 var ITEMS = {
@@ -14,5 +16,6 @@ var ITEMS = {
 	Enums.ItemIDs.AXE : load("res://resources/items/axe.tres"),
 	Enums.ItemIDs.PICKAXE : load("res://resources/items/pickaxe.tres"),
 	Enums.ItemIDs.DEV_TREE : load("res://resources/items/dev items/dev_tree.tres"),
-	Enums.ItemIDs.DEV_ROCK : load("res://resources/items/dev items/dev_rock.tres")
+	Enums.ItemIDs.DEV_ROCK : load("res://resources/items/dev items/dev_rock.tres"),
+	Enums.ItemIDs.SUNFLOWER_SEEDS : load("res://resources/items/sunflower_seed.tres")
 }

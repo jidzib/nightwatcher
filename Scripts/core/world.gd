@@ -13,10 +13,14 @@ var DIR : String = ""
 
 var SIZE : int  = 64 # IN TILES
 
+
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("save"):
 		chunk_manager.save_all()
 		player.save_player()
+	
+	$FPSCounter/Label.text = str(Engine.get_frames_per_second()) + " FPS"
+		
 		
 func setup(world_name: String, seed: int):
 	var d := Time.get_datetime_dict_from_system()
@@ -54,6 +58,8 @@ func load_world():
 	player.camera.limit_right = SIZE*Util.TILE_SIZE
 	player.camera.limit_bottom = SIZE*Util.TILE_SIZE
 	player.camera.limit_top = -SIZE*Util.TILE_SIZE
+	
+	player.interaction_manager.chunk_manager = chunk_manager 
 	
 	player.set_physics_process(false)
 	player.set_process(false)

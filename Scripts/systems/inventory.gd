@@ -5,11 +5,12 @@ var inventory: Array[ItemSlot] = []
 
 var empty_slot = preload("res://Scenes/ui/ItemSlot.tscn")
 @onready var grid_container: GridContainer = $GridContainer
-
-@export var max_slots: int = 6
+@onready var background : TextureRect = $Background
+var hotbar_size : int = 6
+@export var max_slots: int = 24
 var selected_slot: ItemSlot = null
 
-@onready var day_count: Label = $DayCount
+var showing : bool = true
 
 func _ready():
 	for i in range(max_slots):
@@ -18,8 +19,10 @@ func _ready():
 		inventory.append(new_slot)
 	selected_slot = inventory[-1]
 	update_display()
+	switch_visible()
 	
 func add_item(item: Item, amount: int) -> void:
+		
 	for i in range(max_slots):
 		if inventory[i].item and inventory[i].item.name == item.name:
 			inventory[i].item = item
@@ -51,6 +54,12 @@ func has_item(item: Item) -> bool:
 		if inventory[i].item == item:
 			return true
 	return false
+
+func get_item_index(item: Item) -> int:
+	for i in range(max_slots):
+		if inventory[i].item == item:
+			return i
+	return -1
 	
 func update_display():
 	for child in grid_container.get_children():
@@ -80,7 +89,21 @@ func load_inventory(inventory_data: InventoryData):
 		inventory[slot].item = References.ITEMS[inventory_data.items[i]]
 		inventory[slot].quantity = inventory_data.counts[i]
 	update_display()	
+
+func switch_visible():
 	
+	if showing:
+		for i in range(hotbar_size, max_slots):
+			inventory[i].visible = false
+		background.visible = false
+		showing = false
+	
+	else:
+		for i in range(hotbar_size, max_slots):
+			inventory[i].visible = true
+		background.visible = true
+		showing = true
+		
 func _on_tree_entered() -> void:
 	#GlobalSignal.next_day.connect(update_day_display)
 	pass

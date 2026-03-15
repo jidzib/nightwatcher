@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4nbb3ibgmuyj"
-path="res://.godot/imported/bed.png-9b66f642a6058e4326d589d77dd67229.ctex"
+uid="uid://cms04tavy34mm"
+path="res://.godot/imported/hotbar.png-3655543d2cb157a629646f94099aed74.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/bed.png"
-dest_files=["res://.godot/imported/bed.png-9b66f642a6058e4326d589d77dd67229.ctex"]
+source_file="res://assets/ui/hotbar.png"
+dest_files=["res://.godot/imported/hotbar.png-3655543d2cb157a629646f94099aed74.ctex"]
 
 [params]
 

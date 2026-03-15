@@ -9,7 +9,7 @@ var quantity: int = 0
 
 func _ready():
 	update()
-	 
+		 
 func update():
 	if item:
 		sprite.texture = item.texture
@@ -17,4 +17,23 @@ func update():
 	else:
 		sprite.texture = null
 	label.text = str(quantity)
+	
+func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
+	return data is ItemSlot
+
+func _drop_data(at_position: Vector2, data: Variant) -> void:
+	var temp_item = item
+	var temp_quantity = quantity
+	
+	item = data.item
+	quantity = data.quantity
+	
+	data.item = temp_item
+	data.quantity = temp_quantity
+	data.update()
+	
+	update()
+
+func _get_drag_data(at_position: Vector2) -> Variant:
+	return self
 	

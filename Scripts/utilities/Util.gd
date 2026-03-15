@@ -23,3 +23,11 @@ func get_local_tile_from_world(world_pos: Vector2) -> Vector2i:
 		posmod(tile.x, CHUNK_SIZE),
 		posmod(tile.y, CHUNK_SIZE)
 		)
+
+func get_tile_distance(tile1_coords: Vector2i, 
+					   tile1_chunk: Vector2i, tile2_coords: Vector2i,
+					   tile2_chunk: Vector2i) -> float:
+	var tile1_world : Vector2 = tile1_chunk * Util.CHUNK_SIZE + tile1_coords
+	var tile2_world : Vector2 = tile2_chunk * Util.CHUNK_SIZE + tile2_coords
+
+	return tile1_world.distance_to(tile2_world)

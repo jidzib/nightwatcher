@@ -53,6 +53,9 @@ func generate_chunk(chunk_coords: Vector2i, chunk_manager: ChunkManager):
 			elif noise_val > -0.4 and chunk_manager.rng.randf() > 0.95:
 				chunk.add_object(References.OBJECTS[Enums.ObjectType.ROCK],
 								Vector2i(x, y))
+			elif noise_val > -0.4 and chunk_manager.rng.randf() > 0.80:
+				chunk.add_object(References.OBJECTS[Enums.ObjectType.FOLIAGE],
+								Vector2i(x, y))
 				
 	chunk.GROUND.set_cells_terrain_connect(grass_cells, 0, GRASS_ID)
 	chunk.GROUND.set_cells_terrain_connect(water_cells, 0, WATER_ID)

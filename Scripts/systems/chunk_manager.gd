@@ -16,7 +16,7 @@ var TILE_ID_TO_LAYER : Dictionary[int, String] = {
 	Enums.TileLayer.WATER : "WaterLayer"
 }
 
-var interaction_manager: InteractionManager = InteractionManager.new()
+#var interaction_manager: InteractionManager = InteractionManager.new()
 
 var chunk_load_queue: Array = []
 var chunks_per_frame := 1
@@ -27,8 +27,7 @@ var loaded_chunks : Dictionary = {}
 var chunk_save_queue : Dictionary = {}
 
 func _ready():
-	add_child(interaction_manager)
-	interaction_manager.chunk_manager = self
+	pass
 	
 func _process(delta: float) -> void:
 	if chunk_load_queue.size() > 0:
@@ -43,12 +42,10 @@ func _process(delta: float) -> void:
 			chunk.update_navigation_region()
 			
 func save_all():
-	print("Saving chunks...")
 	for chunk in CHUNKS:
 		save_chunk(chunk)
 	
 func load_all(player_chunk_pos: Vector2i):
-	print("Loading around player in chunk ", player_chunk_pos)
 	for x in range(player_chunk_pos.x-1, player_chunk_pos.y+2):
 		for y in range(player_chunk_pos.x-1, player_chunk_pos.y+2):
 			load_chunk(Vector2i(x, y))
@@ -78,7 +75,6 @@ func load_chunk(chunk_coords: Vector2i):
 	
 	if not chunk_in_bounds(chunk_coords):
 		return
-	print("Loading chunk : ", chunk_coords)
 		
 	var chunk_data : ChunkData = ResourceLoader.load(get_chunk_path(chunk_coords))
 	var chunk = CHUNK_SCENE.instantiate()
@@ -101,11 +97,11 @@ func load_chunk(chunk_coords: Vector2i):
 		var obj = chunk_data.objects[coords]
 		if chunk:
 			chunk.add_object(References.OBJECTS[obj.ID], obj.tile_coords)
+			chunk.OBJECTS[obj.tile_coords].unpack(obj)
 			await get_tree().process_frame
 			# ID to decide what object to load
 			# CATEGORY to decide what container to put it in
 			# Coords to decide where to put it
-	print("Successfully loaded chunk ", chunk_coords)	
 	loaded_chunks.set(chunk_coords, null)
 	
 func load_chunks(chunks: Array):
@@ -148,7 +144,6 @@ func process_load_queue():
 
 func process_save_queue():
 	var count = 0
-	print("Save queue:", chunk_save_queue)
 	#while count < chunks_per_frame and chunk_save_queue.size() > 0:
 	for chunk in chunk_save_queue:
 		if count >= chunks_per_frame:

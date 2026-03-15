@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djet6knluocso"
-path="res://.godot/imported/walk.png-8c9727ace433809bba5b6e5aead30677.ctex"
+uid="uid://cay5tbi3ex7g1"
+path="res://.godot/imported/inventory slot.png-6f7dd6dd362736aa0070554a62043713.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/entities/player/walk.png"
-dest_files=["res://.godot/imported/walk.png-8c9727ace433809bba5b6e5aead30677.ctex"]
+source_file="res://assets/ui/inventory slot.png"
+dest_files=["res://.godot/imported/inventory slot.png-6f7dd6dd362736aa0070554a62043713.ctex"]
 
 [params]
 

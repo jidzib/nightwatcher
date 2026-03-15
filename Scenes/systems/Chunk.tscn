@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://c34lwbykh0clp"]
 
 [ext_resource type="Script" uid="uid://cwltak7xj488x" path="res://Scripts/systems/chunk.gd" id="1_rihm8"]
-[ext_resource type="Texture2D" uid="uid://bqpudqywulymo" path="res://assets/tiles/grass_tileset.png" id="4_cqbqu"]
+[ext_resource type="Texture2D" uid="uid://opk60nw4xne" path="res://assets/tiles/grass_tileset.png" id="4_cqbqu"]
 [ext_resource type="Shader" uid="uid://edh1kx3h8q3i" path="res://shaders/water_shader.gdshader" id="4_gfrvq"]
 [ext_resource type="Texture2D" uid="uid://mfigddol8fs8" path="res://assets/tiles/water.png" id="5_3vb2q"]
 [ext_resource type="Texture2D" uid="uid://busw88fj3ckkb" path="res://assets/tiles/water_tileset.png" id="5_rihm8"]
@@ -220,6 +220,7 @@ tile_set = SubResource("TileSet_j2u7c")
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 
 [node name="X" type="Label" parent="."]
+visible = false
 z_index = 5
 offset_left = 110.0
 offset_top = 193.0
@@ -229,6 +230,7 @@ theme_override_font_sizes/font_size = 100
 text = "1"
 
 [node name="Comma" type="Label" parent="."]
+visible = false
 z_index = 5
 offset_left = 201.0
 offset_top = 191.0
@@ -238,6 +240,7 @@ theme_override_font_sizes/font_size = 100
 text = ","
 
 [node name="Y" type="Label" parent="."]
+visible = false
 z_index = 5
 offset_left = 278.0
 offset_top = 195.0
@@ -247,6 +250,7 @@ theme_override_font_sizes/font_size = 100
 text = "2"
 
 [node name="GroundLayer" type="TileMapLayer" parent="."]
+z_index = -2
 tile_set = SubResource("TileSet_2caif")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

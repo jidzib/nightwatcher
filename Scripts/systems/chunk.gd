@@ -20,25 +20,23 @@ var load_distance: int = 2
 var loading := false
 var changed = false
 
-@onready var x = $X
-@onready var y = $Y
+@onready var x_coord = $X
+@onready var y_coord = $Y
 
 var occupied_tiles : Dictionary = {}
 
 
 func _ready():
-	x.text = str(chunk_coords.x)
-	y.text = str(chunk_coords.y)
+	x_coord.text = str(chunk_coords.x)
+	y_coord.text = str(chunk_coords.y)
 	
 	TILE_MAPS = {
 		Enums.TileLayer.GRASS : GROUND,
-		#Enums.TileLayer.WATER : WATER
 	}
 	
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.has_method("player"):
-		print("Player entered chunk: ", chunk_coords)
 		var chunk_manager = get_parent()
 		var new_chunk_square: Dictionary
 		for x in range(chunk_coords.x-load_distance, chunk_coords.x+load_distance+1):
@@ -46,6 +44,7 @@ func _on_body_entered(body: Node2D) -> void:
 				new_chunk_square.set(Vector2i(x, y), null)
 		save_self(chunk_manager, new_chunk_square)
 		load_self(chunk_manager, new_chunk_square)
+		body.chunk_coords = chunk_coords
 
 func in_chunk(tile_coords: Vector2i) -> bool:
 	if tile_coords.x < 0 or tile_coords.x >= Util.CHUNK_SIZE or tile_coords.y < 0 or tile_coords.y >= Util.CHUNK_SIZE:
@@ -158,6 +157,8 @@ func get_tile_at_tile(tile_coords: Vector2i):
 	return null
 
 func collision_shape_to_outline(object) -> PackedVector2Array:
+	if not object.hitbox.shape:
+		return []
 	var collision_shape = object.hitbox
 	var points := PackedVector2Array()
 	var e = collision_shape.shape.extents
@@ -175,7 +176,6 @@ func collision_shape_to_outline(object) -> PackedVector2Array:
 func update_navigation_region():
 	var navigation_polygon := NavigationPolygon.new()
 	#navigation_polygon.make_polygons_from_outlines()
-	print("Updating navigation of chunk ", chunk_coords)
 	navigation_polygon.add_outline(get_chunk_border_outline())
 	navigation_polygon.make_polygons_from_outlines()
 	var points_array = []

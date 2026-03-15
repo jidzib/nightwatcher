@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbwgsjcipwy1r"
-path="res://.godot/imported/seeds.png-6bfcc221f6eb34964b98afdb75e4a651.ctex"
+uid="uid://dwoaouy46d8qe"
+path="res://.godot/imported/foliage.png-e30e2647b16b7c009cef8d7b56d1cece.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/items/seeds.png"
-dest_files=["res://.godot/imported/seeds.png-6bfcc221f6eb34964b98afdb75e4a651.ctex"]
+source_file="res://assets/environment/foliage.png"
+dest_files=["res://.godot/imported/foliage.png-e30e2647b16b7c009cef8d7b56d1cece.ctex"]
 
 [params]
 

@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://yxpro6n1vd04"]
+[gd_scene load_steps=6 format=3 uid="uid://yxpro6n1vd04"]
 
 [ext_resource type="Script" uid="uid://bj5m5eterc7pm" path="res://Scripts/environment/objects/breakable_object.gd" id="1_r0hvw"]
 [ext_resource type="Texture2D" uid="uid://dvauddy61ab0q" path="res://assets/environment/rock.png" id="2_h6nw4"]
 [ext_resource type="Resource" uid="uid://s61wh3uw4wa0" path="res://resources/items/stone.tres" id="2_r1q7f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0hvw"]
-size = Vector2(8, 8)
+size = Vector2(10, 10)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r1q7f"]
+polygon = PackedVector2Array(-2, -5, -2, -4, -4, -4, -4, -3, -5, -3, -5, -1, -6, -1, -6, 0, -7, 0, -7, 2, -8, 2, -8, 5, -7, 5, -7, 6, -6, 6, -6, 7, -4, 7, -4, 8, 4, 8, 4, 7, 6, 7, 6, 6, 7, 6, 7, 5, 8, 5, 8, 2, 7, 2, 7, 0, 6, 0, 6, -1, 5, -1, 5, -3, 4, -3, 4, -4, 2, -4, 2, -5)
 
 [node name="Rock" type="Node2D"]
 script = ExtResource("1_r0hvw")
@@ -18,8 +21,19 @@ texture = ExtResource("2_h6nw4")
 metadata/_custom_type_script = "uid://bj5m5eterc7pm"
 
 [node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_h6nw4")
 
 [node name="Hitbox" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("RectangleShape2D_r0hvw")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 0.678431)
+z_index = -1
+texture = ExtResource("2_h6nw4")
+offset = Vector2(2, 2)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_r1q7f")

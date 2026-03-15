@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://ycfl5qxuj1xu"]
+
+[ext_resource type="Script" uid="uid://b635ssony1276" path="res://Scripts/environment/objects/foliage_object.gd" id="1_6dono"]
+[ext_resource type="Texture2D" uid="uid://dwoaouy46d8qe" path="res://assets/environment/foliage.png" id="2_w3ja6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4hsun"]
+size = Vector2(12, 12)
+
+[node name="Foliage" type="Node2D"]
+z_index = 1
+z_as_relative = false
+script = ExtResource("1_6dono")
+ID = 2
+CATEGORY = 1
+texture = ExtResource("2_w3ja6")
+metadata/_custom_type_script = "uid://b635ssony1276"
+
+[node name="Sprite" type="Sprite2D" parent="."]
+z_index = 1
+z_as_relative = false
+
+[node name="Hitbox" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_4hsun")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
