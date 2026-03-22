@@ -4,7 +4,8 @@ var OBJECTS = {
 	Enums.ObjectType.TREE : preload("res://Scenes/environment/objects/Tree.tscn"),
 	Enums.ObjectType.ROCK : preload("res://Scenes/environment/objects/Rock.tscn"),
 	Enums.ObjectType.FOLIAGE : preload("res://Scenes/environment/objects/Foliage.tscn"),
-	Enums.ObjectType.SUNFLOWER : preload("res://Scenes/environment/objects/Sunflower.tscn")
+	Enums.ObjectType.SUNFLOWER : preload("res://Scenes/environment/objects/Sunflower.tscn"),
+	Enums.ObjectType.FARMLAND : preload("res://Scenes/environment/objects/Farmland.tscn")
 }
 
 var ITEMS = {
@@ -17,5 +18,5 @@ var ITEMS = {
 	Enums.ItemIDs.PICKAXE : load("res://resources/items/pickaxe.tres"),
 	Enums.ItemIDs.DEV_TREE : load("res://resources/items/dev items/dev_tree.tres"),
 	Enums.ItemIDs.DEV_ROCK : load("res://resources/items/dev items/dev_rock.tres"),
-	Enums.ItemIDs.SUNFLOWER_SEEDS : load("res://resources/items/sunflower_seed.tres")
+	Enums.ItemIDs.SUNFLOWER_SEEDS : load("res://resources/items/sunflower_seeds.tres")
 }

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpah452443fuo"
-path="res://.godot/imported/farm_tile.png-ad3e852ccfc93a75556de59ad30b8e8a.ctex"
+uid="uid://cvn1bytwguu50"
+path="res://.godot/imported/dehydrated.png-e80264b2a8d5a05a9cd36d84d746b706.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tiles/farm_tile.png"
-dest_files=["res://.godot/imported/farm_tile.png-ad3e852ccfc93a75556de59ad30b8e8a.ctex"]
+source_file="res://assets/ui/dehydrated.png"
+dest_files=["res://.godot/imported/dehydrated.png-e80264b2a8d5a05a9cd36d84d746b706.ctex"]
 
 [params]
 

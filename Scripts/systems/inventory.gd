@@ -26,14 +26,24 @@ func add_item(item: Item, amount: int) -> void:
 	for i in range(max_slots):
 		if inventory[i].item and inventory[i].item.name == item.name:
 			inventory[i].item = item
-			inventory[i].quantity += amount
-			update_display()
-			return
-		elif grid_container.get_child(i).quantity == 0:
+			var new_quantity : int = min(item.max_stack_size, inventory[i].quantity + amount)
+			var amount_to_add : int = new_quantity - inventory[i].quantity
+			amount -= amount_to_add
+			inventory[i].quantity += amount_to_add
+			if amount == 0:
+				update_display()
+				return
+				
+	for i in range(max_slots):
+		if inventory[i].quantity == 0:
 			inventory[i].item = item
-			inventory[i].quantity += amount
-			update_display()
-			return
+			var new_quantity : int = min(item.max_stack_size, inventory[i].quantity + amount)
+			var amount_to_add : int = new_quantity - inventory[i].quantity
+			amount -= amount_to_add
+			inventory[i].quantity += amount_to_add
+			if amount == 0:
+				update_display()
+				return	
 
 func remove_item(item: Item, amount: int) -> bool:
 	for i in range(max_slots):
@@ -64,7 +74,7 @@ func get_item_index(item: Item) -> int:
 func update_display():
 	for child in grid_container.get_children():
 		child.update()
-
+	
 func load_to_slot(item: Item, amount: int, slot: int):
 	inventory[slot].item = item
 	inventory[slot].quantity = amount

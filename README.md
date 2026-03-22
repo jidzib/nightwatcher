@@ -16,6 +16,7 @@ This game is a work in progress. The current focus is designing and implementing
 - Dropped item system, when it detects a player collision it removes itself from memory after adding itself
 to the player's inventory
 - Player finite state machine with unique states
+- Autotiling for custom "tile" objects such as farmland
 
 ## Structure
 - 'Scenes/' - Godot scenes defining structure

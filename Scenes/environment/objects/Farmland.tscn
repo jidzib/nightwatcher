@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://cqgq1a65x8frr"]
+
+[ext_resource type="Script" uid="uid://custfm8q823iw" path="res://Scripts/environment/objects/farmland_object.gd" id="1_vfdm8"]
+[ext_resource type="Texture2D" uid="uid://dpah452443fuo" path="res://assets/tiles/farmland.png" id="2_0w1bh"]
+[ext_resource type="Texture2D" uid="uid://cvn1bytwguu50" path="res://assets/ui/dehydrated.png" id="3_heudt"]
+[ext_resource type="Script" uid="uid://b2iexo2o24u38" path="res://Scripts/systems/autotile.gd" id="4_vbjf7"]
+
+[node name="Farmland" type="Node2D"]
+script = ExtResource("1_vfdm8")
+ID = 4
+texture = ExtResource("2_0w1bh")
+metadata/_custom_type_script = "uid://custfm8q823iw"
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="Dehydrated" type="Sprite2D" parent="."]
+visible = false
+z_index = 2
+texture = ExtResource("3_heudt")
+offset = Vector2(6, -6)
+
+[node name="Autotile" type="Node" parent="." node_paths=PackedStringArray("parent")]
+script = ExtResource("4_vbjf7")
+parent = NodePath("..")
+TILE_MAP_WIDTH = 4
+TILE_MAP_HEIGHT = 4
+OBJECT_ID = 4
+metadata/_custom_type_script = "uid://b2iexo2o24u38"

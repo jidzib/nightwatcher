@@ -35,7 +35,7 @@ var action_state: ActionStates = ActionStates.NO_ACTION
 
 var chunk_coords: Vector2i
 
-var interaction_manager = InteractionManager.new()
+@export var interaction_manager : InteractionManager
 
 func player():
 	pass
@@ -45,7 +45,7 @@ func _ready():
 	console.player = self
 	movement_state_machine.init(self)
 	action_state_machine.init(self)
-	add_child(interaction_manager)
+	#add_child(interaction_manager)
 	
 func _physics_process(delta: float) -> void:
 	movement_state_machine.process_physics(delta)

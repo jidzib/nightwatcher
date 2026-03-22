@@ -25,7 +25,6 @@ var changed = false
 
 var occupied_tiles : Dictionary = {}
 
-
 func _ready():
 	x_coord.text = str(chunk_coords.x)
 	y_coord.text = str(chunk_coords.y)
@@ -86,9 +85,7 @@ func set_tiles_occupied(real_chunk_to_tiles : Dictionary[Vector2i, Array], set_o
 
 func add_object(object, origin_coords: Vector2i):
 	
-	var new_object = object.instantiate()
-	
-	var real_chunk_to_tiles : Dictionary[Vector2i, Array] = get_tiles_from_footprint(new_object.tile_footprint, origin_coords)
+	var real_chunk_to_tiles : Dictionary[Vector2i, Array] = get_tiles_from_footprint(object.tile_footprint, origin_coords)
 	 
 	for chunk in real_chunk_to_tiles:
 		if chunk not in get_parent().CHUNKS:
@@ -99,11 +96,11 @@ func add_object(object, origin_coords: Vector2i):
 				return false
 	set_tiles_occupied(real_chunk_to_tiles)
 	
-	new_object.position = origin_coords*Util.TILE_SIZE + Vector2i(Util.TILE_SIZE/2, Util.TILE_SIZE/2)
-	new_object.tile_coords = origin_coords
+	object.position = origin_coords*Util.TILE_SIZE + Vector2i(Util.TILE_SIZE/2, Util.TILE_SIZE/2)
+	object.tile_coords = origin_coords
 	
-	OBJECTS.set(origin_coords, new_object)
-	add_child(new_object)
+	OBJECTS.set(origin_coords, object)
+	add_child(object)
 	return true
 
 func remove_object(tile_coords : Vector2i):
@@ -132,12 +129,19 @@ func load_self(chunk_manager : ChunkManager, new_chunk_square : Dictionary):
 			chunks_to_load.append(chunk)
 	
 	chunk_manager.load_chunks(chunks_to_load)
-	
+
 func get_objects() -> Array:
 	var objects = []
 	for key in OBJECTS:
 		objects.append(OBJECTS[key].pack())
 	return objects
+
+func get_object_data() -> PackedByteArray:
+	var object_data : PackedByteArray = []
+	for tile_coords in OBJECTS:
+		OBJECTS[tile_coords].encode(object_data)
+		
+	return object_data
 
 func get_object_at_tile(tile_coords: Vector2i) -> MapObject:
 	if tile_coords in OBJECTS:
@@ -156,8 +160,13 @@ func get_tile_at_tile(tile_coords: Vector2i):
 			return tile
 	return null
 
+func get_tile_id(tile_coords: Vector2i) -> int:
+	for map in TILE_MAPS.values():
+		return map.get_cell_source_id(tile_coords)
+	return -1
+	
 func collision_shape_to_outline(object) -> PackedVector2Array:
-	if not object.hitbox.shape:
+	if not object.hitbox or not object.hitbox.shape:
 		return []
 	var collision_shape = object.hitbox
 	var points := PackedVector2Array()
@@ -170,17 +179,20 @@ func collision_shape_to_outline(object) -> PackedVector2Array:
 	]
 	
 	for i in range(points.size()):
-		points[i] = (Vector2(object.tile_coords) * Util.TILE_SIZE) + points[i] + Vector2(Util.TILE_SIZE/2, Util.TILE_SIZE/2) + object.hitbox.position
+		points[i] = (Vector2(object.tile_coords) * Util.TILE_SIZE) + points[i] + object.hitbox.position + Vector2(Util.TILE_SIZE/2, Util.TILE_SIZE/2)
 	return points
 
 func update_navigation_region():
 	var navigation_polygon := NavigationPolygon.new()
+	navigation_polygon.clear_outlines()
 	#navigation_polygon.make_polygons_from_outlines()
-	navigation_polygon.add_outline(get_chunk_border_outline())
+	navigation_polygon.add_outline(get_chunk_border_outline()) # <- border for edge connection
+	var offset : float = 0.0
+	navigation_polygon.add_outline(get_chunk_border_outline(offset)) # <- extension for objects that may go outside
 	navigation_polygon.make_polygons_from_outlines()
 	var points_array = []
 	for object in OBJECTS.values():
-		object.hitbox.self_modulate = Color.GREEN
+		#object.hitbox.self_modulate = Color.GREEN
 		var points = collision_shape_to_outline(object)
 		
 		points.reverse()	
@@ -189,17 +201,17 @@ func update_navigation_region():
 			for p in points_array:
 				navigation_polygon.add_outline(p)
 			points_array = []
+	navigation_polygon.agent_radius = 5.0
 	navigation_region.navigation_polygon = navigation_polygon
 	navigation_region.bake_navigation_polygon()
 	
-func get_chunk_border_outline() -> PackedVector2Array:
-	var size := (Util.CHUNK_SIZE+1) * Util.TILE_SIZE
-	
+func get_chunk_border_outline(_offset: int = 0) -> PackedVector2Array:
+	var size := (Util.CHUNK_SIZE) * Util.TILE_SIZE
 	return PackedVector2Array([
-		Vector2(0, 0),
-		Vector2(size, 0),
-		Vector2(size, size),
-		Vector2(0, size)
+		Vector2(-_offset, -_offset),
+		Vector2(size+_offset, -_offset),
+		Vector2(size+_offset, size+_offset),
+		Vector2(-_offset, size+_offset)
 	])
 	
 	

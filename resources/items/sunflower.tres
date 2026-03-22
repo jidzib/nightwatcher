@@ -7,7 +7,6 @@
 script = ExtResource("1_ol3in")
 id = 3
 name = "Sunflower"
-type = "Plant"
-max_stack_size = 100
+max_stack_size = 30
 texture = ExtResource("2_vxre0")
 metadata/_custom_type_script = "uid://cs7eeujixbhp1"

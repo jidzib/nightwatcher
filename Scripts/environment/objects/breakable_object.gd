@@ -5,17 +5,10 @@ class_name BreakableObject
 @export var item_drop: Item
 @export var drop_count: int
 
-func pack() -> BreakableResource:
-	var resource = BreakableResource.new()
-	resource.ID = ID
-	resource.tile_coords = position / Util.TILE_SIZE
-	resource.CATEGORY = CATEGORY
-	resource.HP = HP
-	return resource
-
-func unpack(resource: ObjectResource):
-	HP = resource.HP
-
+func encode(data: PackedByteArray) -> void:
+	super.encode(data)
+	data.append(HP)
+	
 func decode(data: PackedByteArray, i: int) -> void:
 	super.decode(data, i)
 	HP = data[i+3]

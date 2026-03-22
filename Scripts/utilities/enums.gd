@@ -9,7 +9,8 @@ enum ObjectType {
 	TREE,
 	ROCK,
 	FOLIAGE,
-	SUNFLOWER
+	SUNFLOWER,
+	FARMLAND
 }
 
 enum BreakableType {

@@ -16,8 +16,6 @@ var TILE_ID_TO_LAYER : Dictionary[int, String] = {
 	Enums.TileLayer.WATER : "WaterLayer"
 }
 
-#var interaction_manager: InteractionManager = InteractionManager.new()
-
 var chunk_load_queue: Array = []
 var chunks_per_frame := 1
 
@@ -65,9 +63,8 @@ func save_chunk(chunk_coords: Vector2i):
 			chunk_data.tile_atlas_y.append(tile[2])
 			chunk_data.pos_x.append(x+STORED_TILE_OFFSET)
 			chunk_data.pos_y.append(y+STORED_TILE_OFFSET)
-				
-	for packed_object in chunk.get_objects():
-		chunk_data.objects.set(packed_object.tile_coords, packed_object)
+			
+	chunk_data.object_data = chunk.get_object_data()
 		
 	ResourceSaver.save(chunk_data, get_chunk_path(chunk_coords))
 
@@ -93,15 +90,22 @@ func load_chunk(chunk_coords: Vector2i):
 	
 		chunk.GROUND.set_cell(Vector2i(pos_x, pos_y), id, Vector2i(atlas_x, atlas_y))
 	
-	for coords in chunk_data.objects:
-		var obj = chunk_data.objects[coords]
-		if chunk:
-			chunk.add_object(References.OBJECTS[obj.ID], obj.tile_coords)
-			chunk.OBJECTS[obj.tile_coords].unpack(obj)
+	var i : int = 0
+	var object_data = chunk_data.object_data
+	
+	var process_count : int = 0
+	var max_process : int = 10
+	while i < object_data.size():
+		var object : MapObject = References.OBJECTS[object_data[i]].instantiate()
+		object.decode(object_data, i)
+		object.spawn_runtime_dependencies(References)
+		chunk.add_object(object, object.tile_coords)
+		i += object.get_data_size()
+		process_count += 1
+		if process_count == max_process:
+			process_count = 0
 			await get_tree().process_frame
-			# ID to decide what object to load
-			# CATEGORY to decide what container to put it in
-			# Coords to decide where to put it
+
 	loaded_chunks.set(chunk_coords, null)
 	
 func load_chunks(chunks: Array):
@@ -116,9 +120,7 @@ func offload_chunk(chunk_coords: Vector2i):
 	loaded_chunks.erase(chunk_coords)
 	for key in chunk.OBJECTS:
 		chunk.remove_object(key)
-	#for key in chunk.OBJECT_MAPS:
-		#for coords in chunk.OBJECT_MAPS[key].objects:
-			#chunk.remove_object(OBJECTS[coords])OBJECT_MAPS[key].objects[coords].queue_free()
+
 func get_tile_data_in_chunk(tile: Vector2i, chunk: Chunk) -> Array:
 
 	var id = chunk.GROUND.get_cell_source_id(tile)
@@ -153,13 +155,6 @@ func process_save_queue():
 			offload_chunk(chunk)
 			chunk_save_queue.erase(chunk)
 			count += 1
-		
-		#var chunk = chunk_save_queue[0]
-		#if chunk in loaded_chunks:
-			#chunk_save_queue.pop_front()
-			#save_chunk(chunk)
-			#offload_chunk(chunk)
-			#count += 1
 		
 func get_chunk_path(chunk_coords: Vector2i) -> String:
 	return DIR + "%s_%s.tres" % [chunk_coords.x, chunk_coords.y]

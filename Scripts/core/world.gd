@@ -6,14 +6,15 @@ class_name World
 @onready var player: Player = $Player
 @onready var loading_screen = $LoadingScreen
 
+var interaction_manager : InteractionManager = InteractionManager.new()
+
 var ID : int = 0
 var SEED : int = 0
 var WORLD_NAME : String = "World"
 var DIR : String = ""
 
 var SIZE : int  = 64 # IN TILES
-
-
+	
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("save"):
 		chunk_manager.save_all()
@@ -59,7 +60,7 @@ func load_world():
 	player.camera.limit_bottom = SIZE*Util.TILE_SIZE
 	player.camera.limit_top = -SIZE*Util.TILE_SIZE
 	
-	player.interaction_manager.chunk_manager = chunk_manager 
+	#player.interaction_manager.chunk_manager = chunk_manager 
 	
 	player.set_physics_process(false)
 	player.set_process(false)

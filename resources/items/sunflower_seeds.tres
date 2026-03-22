@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FarmlandCropItem" load_steps=3 format=3 uid="uid://dcsp10nsoyq88"]
+
+[ext_resource type="Script" uid="uid://bxteho2if7l22" path="res://Scripts/items/farmland_crop.gd" id="1_7l55v"]
+[ext_resource type="Texture2D" uid="uid://bbwgsjcipwy1r" path="res://assets/items/sunflower_seeds.png" id="2_cp77y"]
+
+[resource]
+script = ExtResource("1_7l55v")
+map_object = "SUNFLOWER"
+can_place_on = Array[String]([])
+id = 9
+name = "Sunflower Seeds"
+max_stack_size = 100
+texture = ExtResource("2_cp77y")
+metadata/_custom_type_script = "uid://bxteho2if7l22"
