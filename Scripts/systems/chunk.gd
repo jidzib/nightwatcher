@@ -2,13 +2,8 @@ extends Area2D
 class_name Chunk
 @export var chunk_coords: Vector2i
 @onready var GROUND: TileMapLayer = $GroundLayer
-#@onready var WATER: TileMapLayer = $WaterLayer
-		
-@onready var navigation_region : NavigationRegion2D = $NavigationRegion2D
-
-#var navigation_polygon := NavigationPolygon.new()
-#var collision_source_data := NavigationMeshSourceGeometryData2D.new()
-
+	
+#@onready var navigation_region : NavigationRegion2D = $NavigationRegion2D
 
 var OBJECTS : Dictionary = {}
 
@@ -23,7 +18,16 @@ var changed = false
 @onready var x_coord = $X
 @onready var y_coord = $Y
 
-var occupied_tiles : Dictionary = {}
+var parent : ChunkManager
+
+static var ref : PackedScene = load("res://Scenes/systems/Chunk.tscn")
+
+static func new_chunk(_chunk_coords: Vector2i, _position: Vector2, _parent: ChunkManager) -> Chunk:
+	var _chunk : Chunk = ref.instantiate()
+	_chunk.chunk_coords = _chunk_coords
+	_chunk.position = _position
+	_chunk.parent = _parent
+	return _chunk
 
 func _ready():
 	x_coord.text = str(chunk_coords.x)
@@ -32,11 +36,10 @@ func _ready():
 	TILE_MAPS = {
 		Enums.TileLayer.GRASS : GROUND,
 	}
-	
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.has_method("player"):
-		var chunk_manager = get_parent()
+		var chunk_manager = parent
 		var new_chunk_square: Dictionary
 		for x in range(chunk_coords.x-load_distance, chunk_coords.x+load_distance+1):
 			for y in range(chunk_coords.y-load_distance, chunk_coords.y+load_distance+1):
@@ -45,70 +48,39 @@ func _on_body_entered(body: Node2D) -> void:
 		load_self(chunk_manager, new_chunk_square)
 		body.chunk_coords = chunk_coords
 
-func in_chunk(tile_coords: Vector2i) -> bool:
-	if tile_coords.x < 0 or tile_coords.x >= Util.CHUNK_SIZE or tile_coords.y < 0 or tile_coords.y >= Util.CHUNK_SIZE:
-		return false
-	return true
-
-func get_relative_chunk(tile_coords: Vector2i) -> Vector2i:
-	return Vector2i(
-		floor(float(tile_coords.x)/Util.CHUNK_SIZE),
-		floor(float(tile_coords.y)/Util.CHUNK_SIZE)
-	)
-
-func get_tile_in_neighbor(relative_chunk_coords: Vector2i, original_tile_coords: Vector2i) -> Vector2i:
-	return original_tile_coords - Vector2i(
-											relative_chunk_coords.x * Util.CHUNK_SIZE,
-											relative_chunk_coords.y * Util.CHUNK_SIZE
-											)
+func add_object(object, local_origin_coords: Vector2i) -> bool:
+	var global_origin_coords: Vector2i = local_origin_coords + chunk_coords * Util.CHUNK_SIZE
+	var tile_footprint : Array[Vector2i] = []
+	for tile in object.tile_footprint:
+		tile_footprint.append(tile+global_origin_coords)
 	
-func get_tiles_from_footprint(tile_footprint: Array[Vector2i], origin_coords: Vector2i) -> Dictionary:
-	var chunk_to_tiles : Dictionary[Vector2i, Array] = {}
 	for tile in tile_footprint:
-		var relative_chunk_coords : Vector2i = get_relative_chunk(tile+origin_coords)
-		var real_chunk_coords = relative_chunk_coords + chunk_coords
-		var real_chunk_tile : Vector2i = get_tile_in_neighbor(relative_chunk_coords, tile+origin_coords)
-		if real_chunk_coords not in chunk_to_tiles:
-			chunk_to_tiles.set(real_chunk_coords, [])
-		chunk_to_tiles[real_chunk_coords].append(real_chunk_tile)
-	return chunk_to_tiles
-
-func set_tiles_occupied(real_chunk_to_tiles : Dictionary[Vector2i, Array], set_occupied : bool = true):
-	for chunk in real_chunk_to_tiles:
-		if chunk not in get_parent().CHUNKS:
-			continue
-		for tile in real_chunk_to_tiles[chunk]:
-			if set_occupied:
-				get_parent().CHUNKS[chunk].occupied_tiles.set(tile, null)
-			else:
-				get_parent().CHUNKS[chunk].occupied_tiles.erase(tile)
-
-func add_object(object, origin_coords: Vector2i):
+		if tile in parent.occupied_tiles:
+			return false
 	
-	var real_chunk_to_tiles : Dictionary[Vector2i, Array] = get_tiles_from_footprint(object.tile_footprint, origin_coords)
-	 
-	for chunk in real_chunk_to_tiles:
-		if chunk not in get_parent().CHUNKS:
-			continue
-		
-		for tile in real_chunk_to_tiles[chunk]:
-			if tile in get_parent().CHUNKS[chunk].occupied_tiles:
-				return false
-	set_tiles_occupied(real_chunk_to_tiles)
+	for tile in tile_footprint:
+		parent.occupied_tiles.set(tile, object)
+		if object.is_collider:
+			parent.blocked_tiles.set(tile, object)
 	
-	object.position = origin_coords*Util.TILE_SIZE + Vector2i(Util.TILE_SIZE/2, Util.TILE_SIZE/2)
-	object.tile_coords = origin_coords
-	
-	OBJECTS.set(origin_coords, object)
+	object.position = local_origin_coords * Util.TILE_SIZE
+	OBJECTS.set(global_origin_coords, object)
+	object.tile_coords = global_origin_coords
 	add_child(object)
+	
 	return true
 
 func remove_object(tile_coords : Vector2i):
-	var object = OBJECTS[tile_coords]
-	var real_chunk_to_tiles : Dictionary[Vector2i, Array] = get_tiles_from_footprint(object.tile_footprint, tile_coords)
-	set_tiles_occupied(real_chunk_to_tiles, false)
-	object.queue_free()
+	var object : MapObject = OBJECTS[tile_coords]
+	var tile_footprint : Array[Vector2i] = []
+	for tile in object.tile_footprint:
+		tile_footprint.append(tile_coords + tile)
+	for tile in tile_footprint:
+		parent.occupied_tiles.erase(tile)
+		if object.is_collider:
+			parent.blocked_tiles.erase(tile)
 	OBJECTS.erase(tile_coords)
+	object.queue_free()
 	
 func save_self(chunk_manager : ChunkManager, new_chunk_square : Dictionary):
 	var chunks = chunk_manager.CHUNKS.duplicate()
@@ -130,17 +102,10 @@ func load_self(chunk_manager : ChunkManager, new_chunk_square : Dictionary):
 	
 	chunk_manager.load_chunks(chunks_to_load)
 
-func get_objects() -> Array:
-	var objects = []
-	for key in OBJECTS:
-		objects.append(OBJECTS[key].pack())
-	return objects
-
 func get_object_data() -> PackedByteArray:
 	var object_data : PackedByteArray = []
 	for tile_coords in OBJECTS:
 		OBJECTS[tile_coords].encode(object_data)
-		
 	return object_data
 
 func get_object_at_tile(tile_coords: Vector2i) -> MapObject:
@@ -164,54 +129,3 @@ func get_tile_id(tile_coords: Vector2i) -> int:
 	for map in TILE_MAPS.values():
 		return map.get_cell_source_id(tile_coords)
 	return -1
-	
-func collision_shape_to_outline(object) -> PackedVector2Array:
-	if not object.hitbox or not object.hitbox.shape:
-		return []
-	var collision_shape = object.hitbox
-	var points := PackedVector2Array()
-	var e = collision_shape.shape.extents
-	points = [
-		Vector2(-e.x, -e.y),
-		Vector2(e.x, -e.y),
-		Vector2(e.x, e.y),
-		Vector2(-e.x, e.y)
-	]
-	
-	for i in range(points.size()):
-		points[i] = (Vector2(object.tile_coords) * Util.TILE_SIZE) + points[i] + object.hitbox.position + Vector2(Util.TILE_SIZE/2, Util.TILE_SIZE/2)
-	return points
-
-func update_navigation_region():
-	var navigation_polygon := NavigationPolygon.new()
-	navigation_polygon.clear_outlines()
-	#navigation_polygon.make_polygons_from_outlines()
-	navigation_polygon.add_outline(get_chunk_border_outline()) # <- border for edge connection
-	var offset : float = 0.0
-	navigation_polygon.add_outline(get_chunk_border_outline(offset)) # <- extension for objects that may go outside
-	navigation_polygon.make_polygons_from_outlines()
-	var points_array = []
-	for object in OBJECTS.values():
-		#object.hitbox.self_modulate = Color.GREEN
-		var points = collision_shape_to_outline(object)
-		
-		points.reverse()	
-		points_array.append(points)
-		if len(points_array) > 0:
-			for p in points_array:
-				navigation_polygon.add_outline(p)
-			points_array = []
-	navigation_polygon.agent_radius = 5.0
-	navigation_region.navigation_polygon = navigation_polygon
-	navigation_region.bake_navigation_polygon()
-	
-func get_chunk_border_outline(_offset: int = 0) -> PackedVector2Array:
-	var size := (Util.CHUNK_SIZE) * Util.TILE_SIZE
-	return PackedVector2Array([
-		Vector2(-_offset, -_offset),
-		Vector2(size+_offset, -_offset),
-		Vector2(size+_offset, size+_offset),
-		Vector2(-_offset, size+_offset)
-	])
-	
-	

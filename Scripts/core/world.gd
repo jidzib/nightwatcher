@@ -1,12 +1,12 @@
 extends Node2D
 class_name World
 
-@onready var chunk_manager : ChunkManager = $ChunkManager
+var chunk_manager : ChunkManager
 @onready var map_generator : MapGenerator = $MapGenerator
 @onready var player: Player = $Player
 @onready var loading_screen = $LoadingScreen
 
-var interaction_manager : InteractionManager = InteractionManager.new()
+@onready var interaction_manager : InteractionManager = $InteractionManager
 
 var ID : int = 0
 var SEED : int = 0
@@ -14,13 +14,15 @@ var WORLD_NAME : String = "World"
 var DIR : String = ""
 
 var SIZE : int  = 64 # IN TILES
-	
+
+@onready var fps_counter : Label = $FPSCounter/Label
+
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("save"):
 		chunk_manager.save_all()
 		player.save_player()
 	
-	$FPSCounter/Label.text = str(Engine.get_frames_per_second()) + " FPS"
+	fps_counter.text = str(Engine.get_frames_per_second()) + " FPS"
 		
 		
 func setup(world_name: String, seed: int):
@@ -46,14 +48,21 @@ func setup(world_name: String, seed: int):
 	map_generator.set_size(SIZE)
 	
 func load_world():
-	chunk_manager.DIR = DIR + "chunks/"
-	chunk_manager.rng.seed = SEED
+	player.set_physics_process(false)
+	player.set_process(false)
+	chunk_manager = ChunkManager.new_chunk_manager(DIR + "chunks/", SEED, Vector2i(-SIZE/Util.CHUNK_SIZE, SIZE/Util.CHUNK_SIZE))
+	add_child(chunk_manager)
+	interaction_manager.chunk_manager = chunk_manager
+	player.interaction_manager = interaction_manager
+	Util.BOUNDS = chunk_manager.BOUNDS
+	#chunk_manager.DIR = DIR + "chunks/"
+	#chunk_manager.rng.seed = SEED
 	var world_data = ResourceLoader.load(DIR + "world_data.tres")
 	if not world_data:
 		print("World directory does not exist")
 		return
 	SIZE = world_data.size
-	chunk_manager.BOUNDS = Vector2i(-SIZE/Util.CHUNK_SIZE, SIZE/Util.CHUNK_SIZE)
+	#chunk_manager.BOUNDS = Vector2i(-SIZE/Util.CHUNK_SIZE, SIZE/Util.CHUNK_SIZE)
 	
 	player.camera.limit_left = -SIZE*Util.TILE_SIZE
 	player.camera.limit_right = SIZE*Util.TILE_SIZE
@@ -62,8 +71,8 @@ func load_world():
 	
 	#player.interaction_manager.chunk_manager = chunk_manager 
 	
-	player.set_physics_process(false)
-	player.set_process(false)
+	#player.set_physics_process(false)
+	#player.set_process(false)
 	print("Chunk manager DIR: ", chunk_manager.DIR)
 	var chunks: Array = []
 	var chunks_total = (float(map_generator.noise_texture.width*2) / float(Util.CHUNK_SIZE))**2
@@ -86,3 +95,7 @@ func load_world():
 	player.set_physics_process(true)
 	player.set_process(true)
 	loading_screen.visible = false
+
+	# TEMP
+	var entity : Entity = Entity.new_entity(chunk_manager.blocked_tiles)
+	add_child(entity)

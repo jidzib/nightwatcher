@@ -4,24 +4,25 @@ var TILE_SIZE : int = 16
 var CHUNK_SIZE : int = 32
 var DIR : String = "user://worlds/"
 
-func chunk_and_tile_to_world(chunk_coords: Vector2i, tile_coords: Vector2i) -> Vector2i:
-	return (chunk_coords * CHUNK_SIZE) + tile_coords
-	
-func world_to_chunk_and_tile(world_tile_coords: Vector2i) -> Array[Vector2i]:
-	var chunk_coords : Vector2i = Vector2i(
-		int(floor(float(world_tile_coords.x) / CHUNK_SIZE)),
-		int(floor(float(world_tile_coords.y) / CHUNK_SIZE))
-	)
-	
-	var tile_coords : Vector2i = world_tile_coords - (chunk_coords * CHUNK_SIZE)
-	
-	return [chunk_coords, tile_coords]
+var BOUNDS : Vector2i
+
+var ENTITY_NAVIGATION_RANGE : int = 64
+
+func get_local_from_global_tile(tile_coords: Vector2i) -> Vector2i:
+	var chunk_coords : Vector2i = get_chunk_from_tile(tile_coords)
+	return tile_coords - (chunk_coords * CHUNK_SIZE)
 
 func get_chunk_from_world(world_pos: Vector2) -> Vector2i:
 	var tile: Vector2i = get_tile_from_world(world_pos)
 	return Vector2i(
 		int(floor(float(tile.x) / CHUNK_SIZE)),
 		int(floor(float(tile.y) / CHUNK_SIZE))
+	)
+
+func get_chunk_from_tile(tile_coords: Vector2) -> Vector2i:
+	return Vector2i(
+		int(floor(float(tile_coords.x) / CHUNK_SIZE)),
+		int(floor(float(tile_coords.y) / CHUNK_SIZE))
 	)
 
 func get_tile_from_world(world_pos: Vector2) -> Vector2i:

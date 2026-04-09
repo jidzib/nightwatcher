@@ -10,7 +10,10 @@ class_name FoliageObject
 	#tween.tween_property(self, "rotation_degrees", strength, speed)
 	#tween.tween_property(self, "rotation_degrees", -strength, speed)
 
-
+func initialize():
+	super.initialize()
+	is_collider = false
+	
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	#if body.has_method("player"):
 		#sway()

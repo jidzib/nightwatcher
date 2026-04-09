@@ -15,6 +15,7 @@ var chunk_coords : Vector2i
 
 func initialize():
 	super.initialize()
+	is_collider = false
 	chunk_coords = Util.get_chunk_from_world(global_position)
 	autotile.switch_tile(bitmask)
 	#autotile.switch_tile(15)
@@ -71,6 +72,9 @@ func encode(data: PackedByteArray) -> void:
 	
 func decode(data: PackedByteArray, i: int) -> void:
 	super.decode(data, i)
+	print("Decoding farmland object")
+	print("Data entry point: ", i)
+	print("Tile Coords: ", tile_coords)
 	bitmask = data[i+3]
 	watered = bool(data[i+4])
 	stage = data[i+5]

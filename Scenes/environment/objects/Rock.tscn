@@ -10,7 +10,7 @@ size = Vector2(10, 10)
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r1q7f"]
 polygon = PackedVector2Array(-2, -5, -2, -4, -4, -4, -4, -3, -5, -3, -5, -1, -6, -1, -6, 0, -7, 0, -7, 2, -8, 2, -8, 5, -7, 5, -7, 6, -6, 6, -6, 7, -4, 7, -4, 8, 4, 8, 4, 7, 6, 7, 6, 6, 7, 6, 7, 5, 8, 5, 8, 2, 7, 2, 7, 0, 6, 0, 6, -1, 5, -1, 5, -3, 4, -3, 4, -4, 2, -4, 2, -5)
 
-[node name="Rock" type="Node2D"]
+[node name="Rock" type="Node2D" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("1_r0hvw")
 HP = 5
 item_drop = ExtResource("2_r1q7f")
@@ -18,6 +18,7 @@ drop_count = 10
 ID = 1
 CATEGORY = 1
 texture = ExtResource("2_h6nw4")
+hitbox = NodePath("Hitbox/CollisionShape2D")
 metadata/_custom_type_script = "uid://bj5m5eterc7pm"
 
 [node name="Sprite" type="Sprite2D" parent="."]

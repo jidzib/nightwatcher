@@ -23,10 +23,9 @@ func _ready():
 
 func generate_chunk(chunk_coords: Vector2i, chunk_manager: ChunkManager):
 	print("Generating chunk: ", chunk_coords)
-	var chunk = CHUNK.instantiate()
-	chunk.position = chunk_coords*Util.CHUNK_SIZE*Util.TILE_SIZE
+	var pos : Vector2 = chunk_coords*Util.CHUNK_SIZE*Util.TILE_SIZE
+	var chunk = Chunk.new_chunk(chunk_coords, pos, chunk_manager)
 	chunk_manager.add_child(chunk)
-	chunk.chunk_coords = chunk_coords
 	chunk_manager.CHUNKS.set(chunk_coords, chunk)
 	var water_cells = []
 	var grass_cells = []
@@ -38,7 +37,7 @@ func generate_chunk(chunk_coords: Vector2i, chunk_manager: ChunkManager):
 			var noise_val = noise.get_noise_2d(tile_coords.x, tile_coords.y)
 			var tree_noise_val = tree_noise.get_noise_2d(tile_coords.x, tile_coords.y)
 			if noise_val > -0.4:
-				grass_cells.append(Vector2i(x, y))
+				grass_cells.append(Vector2i(x, y)) 
 			else:
 				water_cells.append(Vector2i(x, y))	
 				
@@ -53,15 +52,15 @@ func generate_chunk(chunk_coords: Vector2i, chunk_manager: ChunkManager):
 			elif noise_val > -0.4 and chunk_manager.rng.randf() > 0.95:
 				chunk.add_object(References.OBJECTS[Enums.ObjectType.ROCK].instantiate(),
 								Vector2i(x, y))
-			#elif noise_val > -0.4 and chunk_manager.rng.randf() > 0.80:
-				#chunk.add_object(References.OBJECTS[Enums.ObjectType.FOLIAGE].instantiate(),
-								#Vector2i(x, y))
+			elif noise_val > -0.4 and chunk_manager.rng.randf() > 0.80:
+				chunk.add_object(References.OBJECTS[Enums.ObjectType.FOLIAGE].instantiate(),
+								Vector2i(x, y))
 				
 	chunk.GROUND.set_cells_terrain_connect(grass_cells, 0, GRASS_ID)
 	chunk.GROUND.set_cells_terrain_connect(water_cells, 0, WATER_ID)
 	for cell in edge_cells:
 		chunk.GROUND.erase_cell(cell)
-
+		
 func set_size(size : int):
 	noise_texture.width = size
 	noise_texture.height = size

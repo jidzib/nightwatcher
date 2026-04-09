@@ -9,5 +9,5 @@ void fragment() {
     // Example: darken screen
     screen_color.rgb *= (1.0 - strength);
 
-    COLOR = screen_color * vec4(0.2, 0.0, 0.6, 0.5);
+    COLOR = screen_color * vec4(0.5, 0.0, 1.0, 0.7);
 }

@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hsun"]
 size = Vector2(12, 12)
 
-[node name="Foliage" type="Node2D"]
+[node name="Foliage" type="Node2D" node_paths=PackedStringArray("hitbox")]
 z_index = 1
 z_as_relative = false
 position = Vector2(0, 8)
@@ -14,6 +14,8 @@ script = ExtResource("1_6dono")
 ID = 2
 CATEGORY = 1
 texture = ExtResource("2_w3ja6")
+hitbox = NodePath("Hitbox/CollisionShape2D")
+is_collider = false
 metadata/_custom_type_script = "uid://b635ssony1276"
 
 [node name="Sprite" type="Sprite2D" parent="."]

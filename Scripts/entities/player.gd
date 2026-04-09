@@ -34,8 +34,10 @@ var action_state: ActionStates = ActionStates.NO_ACTION
 @onready var animation_tree : AnimationTree = $AnimationTree
 
 var chunk_coords: Vector2i
+var tile_coords: Vector2i
+var interaction_manager : InteractionManager
 
-@export var interaction_manager : InteractionManager
+@onready var coords_display = $UI/Label
 
 func player():
 	pass
@@ -45,11 +47,14 @@ func _ready():
 	console.player = self
 	movement_state_machine.init(self)
 	action_state_machine.init(self)
+	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	#add_child(interaction_manager)
 	
 func _physics_process(delta: float) -> void:
+	tile_coords = Vector2i(floor(position.x / float(Util.TILE_SIZE)),
+					floor(position.y / float(Util.TILE_SIZE)))	
+	coords_display.text = str(tile_coords)
 	movement_state_machine.process_physics(delta)
-	
 	movement.x = Input.get_action_strength("right") - Input.get_action_strength("left")
 	movement.y = Input.get_action_strength("down") - Input.get_action_strength("up")
 	
@@ -60,7 +65,10 @@ func _physics_process(delta: float) -> void:
 		dir *= -1
 		sprite.scale.x = 1.0
 	
-	velocity = lerp(velocity, speed*movement.normalized(), delta*acceleration)
+	if movement.length() > 1:
+		movement = movement.normalized()
+	
+	velocity = lerp(velocity, speed*movement, delta*acceleration)
 	if velocity.is_zero_approx():
 		velocity = Vector2.ZERO
 	move_and_slide()
@@ -79,14 +87,12 @@ func _input(event: InputEvent) -> void:
 	elif Input.is_action_just_pressed("left_click"):
 		if inventory.selected_slot.item:
 			inventory.selected_slot.item.use(world,
-											Util.get_chunk_from_world(get_global_mouse_position()),
-											Util.get_local_tile_from_world(get_global_mouse_position()),
+											Util.get_tile_from_world(get_global_mouse_position()),
 											self)				
 	elif Input.is_action_just_pressed("right_click"):
 		if inventory.selected_slot.item:
 			inventory.selected_slot.item.alt_use(world,
-											Util.get_chunk_from_world(get_global_mouse_position()),
-											Util.get_local_tile_from_world(get_global_mouse_position()),
+											Util.get_tile_from_world(get_global_mouse_position()),
 											self)
 	elif Input.is_action_just_pressed("open_console"):
 		open_console()	

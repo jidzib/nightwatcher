@@ -7,7 +7,6 @@ var current_state : State
 func init(parent):
 	for child in get_children():
 		child.parent = parent
-		#change_state(child)
 	change_state(starting_state)
 	
 func change_state(new_state: State):

@@ -17,6 +17,8 @@ This game is a work in progress. The current focus is designing and implementing
 to the player's inventory
 - Player finite state machine with unique states
 - Autotiling for custom "tile" objects such as farmland
+- Implemented Min-Heap and custom AStar class for efficient entity navigation. Has support for differently sized
+entities
 
 ## Structure
 - 'Scenes/' - Godot scenes defining structure

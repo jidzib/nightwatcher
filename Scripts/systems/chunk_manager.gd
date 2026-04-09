@@ -24,8 +24,20 @@ var rng = RandomNumberGenerator.new()
 var loaded_chunks : Dictionary = {}
 var chunk_save_queue : Dictionary = {}
 
+var blocked_tiles: Dictionary[Vector2i, MapObject] = {} # COLLISION
+var occupied_tiles: Dictionary[Vector2i, MapObject] = {} # OCCUPANCY
+
+static var ref : PackedScene = load("res://Scenes/core/ChunkManager.tscn")
+
+static func new_chunk_manager(_dir: String, _seed: int, _bounds: Vector2i) -> ChunkManager:
+	var _chunk_manager : ChunkManager = ref.instantiate()
+	_chunk_manager.DIR = _dir
+	_chunk_manager.rng.seed = _seed
+	_chunk_manager.BOUNDS = _bounds
+	return _chunk_manager
+
 func _ready():
-	pass
+	y_sort_enabled = true
 	
 func _process(delta: float) -> void:
 	if chunk_load_queue.size() > 0:
@@ -35,9 +47,9 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("save"):
 		save_all()
 	
-	if Input.is_action_just_pressed("interact"):
-		for chunk in CHUNKS.values():
-			chunk.update_navigation_region()
+	#if Input.is_action_just_pressed("interact"):
+		#for chunk in CHUNKS.values():
+			#chunk.update_navigation_region()
 			
 func save_all():
 	for chunk in CHUNKS:
@@ -74,22 +86,19 @@ func load_chunk(chunk_coords: Vector2i):
 		return
 		
 	var chunk_data : ChunkData = ResourceLoader.load(get_chunk_path(chunk_coords))
-	var chunk = CHUNK_SCENE.instantiate()
-	chunk.chunk_coords = chunk_coords
+	var pos : Vector2 = Vector2(chunk_coords.x * Util.CHUNK_SIZE * Util.TILE_SIZE, chunk_coords.y * Util.CHUNK_SIZE * Util.TILE_SIZE)
+	var chunk = Chunk.new_chunk(chunk_coords, pos, self)
 	CHUNKS.set(chunk_coords, chunk)
 	add_child(chunk)
-	chunk.position = Vector2(chunk_coords.x * Util.CHUNK_SIZE * Util.TILE_SIZE, chunk_coords.y * Util.CHUNK_SIZE * Util.TILE_SIZE)
-	var water_cells := []
-	var grass_cells := []
 	for i in range(len(chunk_data.tile_ids)):
 		var id : int = chunk_data.tile_ids[i]
 		var atlas_x : int = chunk_data.tile_atlas_x[i]
 		var atlas_y : int = chunk_data.tile_atlas_y[i]
 		var pos_x : int = chunk_data.pos_x[i] - STORED_TILE_OFFSET
 		var pos_y : int = chunk_data.pos_y[i] - STORED_TILE_OFFSET
-	
+
 		chunk.GROUND.set_cell(Vector2i(pos_x, pos_y), id, Vector2i(atlas_x, atlas_y))
-	
+
 	var i : int = 0
 	var object_data = chunk_data.object_data
 	
@@ -105,7 +114,6 @@ func load_chunk(chunk_coords: Vector2i):
 		if process_count == max_process:
 			process_count = 0
 			await get_tree().process_frame
-
 	loaded_chunks.set(chunk_coords, null)
 	
 func load_chunks(chunks: Array):
@@ -115,12 +123,17 @@ func load_chunks(chunks: Array):
 	
 func offload_chunk(chunk_coords: Vector2i):
 	var chunk = CHUNKS[chunk_coords]
+	var count : int = 0
+	var to_offload : Array[Vector2i] = []
+	for key in chunk.OBJECTS:
+		to_offload.append(key)
+	for key in to_offload:
+		chunk.remove_object(key)
+		count += 1
 	chunk.queue_free()
 	CHUNKS.erase(chunk_coords)
 	loaded_chunks.erase(chunk_coords)
-	for key in chunk.OBJECTS:
-		chunk.remove_object(key)
-
+	
 func get_tile_data_in_chunk(tile: Vector2i, chunk: Chunk) -> Array:
 
 	var id = chunk.GROUND.get_cell_source_id(tile)

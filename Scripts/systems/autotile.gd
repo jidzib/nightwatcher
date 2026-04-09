@@ -33,25 +33,24 @@ func _ready():
 func calculate_bitmask(origin_tile: Vector2i, chunk_coords: Vector2i,
 					 	 interaction_manager: InteractionManager) -> int:
 	var bitmask : int = 0
-	var world_coords: Vector2i = Util.chunk_and_tile_to_world(chunk_coords, origin_tile)
 	for i in range(len(DIRS)):
-		var neighbor : MapObject = interaction_manager.get_object(world_coords+DIRS[i])
+		var neighbor : MapObject = interaction_manager.get_object(origin_tile+DIRS[i])
 		if neighbor and neighbor.ID == OBJECT_ID:
 			bitmask += 2**i
-	interaction_manager.get_object(world_coords).bitmask = bitmask
+	print("ORIGIN TILE: ", origin_tile)
+	print("CHUNK COORDS: ", chunk_coords)
+	interaction_manager.get_object(origin_tile).bitmask = bitmask
 	return bitmask
 
 func update_surroundings(origin_tile: Vector2i, chunk_coords: Vector2i,
 						 interaction_manager: InteractionManager):
 	var bitmask : int = calculate_bitmask(origin_tile, chunk_coords, interaction_manager)
 	switch_tile(bitmask)
-	var world_coords : Vector2i = Util.chunk_and_tile_to_world(chunk_coords, origin_tile)
 	for dir in DIRS:
-		var neighbor_coords : Vector2i = world_coords + dir
+		var neighbor_coords : Vector2i = origin_tile + dir
 		var neighbor : MapObject = interaction_manager.get_object(neighbor_coords)
 		if neighbor and neighbor.ID == OBJECT_ID:
-			var neighbor_chunk_and_tile_coords : Array[Vector2i] = Util.world_to_chunk_and_tile(neighbor_coords)
-			var neighbor_bitmask : int = calculate_bitmask(neighbor_chunk_and_tile_coords[1], neighbor_chunk_and_tile_coords[0], interaction_manager)
+			var neighbor_bitmask : int = calculate_bitmask(neighbor_coords, Util.get_chunk_from_tile(neighbor_coords), interaction_manager)
 			neighbor.autotile.switch_tile(neighbor_bitmask)			
 
 func switch_tile(bitmask: int):

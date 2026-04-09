@@ -15,8 +15,8 @@
 [ext_resource type="Texture2D" uid="uid://0vfenbq4ps56" path="res://assets/entities/player/head.png" id="12_2futp"]
 [ext_resource type="Texture2D" uid="uid://dnichugffpcnc" path="res://assets/entities/player/left_arm.png" id="13_betk5"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_g1dw6"]
-radius = 7.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0sx8c"]
+size = Vector2(8, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g1dw6"]
 
@@ -303,8 +303,8 @@ y_sort_enabled = true
 script = ExtResource("1_rkbax")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -7)
-shape = SubResource("CircleShape2D_g1dw6")
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_0sx8c")
 
 [node name="InteractRange" type="Area2D" parent="."]
 
@@ -363,6 +363,13 @@ visible = false
 offset = Vector2(0, 650)
 transform = Transform2D(1, 0, 0, 1, 0, 650)
 
+[node name="Label" type="Label" parent="UI"]
+offset_left = 529.0
+offset_top = 31.0
+offset_right = 643.0
+offset_bottom = 59.0
+theme_override_font_sizes/font_size = 20
+
 [node name="PointLight2D" type="PointLight2D" parent="."]
 visible = false
 position = Vector2(-5.68434e-14, -7)
@@ -380,28 +387,24 @@ position = Vector2(-1, -8)
 texture = ExtResource("9_7ub3w")
 hframes = 4
 vframes = 3
-frame = 2
 
 [node name="Legs" type="Sprite2D" parent="Sprites"]
 position = Vector2(-1, -8)
 texture = ExtResource("10_0sx8c")
 hframes = 4
 vframes = 3
-frame = 2
 
 [node name="Torso" type="Sprite2D" parent="Sprites"]
 position = Vector2(-1, -8)
 texture = ExtResource("11_rso1h")
 hframes = 4
 vframes = 3
-frame = 2
 
 [node name="Head" type="Sprite2D" parent="Sprites"]
 position = Vector2(-1, -8)
 texture = ExtResource("12_2futp")
 hframes = 4
 vframes = 3
-frame = 2
 
 [node name="Item" type="Sprite2D" parent="Sprites"]
 position = Vector2(0, -7)
@@ -415,7 +418,6 @@ position = Vector2(-1, -8)
 texture = ExtResource("13_betk5")
 hframes = 4
 vframes = 3
-frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
