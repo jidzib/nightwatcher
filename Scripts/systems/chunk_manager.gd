@@ -61,6 +61,7 @@ func load_all(player_chunk_pos: Vector2i):
 			load_chunk(Vector2i(x, y))
 			
 func save_chunk(chunk_coords: Vector2i):
+	print("SAVING CHUNK ", chunk_coords)
 	if not chunk_in_bounds(chunk_coords):
 		return
 	var chunk_data = ChunkData.new()
@@ -81,8 +82,10 @@ func save_chunk(chunk_coords: Vector2i):
 	ResourceSaver.save(chunk_data, get_chunk_path(chunk_coords))
 
 func load_chunk(chunk_coords: Vector2i):
-	
+	print("~~~~~~~~~~~~~~~~~~~~~~")
+	print("LOADING CHUNK: ", chunk_coords)
 	if not chunk_in_bounds(chunk_coords):
+		print("chunk not in bounds")
 		return
 		
 	var chunk_data : ChunkData = ResourceLoader.load(get_chunk_path(chunk_coords))

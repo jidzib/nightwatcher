@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7oa8yuagcaw6"]
+
+[ext_resource type="PackedScene" uid="uid://c1jd5ck53bdth" path="res://Scenes/environment/objects/MapObject.tscn" id="1_gh0fx"]
+[ext_resource type="Script" uid="uid://bj5m5eterc7pm" path="res://Scripts/environment/objects/breakable_object.gd" id="1_medq5"]
+[ext_resource type="Texture2D" uid="uid://ddbrtvibpsdw6" path="res://assets/environment/cactus.png" id="2_e42ge"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1k3gb"]
+size = Vector2(6, 8)
+
+[node name="Cactus" instance=ExtResource("1_gh0fx")]
+script = ExtResource("1_medq5")
+HP = 0
+item_drop = null
+drop_count = 0
+ID = 6
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource("RectangleShape2D_1k3gb")
+
+[node name="Shadow" parent="." index="1"]
+position = Vector2(0, 4.5)
+scale = Vector2(1, 0.4375)
+
+[node name="Sprite" parent="." index="2"]
+position = Vector2(0, -8)
+texture = ExtResource("2_e42ge")

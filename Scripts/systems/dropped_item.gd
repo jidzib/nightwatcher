@@ -27,8 +27,8 @@ func launch():
 	sleeping = false
 	gravity_scale = 0.0
 	apply_impulse(Vector2(randf_range(-impulse_range, impulse_range),
-	 randf_range(-impulse_range, impulse_range)),
-	 Vector2(randf_range(-impulse_range, impulse_range),
+	randf_range(-impulse_range, impulse_range)),
+	Vector2(randf_range(-impulse_range, impulse_range),
 	randf_range(-impulse_range, impulse_range)))
 	
 	await get_tree().create_timer(0.2).timeout

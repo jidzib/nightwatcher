@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcvme7mims22h"
-path="res://.godot/imported/grass_tile_seamless.png-7780b84ced7d0f7cafdae0ff623e055c.ctex"
+uid="uid://kk211j0efhym"
+path="res://.godot/imported/jungle_tileset.png-8fbce83426c3915566c2d267db4ed570.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tiles/grass_tile_seamless.png"
-dest_files=["res://.godot/imported/grass_tile_seamless.png-7780b84ced7d0f7cafdae0ff623e055c.ctex"]
+source_file="res://assets/tiles/jungle_tileset.png"
+dest_files=["res://.godot/imported/jungle_tileset.png-8fbce83426c3915566c2d267db4ed570.ctex"]
 
 [params]
 

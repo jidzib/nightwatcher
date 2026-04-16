@@ -9,4 +9,5 @@ id = 5
 name = "Axe"
 max_stack_size = 1
 texture = ExtResource("2_ih03p")
+tier = 0
 metadata/_custom_type_script = "uid://8vor5qlp741"

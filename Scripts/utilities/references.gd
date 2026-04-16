@@ -1,11 +1,14 @@
 extends Node
 
 var OBJECTS = {
-	Enums.ObjectType.TREE : preload("res://Scenes/environment/objects/Tree.tscn"),
+	Enums.ObjectType.FOREST_TREE : preload("res://Scenes/environment/objects/ForestTree.tscn"),
 	Enums.ObjectType.ROCK : preload("res://Scenes/environment/objects/Rock.tscn"),
 	Enums.ObjectType.FOLIAGE : preload("res://Scenes/environment/objects/Foliage.tscn"),
 	Enums.ObjectType.SUNFLOWER : preload("res://Scenes/environment/objects/Sunflower.tscn"),
-	Enums.ObjectType.FARMLAND : preload("res://Scenes/environment/objects/Farmland.tscn")
+	Enums.ObjectType.FARMLAND : preload("res://Scenes/environment/objects/Farmland.tscn"),
+	Enums.ObjectType.JUNGLE_TREE : preload("res://Scenes/environment/objects/JungleTree.tscn"),
+	Enums.ObjectType.CACTUS : preload("res://Scenes/environment/objects/Cactus.tscn"),
+	Enums.ObjectType.SNOW_TREE : preload("res://Scenes/environment/objects/SnowTree.tscn")
 }
 
 var ITEMS = {

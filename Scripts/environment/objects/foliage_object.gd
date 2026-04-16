@@ -13,6 +13,7 @@ class_name FoliageObject
 func initialize():
 	super.initialize()
 	is_collider = false
+	position.y += Util.TILE_SIZE/2
 	
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	#if body.has_method("player"):

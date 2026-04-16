@@ -1,7 +1,7 @@
 extends Node2D
 class_name MapObject
 
-@export var ID : int
+@export var ID : Enums.ObjectType
 @export var CATEGORY : int = Enums.ObjectCategory.DEFAULT
 @export var texture : Texture2D
 @onready var sprite : Sprite2D = $Sprite
@@ -16,7 +16,7 @@ func _ready():
 	
 func initialize():
 
-	sprite.texture = texture
+	#sprite.texture = texture
 	#sprite.y_sort_enabled = true
 	# SHADERS
 	sprite.material = ShaderMaterial.new()

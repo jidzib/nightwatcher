@@ -12,7 +12,7 @@ var selected_tile = null
 func get_object(tile_coords: Vector2i) -> MapObject:
 	if tile_coords not in chunk_manager.occupied_tiles:
 		return null
-	return chunk_manager.blocked_tiles[tile_coords]
+	return chunk_manager.occupied_tiles[tile_coords]
 
 func get_selected_tile(player: Player):
 	var mouse_pos: Vector2 = get_global_mouse_position()

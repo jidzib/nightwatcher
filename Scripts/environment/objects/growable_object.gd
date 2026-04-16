@@ -10,7 +10,7 @@ var atlas_texture : AtlasTexture = AtlasTexture.new()
 func initialize():
 	super.initialize()
 	position -= Vector2(Util.TILE_SIZE/2, Util.TILE_SIZE/2)
-	atlas_texture.atlas = texture
+	atlas_texture.atlas = sprite.texture
 	atlas_texture.region = Rect2(0, 0, REGION_SIZE.x, REGION_SIZE.y)
 	sprite.texture = atlas_texture
 	set_stage(current_stage)

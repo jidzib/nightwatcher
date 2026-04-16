@@ -13,6 +13,7 @@ is_collider = false
 metadata/_custom_type_script = "uid://custfm8q823iw"
 
 [node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_0w1bh")
 
 [node name="Dehydrated" type="Sprite2D" parent="."]
 visible = false

@@ -1,11 +1,12 @@
 extends Resource
 class_name Item
 
-@export var id: int
+@export var id: Enums.ItemIDs
 @export var name: String
 var type: int = Enums.ItemType.DEFAULT
 @export var max_stack_size: int = 100
 @export var texture: Texture2D
+@export var tier : Enums.Tier = Enums.Tier.COMMON
 
 func use(world: World, tile_coords: Vector2i, player: Player) -> void:
 	pass

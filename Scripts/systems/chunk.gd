@@ -10,7 +10,7 @@ var OBJECTS : Dictionary = {}
 var OBJECT_MAPS : Dictionary = {}
 var TILE_MAPS: Dictionary = {}
 					
-var load_distance: int = 2
+var load_distance: int = 8
 
 var loading := false
 var changed = false
@@ -39,6 +39,7 @@ func _ready():
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.has_method("player"):
+		print("player entered new chunk")
 		var chunk_manager = parent
 		var new_chunk_square: Dictionary
 		for x in range(chunk_coords.x-load_distance, chunk_coords.x+load_distance+1):

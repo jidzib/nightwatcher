@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://dd6ee3t5smv4n"]
+
+[ext_resource type="PackedScene" uid="uid://c1jd5ck53bdth" path="res://Scenes/environment/objects/MapObject.tscn" id="1_1ie18"]
+[ext_resource type="Script" uid="uid://dqjrd71l5bh4c" path="res://Scripts/environment/objects/tree_object.gd" id="2_tiffl"]
+[ext_resource type="Resource" uid="uid://hxyas03lwbjx" path="res://resources/items/wood.tres" id="3_fj8eu"]
+[ext_resource type="Texture2D" uid="uid://cu1u80nxaivth" path="res://assets/environment/snow_tree.png" id="4_bi6jm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gbjdq"]
+size = Vector2(12, 20)
+
+[node name="SnowTree" instance=ExtResource("1_1ie18")]
+script = ExtResource("2_tiffl")
+HP = 5
+item_drop = ExtResource("3_fj8eu")
+drop_count = 20
+ID = 7
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_gbjdq")
+
+[node name="Shadow" parent="." index="1"]
+position = Vector2(0.500001, 4)
+scale = Vector2(2.3125, 1.375)
+
+[node name="Sprite" parent="." index="2"]
+position = Vector2(0, -24)
+texture = ExtResource("4_bi6jm")

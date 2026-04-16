@@ -3,7 +3,7 @@ class_name AxeItem
 
 func use(world: World, tile_coords: Vector2i, player: Player):
 	var object = player.interaction_manager.get_selected_object(player)
-	if not player.action_state == player.ActionStates.USING_ITEM and object and object.ID == Enums.ObjectType.TREE:
+	if not player.action_state == player.ActionStates.USING_ITEM and object and object.has_method("tree"):
 		player.action_state_machine.change_state(player.action_state_machine.current_state.using_item_state)
 		#player.swing()
 		# 

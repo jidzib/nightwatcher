@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://coe34frgpgmc4"]
+[gd_scene load_steps=10 format=3 uid="uid://coe34frgpgmc4"]
 
 [ext_resource type="Script" uid="uid://cp2vt7y33na3m" path="res://Scripts/systems/map_generator.gd" id="1_dgbp0"]
 
@@ -19,7 +19,21 @@ width = 128
 height = 128
 noise = SubResource("FastNoiseLite_b2p3l")
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_omveo"]
+frequency = 0.35
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ywnjp"]
+noise = SubResource("FastNoiseLite_omveo")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ywnjp"]
+frequency = 0.35
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_omveo"]
+noise = SubResource("FastNoiseLite_ywnjp")
+
 [node name="MapGenerator" type="Node2D"]
 script = ExtResource("1_dgbp0")
 noise_texture = SubResource("NoiseTexture2D_b2p3l")
 tree_noise_texture = SubResource("NoiseTexture2D_xlbuu")
+temperature_texture = SubResource("NoiseTexture2D_ywnjp")
+moisture_texture = SubResource("NoiseTexture2D_omveo")

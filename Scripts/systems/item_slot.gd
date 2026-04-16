@@ -7,6 +7,8 @@ var quantity: int = 0
 @onready var label: Label = $Label
 @onready var selected: Sprite2D = $Selected
 
+@onready var tier_color : ColorRect = $ColorRect
+
 func _ready():
 	update()
 		 
@@ -14,6 +16,19 @@ func update():
 	if item:
 		sprite.texture = item.texture
 		sprite.scale = Vector2(2.0, 2.0)
+		
+		match item.tier:
+			Enums.Tier.COMMON:
+				tier_color.color = Color.DIM_GRAY
+			Enums.Tier.UNCOMMON:
+				tier_color.color = Color.LIME_GREEN
+			Enums.Tier.RARE:
+				tier_color.color = Color.BLUE
+			Enums.Tier.LEGENDARY:
+				tier_color.color = Color.GOLD
+			Enums.Tier.OTHERWORLDY:
+				tier_color.color = Color.REBECCA_PURPLE
+		tier_color.color.a = 0.3
 	else:
 		sprite.texture = null
 	label.text = str(quantity)

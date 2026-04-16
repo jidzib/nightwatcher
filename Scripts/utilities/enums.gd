@@ -6,11 +6,14 @@ enum ObjectCategory {
 }
 
 enum ObjectType {
-	TREE,
+	FOREST_TREE,
 	ROCK,
 	FOLIAGE,
 	SUNFLOWER,
-	FARMLAND
+	FARMLAND,
+	JUNGLE_TREE,
+	CACTUS,
+	SNOW_TREE
 }
 
 enum BreakableType {
@@ -44,4 +47,12 @@ enum TileLayer {
 	GRASS,
 	WATER,
 	FARM
+}
+
+enum Tier {
+	COMMON,
+	UNCOMMON,
+	RARE,
+	LEGENDARY,
+	OTHERWORLDY
 }

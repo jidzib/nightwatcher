@@ -44,12 +44,17 @@ func setup(world_name: String, seed: int):
 	ResourceSaver.save(world_data, DIR+"world_data.tres")
 	WORLD_NAME = world_name
 	SEED = seed
-	map_generator.noise_texture.noise.seed = SEED
+	map_generator.set_seed(SEED)
 	map_generator.set_size(SIZE)
 	
 func load_world():
 	player.set_physics_process(false)
 	player.set_process(false)
+	var world_data = ResourceLoader.load(DIR + "world_data.tres")
+	if not world_data:
+		print("World directory does not exist")
+		return
+	SIZE = world_data.size
 	chunk_manager = ChunkManager.new_chunk_manager(DIR + "chunks/", SEED, Vector2i(-SIZE/Util.CHUNK_SIZE, SIZE/Util.CHUNK_SIZE))
 	add_child(chunk_manager)
 	interaction_manager.chunk_manager = chunk_manager
@@ -57,11 +62,6 @@ func load_world():
 	Util.BOUNDS = chunk_manager.BOUNDS
 	#chunk_manager.DIR = DIR + "chunks/"
 	#chunk_manager.rng.seed = SEED
-	var world_data = ResourceLoader.load(DIR + "world_data.tres")
-	if not world_data:
-		print("World directory does not exist")
-		return
-	SIZE = world_data.size
 	#chunk_manager.BOUNDS = Vector2i(-SIZE/Util.CHUNK_SIZE, SIZE/Util.CHUNK_SIZE)
 	
 	player.camera.limit_left = -SIZE*Util.TILE_SIZE
@@ -83,7 +83,7 @@ func load_world():
 			if ResourceLoader.exists(chunk_manager.get_chunk_path(Vector2i(x, y))):
 				print("Exists")
 				continue
-			map_generator.generate_chunk(Vector2i(x, y), chunk_manager)
+			map_generator._generate_chunk(Vector2i(x, y), chunk_manager)
 			chunk_manager.save_chunk(Vector2i(x, y))
 			chunk_manager.offload_chunk(Vector2i(x, y))
 			chunks.append(Vector2i(x, y))

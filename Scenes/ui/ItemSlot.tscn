@@ -27,12 +27,13 @@ text = "1"
 horizontal_alignment = 2
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = 2
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-color = Color(0.164706, 0.164706, 0.164706, 0.521569)
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 38.0
+offset_bottom = 38.0
+color = Color(0.142198, 0.140436, 0.135649, 0.294118)
 
 [node name="Selected" type="Sprite2D" parent="."]
 visible = false

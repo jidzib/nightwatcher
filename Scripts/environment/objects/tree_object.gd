@@ -7,6 +7,8 @@ class_name TreeObject
 	#initialize()
 	#sway()
 	
+func tree():
+	pass
 
 func _on_vision_box_body_entered(body: Node2D) -> void:
 	if body.has_method("player"):

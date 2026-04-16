@@ -23,10 +23,12 @@ func initialize():
 		set_watered(watered)
 
 func plant(new_crop: GrowableObject):
+	set_highlighted(false)
 	crop = new_crop
 	crop_id = crop.ID
 	add_child(crop)
 	set_watered(false)
+
 	
 func water():
 	set_watered(true)
