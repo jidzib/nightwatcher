@@ -8,7 +8,6 @@ var roll_speed : int
 var original_speed : int
 
 func enter() -> void:
-	print("Entered walk state")
 	parent.movement_state = parent.MovementStates.WALK
 	
 	roll_speed = parent.speed * 2

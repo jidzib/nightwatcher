@@ -4,7 +4,7 @@ class_name ChunkManager
 var ID : int = 0
 var DIR : String = ""
 
-var BOUNDS : Vector2i
+var BOUNDS : Vector2
 var CHUNKS : Dictionary[Vector2i, Chunk]
 var STORED_TILE_OFFSET: int = 16
 
@@ -24,8 +24,10 @@ var rng = RandomNumberGenerator.new()
 var loaded_chunks : Dictionary = {}
 var chunk_save_queue : Dictionary = {}
 
-var blocked_tiles: Dictionary[Vector2i, MapObject] = {} # COLLISION
+var blocked_tiles: Dictionary[Vector2i, int] = {} # COLLISION
 var occupied_tiles: Dictionary[Vector2i, MapObject] = {} # OCCUPANCY
+
+var interaction_manager : InteractionManager
 
 static var ref : PackedScene = load("res://Scenes/core/ChunkManager.tscn")
 
@@ -46,6 +48,9 @@ func _process(delta: float) -> void:
 		process_save_queue()
 	if Input.is_action_pressed("save"):
 		save_all()
+	
+	#elif Input.is_action_pressed("enter"):
+		#print(blocked_tiles.size())
 	
 	#if Input.is_action_just_pressed("interact"):
 		#for chunk in CHUNKS.values():
@@ -71,6 +76,12 @@ func save_chunk(chunk_coords: Vector2i):
 			var tile = get_tile_data_in_chunk(Vector2i(x, y), chunk)
 			if tile[0] == -1:
 				continue
+				
+			# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			if tile[0] == 1:
+				blocked_tiles.erase(Vector2i(x, y))
+			# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				
 			chunk_data.tile_ids.append(tile[0])
 			chunk_data.tile_atlas_x.append(tile[1])
 			chunk_data.tile_atlas_y.append(tile[2])
@@ -78,7 +89,8 @@ func save_chunk(chunk_coords: Vector2i):
 			chunk_data.pos_y.append(y+STORED_TILE_OFFSET)
 			
 	chunk_data.object_data = chunk.get_object_data()
-		
+	chunk_data.entity_data = chunk.get_entity_data()
+	
 	ResourceSaver.save(chunk_data, get_chunk_path(chunk_coords))
 
 func load_chunk(chunk_coords: Vector2i):
@@ -101,7 +113,13 @@ func load_chunk(chunk_coords: Vector2i):
 		var pos_y : int = chunk_data.pos_y[i] - STORED_TILE_OFFSET
 
 		chunk.GROUND.set_cell(Vector2i(pos_x, pos_y), id, Vector2i(atlas_x, atlas_y))
-
+		
+		# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		if id == 1:
+			blocked_tiles.set(Vector2i(pos_x + chunk_coords.x * Util.CHUNK_SIZE,
+								 pos_y + chunk_coords.y * Util.CHUNK_SIZE), 1)
+		# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		
 	var i : int = 0
 	var object_data = chunk_data.object_data
 	
@@ -117,6 +135,21 @@ func load_chunk(chunk_coords: Vector2i):
 		if process_count == max_process:
 			process_count = 0
 			await get_tree().process_frame
+	
+	#ENTITY LOADING
+	i = 0
+	process_count = 0
+	var entity_data = chunk_data.entity_data
+	while i < entity_data.size():
+		var entity : Entity = References.ENTITIES[entity_data[i]].instantiate()
+		entity.decode(entity_data, i)
+		chunk.add_entity(entity, entity.tile_coords)
+		i += entity.get_data_size()
+		process_count += 1
+		if process_count == max_process:
+			process_count = 0
+			await get_tree().process_frame
+		
 	loaded_chunks.set(chunk_coords, null)
 	
 func load_chunks(chunks: Array):
@@ -133,6 +166,13 @@ func offload_chunk(chunk_coords: Vector2i):
 	for key in to_offload:
 		chunk.remove_object(key)
 		count += 1
+	
+	var removed_entities : Array[Entity] = []
+	for key in chunk.ENTITY_LIST:
+		removed_entities.append(key)
+	for key in removed_entities:
+		chunk.remove_entity(key)
+	
 	chunk.queue_free()
 	CHUNKS.erase(chunk_coords)
 	loaded_chunks.erase(chunk_coords)

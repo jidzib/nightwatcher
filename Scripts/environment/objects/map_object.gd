@@ -10,6 +10,8 @@ var tile_coords : Vector2i
 @export var tile_footprint : Array[Vector2i] = [Vector2i(0, 0)]
 @export var is_collider : bool = true
 
+@export var label : Label
+
 func _ready():
 	initialize()
 	position += Vector2(Util.TILE_SIZE/2, Util.TILE_SIZE/2)
@@ -21,9 +23,11 @@ func initialize():
 	# SHADERS
 	sprite.material = ShaderMaterial.new()
 	sprite.material.shader = load("res://shaders/outline.gdshader")
+	label.text = str(tile_coords.x, ", ", tile_coords.y)
 
 func set_highlighted(value: bool):
 	sprite.material.set_shader_parameter("enabled", value)
+	pass
 
 func encode(data: PackedByteArray) -> void:
 	var chunk_coords : Vector2i = Util.get_chunk_from_tile(tile_coords)

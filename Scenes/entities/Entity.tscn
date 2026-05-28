@@ -1,82 +1,46 @@
-[gd_scene load_steps=11 format=3 uid="uid://xwshdarcngi1"]
+[gd_scene load_steps=5 format=3 uid="uid://c4p5rxumolxnq"]
 
-[ext_resource type="Script" uid="uid://pr7phq6psay0" path="res://unfinished scenes and scripts/entity.gd" id="1_gxft1"]
-[ext_resource type="Texture2D" uid="uid://dnbspxu6f2qr0" path="res://assets/entities/red panda/idle.png" id="2_hymdv"]
-[ext_resource type="Texture2D" uid="uid://cpmhca28vh1k0" path="res://assets/entities/red panda/walk.png" id="3_6pckn"]
+[ext_resource type="Script" uid="uid://pr7phq6psay0" path="res://Scripts/entities/entity.gd" id="1_gxft1"]
+[ext_resource type="Script" uid="uid://bcugkaqel4ia1" path="res://Scripts/systems/navigation_component.gd" id="2_hymdv"]
+[ext_resource type="FontFile" uid="uid://bgaiedi7oahbg" path="res://assets/fonts/Retro Gaming.ttf" id="3_6pckn"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gxft1"]
-size = Vector2(12, 12)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3640s"]
+size = Vector2(512, 512)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kwh7m"]
-atlas = ExtResource("2_hymdv")
-region = Rect2(0, 0, 25, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1udkd"]
-atlas = ExtResource("2_hymdv")
-region = Rect2(25, 0, 25, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vmtpf"]
-atlas = ExtResource("3_6pckn")
-region = Rect2(0, 0, 25, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_64jdu"]
-atlas = ExtResource("3_6pckn")
-region = Rect2(25, 0, 25, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_181do"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kwh7m")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1udkd")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vmtpf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_64jdu")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 5.0
-}]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hymdv"]
-size = Vector2(400, 400)
-
-[node name="Entity" type="CharacterBody2D"]
+[node name="Entity" type="CharacterBody2D" node_paths=PackedStringArray("label", "active_area", "animation_tree", "animation_player", "hitbox", "navigation_component")]
+z_index = 1
+z_as_relative = false
 script = ExtResource("1_gxft1")
+label = NodePath("Label")
+active_area = NodePath("Area2D")
+animation_tree = NodePath("AnimationTree")
+animation_player = NodePath("AnimationPlayer")
+hitbox = NodePath("Hitbox")
+navigation_component = NodePath("NavigationComponent")
 metadata/_custom_type_script = "uid://pr7phq6psay0"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(8, 8)
-shape = SubResource("RectangleShape2D_gxft1")
+[node name="NavigationComponent" type="Node" parent="." node_paths=PackedStringArray("parent")]
+script = ExtResource("2_hymdv")
+parent = NodePath("..")
+metadata/_custom_type_script = "uid://bcugkaqel4ia1"
 
-[node name="Sprite" type="AnimatedSprite2D" parent="."]
-z_index = 1
-y_sort_enabled = true
-position = Vector2(8, 8)
-sprite_frames = SubResource("SpriteFrames_181do")
-animation = &"idle"
+[node name="AnimationTree" type="AnimationTree" parent="."]
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("3_6pckn")
+theme_override_font_sizes/font_size = 6
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_hymdv")
-
-[node name="UI" type="Node2D" parent="."]
-
-[node name="CoordinateDisplay" type="Label" parent="UI"]
-offset_left = -12.0
-offset_top = -23.0
-offset_right = 28.0
+shape = SubResource("RectangleShape2D_3640s")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

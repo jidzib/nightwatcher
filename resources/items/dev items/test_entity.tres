@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Spawnable" load_steps=3 format=3 uid="uid://b55uxh1gx8r8w"]
+
+[ext_resource type="Script" uid="uid://c00n4jdhki7nw" path="res://Scripts/items/spawnable.gd" id="1_edoy3"]
+[ext_resource type="Texture2D" uid="uid://cvn1bytwguu50" path="res://assets/ui/dehydrated.png" id="2_8cmm1"]
+
+[resource]
+script = ExtResource("1_edoy3")
+entity = "TEST"
+can_place_on = Array[String]([])
+id = 10
+name = "EntitySpawner"
+max_stack_size = 100
+texture = ExtResource("2_8cmm1")
+tier = 0
+metadata/_custom_type_script = "uid://c00n4jdhki7nw"

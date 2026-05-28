@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlreflr0lk78m"]
+
+[ext_resource type="PackedScene" uid="uid://xdyldbgvd7e0" path="res://Scenes/ui/UIButton.tscn" id="1_seirq"]
+[ext_resource type="Script" uid="uid://caif3ctyi0xeu" path="res://Scripts/ui/UI_transition_button.gd" id="1_vb4ab"]
+
+[node name="UITransitionButton" instance=ExtResource("1_seirq")]
+script = ExtResource("1_vb4ab")
+destination = 0
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

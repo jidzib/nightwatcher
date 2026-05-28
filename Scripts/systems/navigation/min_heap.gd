@@ -1,4 +1,3 @@
-extends Node
 class_name MinHeap
 
 var heap : Array[AStarNode] = []
@@ -45,3 +44,8 @@ func swap(i: int, j: int):
 	var temp: AStarNode = heap[i]
 	heap[i] = heap[j]
 	heap[j] = temp
+
+func clear():
+	for node in heap:
+		node.queue_free()
+	heap = []

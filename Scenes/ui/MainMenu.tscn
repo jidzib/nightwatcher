@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://c208q5ch5o4vs"]
+
+[ext_resource type="Script" uid="uid://cbgq7mckt2kxt" path="res://Scripts/ui/UI.gd" id="1_4facs"]
+[ext_resource type="PackedScene" uid="uid://dlreflr0lk78m" path="res://Scenes/ui/UITransitionButton.tscn" id="2_hnwi1"]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_4facs")
+metadata/_custom_type_script = "uid://cbgq7mckt2kxt"
+
+[node name="UITransitionButton" parent="." instance=ExtResource("2_hnwi1")]
+offset_left = 546.0
+offset_top = 259.0
+offset_right = 623.0
+offset_bottom = 300.0
+text = "Play"
+destination = 1

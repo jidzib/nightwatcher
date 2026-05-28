@@ -13,12 +13,8 @@ enum ObjectType {
 	FARMLAND,
 	JUNGLE_TREE,
 	CACTUS,
-	SNOW_TREE
-}
-
-enum BreakableType {
-	TREE,
-	ROCK
+	SNOW_TREE,
+	BAMBOO_TREE
 }
 
 enum ItemType {
@@ -40,7 +36,8 @@ enum ItemIDs {
 	PICKAXE,
 	DEV_TREE,
 	DEV_ROCK,
-	SUNFLOWER_SEEDS
+	SUNFLOWER_SEEDS,
+	ENTITY_SPAWNER
 }
 
 enum TileLayer {
@@ -49,10 +46,34 @@ enum TileLayer {
 	FARM
 }
 
+enum EntityType {
+	PLAYER,
+	RED_PANDA,
+	BUNNY,
+	SNOW_LEOPARD
+}
+
 enum Tier {
 	COMMON,
 	UNCOMMON,
 	RARE,
 	LEGENDARY,
 	OTHERWORLDY
+}
+
+enum NeedType {
+	HUNGER,
+	ENERGY
+}
+
+enum TerrainType {
+	BLOCKED,
+	GROUND,
+	WATER
+}
+
+enum UIType {
+	MAIN_MENU,
+	WORLD_SELECT_MENU,
+	CREATE_WORLD_MENU
 }

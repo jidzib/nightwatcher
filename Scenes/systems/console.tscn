@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://csqf73l7mshr1"]
+[gd_scene load_steps=3 format=3 uid="uid://csqf73l7mshr1"]
 
 [ext_resource type="Script" uid="uid://dp2vnsmspu6uy" path="res://Scripts/systems/console.gd" id="1_lu137"]
+[ext_resource type="FontFile" uid="uid://bgaiedi7oahbg" path="res://assets/fonts/Retro Gaming.ttf" id="2_jdvnv"]
 
 [node name="Console" type="CanvasLayer"]
 script = ExtResource("1_lu137")
@@ -10,6 +11,7 @@ offset_left = 10.0
 offset_top = 5.0
 offset_right = 426.0
 offset_bottom = 48.0
+theme_override_fonts/font = ExtResource("2_jdvnv")
 theme_override_font_sizes/font_size = 25
 placeholder_text = "Enter command here"
 

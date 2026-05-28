@@ -1,7 +1,7 @@
 extends Node
 class_name State
 
-var parent : Player
+var parent : Entity
 
 func enter() -> void:
 	pass

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxfqx7i4hynqj"]
+
+[ext_resource type="AudioStream" uid="uid://bexw808f0tipk" path="res://assets/sounds/Main Theme.mp3" id="1_pgfly"]
+[ext_resource type="Script" uid="uid://cwhrasf81i47w" path="res://Scripts/systems/sound_manager.gd" id="2_5e8ox"]
+
+[node name="SoundManager" type="AudioStreamPlayer"]
+stream = ExtResource("1_pgfly")
+volume_db = -40.0
+script = ExtResource("2_5e8ox")

@@ -8,7 +8,8 @@ var OBJECTS = {
 	Enums.ObjectType.FARMLAND : preload("res://Scenes/environment/objects/Farmland.tscn"),
 	Enums.ObjectType.JUNGLE_TREE : preload("res://Scenes/environment/objects/JungleTree.tscn"),
 	Enums.ObjectType.CACTUS : preload("res://Scenes/environment/objects/Cactus.tscn"),
-	Enums.ObjectType.SNOW_TREE : preload("res://Scenes/environment/objects/SnowTree.tscn")
+	Enums.ObjectType.SNOW_TREE : preload("res://Scenes/environment/objects/SnowTree.tscn"),
+	Enums.ObjectType.BAMBOO_TREE : preload("res://Scenes/environment/objects/BambooTree.tscn")
 }
 
 var ITEMS = {
@@ -21,5 +22,19 @@ var ITEMS = {
 	Enums.ItemIDs.PICKAXE : load("res://resources/items/pickaxe.tres"),
 	Enums.ItemIDs.DEV_TREE : load("res://resources/items/dev items/dev_tree.tres"),
 	Enums.ItemIDs.DEV_ROCK : load("res://resources/items/dev items/dev_rock.tres"),
-	Enums.ItemIDs.SUNFLOWER_SEEDS : load("res://resources/items/sunflower_seeds.tres")
+	Enums.ItemIDs.SUNFLOWER_SEEDS : load("res://resources/items/sunflower_seeds.tres"),
+	Enums.ItemIDs.ENTITY_SPAWNER : load("res://resources/items/dev items/test_entity.tres")
+}
+
+var ENTITIES = {
+	Enums.EntityType.PLAYER : preload("res://Scenes/entities/Player.tscn"),
+	Enums.EntityType.RED_PANDA : preload("uid://ct1e5tm38mdm1"),
+	Enums.EntityType.BUNNY : preload("uid://blt4heox85vi7"),
+	Enums.EntityType.SNOW_LEOPARD : preload("uid://c23xlholyg8cd")
+}
+
+var UIs = {
+	Enums.UIType.MAIN_MENU : preload("uid://c208q5ch5o4vs"),
+	Enums.UIType.WORLD_SELECT_MENU : preload("uid://d0fdqr5ce1vym"),
+	Enums.UIType.CREATE_WORLD_MENU : preload("uid://d0rkrmun8twx4")
 }

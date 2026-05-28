@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b635ssony1276" path="res://Scripts/environment/objects/foliage_object.gd" id="1_6dono"]
 [ext_resource type="PackedScene" uid="uid://c1jd5ck53bdth" path="res://Scenes/environment/objects/MapObject.tscn" id="1_w3ja6"]
-[ext_resource type="Texture2D" uid="uid://dwoaouy46d8qe" path="res://assets/environment/foliage.png" id="2_w3ja6"]
+[ext_resource type="Texture2D" uid="uid://dwoaouy46d8qe" path="res://assets/objects/foliage.png" id="2_w3ja6"]
 
 [node name="Foliage" instance=ExtResource("1_w3ja6")]
 script = ExtResource("1_6dono")
@@ -10,6 +10,7 @@ HP = 0
 item_drop = null
 drop_count = 0
 ID = 2
+is_collider = false
 
 [node name="Hitbox" parent="." index="0"]
 visible = false

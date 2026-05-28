@@ -1,19 +1,18 @@
-extends Control
+extends UI
+class_name WorldSelectMenu
 
-@onready var world_list  = $WorldList/VBoxContainer
+@export var world_list : VBoxContainer
+var world_entry : PackedScene = load("uid://dwvmrpealyaki")
 
-var world_entry = load("res://Scenes/ui/WorldEntry.tscn")
-
-func _ready():
-	await get_tree().root.ready
+func _ready() -> void:
+	#await get_tree().root.ready
 	for world_path in scan_folder():
-		var world = world_entry.instantiate()
-		var world_data = ResourceLoader.load(world_path+"world_data.tres")
+		var world : WorldEntry = world_entry.instantiate()
+		var world_data = ResourceLoader.load(world_path + "world_data.tres")
 		world_list.add_child(world)
 		world.setup(world_data.name, world_path)
-		
-func scan_folder():
-	
+
+func scan_folder() -> Array[String]:
 	var results : Array[String] = []
 	
 	var dir = DirAccess.open(Util.DIR)

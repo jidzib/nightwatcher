@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://xdyldbgvd7e0"]
+
+[ext_resource type="FontFile" uid="uid://bgaiedi7oahbg" path="res://assets/fonts/Retro Gaming.ttf" id="1_o6jre"]
+[ext_resource type="Script" uid="uid://gkfnvn54ll43" path="res://Scripts/ui/UI_button.gd" id="2_mf00e"]
+
+[node name="UIButton" type="Button"]
+theme_override_fonts/font = ExtResource("1_o6jre")
+theme_override_font_sizes/font_size = 25
+script = ExtResource("2_mf00e")
+metadata/_custom_type_script = "uid://gkfnvn54ll43"
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

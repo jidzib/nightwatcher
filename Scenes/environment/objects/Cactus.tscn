@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c1jd5ck53bdth" path="res://Scenes/environment/objects/MapObject.tscn" id="1_gh0fx"]
 [ext_resource type="Script" uid="uid://bj5m5eterc7pm" path="res://Scripts/environment/objects/breakable_object.gd" id="1_medq5"]
-[ext_resource type="Texture2D" uid="uid://ddbrtvibpsdw6" path="res://assets/environment/cactus.png" id="2_e42ge"]
+[ext_resource type="Texture2D" uid="uid://ddbrtvibpsdw6" path="res://assets/objects/cactus.png" id="2_e42ge"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1k3gb"]
 size = Vector2(6, 8)

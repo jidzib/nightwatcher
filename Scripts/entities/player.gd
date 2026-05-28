@@ -1,15 +1,15 @@
-extends CharacterBody2D
+extends Entity
 class_name Player
 
-var movement: Vector2 = Vector2(0, 0)
-var acceleration: float = 50
-@export var speed: int = 80
+#var movement: Vector2 = Vector2(0, 0)
+#var acceleration: float = 50
+#@export var speed: int = 80
 var dir: int = 1
 var tile_range: int = 3
 
-@onready var inventory: Inventory = $UI/Inventory
+@export var inventory: Inventory
 
-@onready var camera : Camera2D = $Camera2D
+@export var camera : Camera2D
 
 var inventory_slots: Array[int] = [49, 50, 51, 52, 53, 54]
 
@@ -31,13 +31,19 @@ var action_state: ActionStates = ActionStates.NO_ACTION
 @onready var console = $UI/Console
 
 @onready var sprite : Node2D = $Sprites
-@onready var animation_tree : AnimationTree = $AnimationTree
+#@onready var animation_tree : AnimationTree = $AnimationTree
 
 var chunk_coords: Vector2i
-var tile_coords: Vector2i
-var interaction_manager : InteractionManager
+#var tile_coords: Vector2i
+#var interaction_manager : InteractionManager
 
-@onready var coords_display = $UI/Label
+@export var coordinate_label : Label
+
+static var ref : PackedScene = load("res://Scenes/entities/Player.tscn")
+
+static func new_player() -> Player:
+	return ref.instantiate()
+
 
 func player():
 	pass
@@ -52,8 +58,8 @@ func _ready():
 	
 func _physics_process(delta: float) -> void:
 	tile_coords = Vector2i(floor(position.x / float(Util.TILE_SIZE)),
-					floor(position.y / float(Util.TILE_SIZE)))	
-	coords_display.text = str(tile_coords)
+					floor(position.y / float(Util.TILE_SIZE)))
+	inventory.coordinate_label.text = str("Tile Coords:\n(", tile_coords.x, ", ", tile_coords.y, ")")
 	movement_state_machine.process_physics(delta)
 	movement.x = Input.get_action_strength("right") - Input.get_action_strength("left")
 	movement.y = Input.get_action_strength("down") - Input.get_action_strength("up")
@@ -75,6 +81,10 @@ func _physics_process(delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	movement_state_machine.process_input(event)
+	
+	if Input.is_action_pressed("save"):
+		save_player()
+		
 	if event is InputEventKey and event.keycode in inventory_slots:
 		if inventory.inventory[int(event.as_text()) - 1]:
 			inventory.selected_slot.selected.visible = false
@@ -113,12 +123,18 @@ func save_player():
 	player_data.inventory = inventory.get_inventory_as_data()
 	ResourceSaver.save(player_data, world.DIR+"player_data.tres")
 	
-func load_player():
+func load_player(_world: World):
+	world = _world
 	if not ResourceLoader.exists(world.DIR+"player_data.tres"):
 		save_player()
 	var player_data = ResourceLoader.load(world.DIR+"player_data.tres")
 	position = player_data.position
 	inventory.load_inventory(player_data.inventory)
+	interaction_manager = world.interaction_manager
+	camera.limit_left = -world.SIZE*Util.TILE_SIZE
+	camera.limit_right = world.SIZE*Util.TILE_SIZE
+	camera.limit_bottom = world.SIZE*Util.TILE_SIZE
+	camera.limit_top = -world.SIZE*Util.TILE_SIZE
 	
 func open_console():
 	console.visible = !console.visible

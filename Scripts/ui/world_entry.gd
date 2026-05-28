@@ -4,12 +4,13 @@ class_name WorldEntry
 var world_dir: String
 
 @onready var world_name_label = $WorldName
-@onready var play_button = $PlayButton
+@export var play_button : UIButton
 
 func setup(world_name: String, dir: String):
 	world_dir = dir
 	world_name_label.text = world_name
-	
+	world_name_label.add_theme_font_override("font", load("res://assets/fonts/Retro Gaming.ttf"))
+	#play_button.add_theme_font_override("font", load("res://assets/fonts/Retro Gaming.ttf"))
 	play_button.pressed.connect(func(): load_world())
 
 func load_world():
@@ -21,5 +22,4 @@ func load_world():
 	world.WORLD_NAME = world_data.name
 	world.SEED = world_data.SEED
 	world.load_world()
-	get_tree().current_scene.queue_free()
-	get_tree().current_scene = world
+	Util.switch_scene(world)

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhi5s5t680q7m"]
+
+[ext_resource type="Script" uid="uid://rx6qtoojfs14" path="res://Scripts/entities/states/wander.gd" id="1_1r2vb"]
+
+[node name="Wander" type="Node" node_paths=PackedStringArray("timer")]
+script = ExtResource("1_1r2vb")
+timer = NodePath("Timer")
+metadata/_custom_type_script = "uid://drkh3ol85ppw1"
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

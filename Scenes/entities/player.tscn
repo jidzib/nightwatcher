@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://42a07bj3ivdt"]
+[gd_scene load_steps=33 format=3 uid="uid://42a07bj3ivdt"]
 
 [ext_resource type="Script" uid="uid://ba2rt7gpec2wo" path="res://Scripts/entities/player.gd" id="1_rkbax"]
 [ext_resource type="PackedScene" uid="uid://qf346rsqessh" path="res://Scenes/systems/inventory.tscn" id="3_g1dw6"]
@@ -17,8 +17,6 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0sx8c"]
 size = Vector2(8, 8)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g1dw6"]
 
 [sub_resource type="Gradient" id="Gradient_mabrb"]
 offsets = PackedFloat32Array(0.43, 1)
@@ -239,6 +237,18 @@ tracks/4/keys = {
 "update": 1,
 "values": [4, 5, 6, 7]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprites/Item:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -7), Vector2(1, -7)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4inuf"]
 _data = {
@@ -286,7 +296,6 @@ blend_point_0/node = SubResource("AnimationNodeAnimation_2futp")
 blend_point_0/pos = 1.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_jc64k"]
-graph_offset = Vector2(-330.997, 102.701)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_rso1h")
 nodes/Add2/position = Vector2(300, 200)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_nsogl")
@@ -296,27 +305,28 @@ nodes/Swinging/position = Vector2(-180, 220)
 nodes/output/position = Vector2(640, 220)
 node_connections = [&"Add2", 0, &"StateMachine", &"Add2", 1, &"Swinging", &"output", 0, &"Add2"]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("inventory", "camera", "animation_tree", "animation_player", "hitbox")]
 z_index = 1
 z_as_relative = false
 y_sort_enabled = true
 script = ExtResource("1_rkbax")
+inventory = NodePath("UI/Inventory")
+camera = NodePath("Camera2D")
+animation_tree = NodePath("AnimationTree")
+animation_player = NodePath("AnimationPlayer")
+hitbox = NodePath("Hitbox")
+speed = 100.0
+acceleration = 50.0
+health = 100.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_0sx8c")
-
-[node name="InteractRange" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractRange"]
-position = Vector2(0, -7)
-scale = Vector2(4, 4)
-shape = SubResource("RectangleShape2D_g1dw6")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 process_physics_priority = 1
 ignore_rotation = false
-zoom = Vector2(3, 3)
+zoom = Vector2(2, 2)
 limit_left = -2048
 limit_top = -2048
 limit_right = 2048
@@ -364,6 +374,7 @@ offset = Vector2(0, 650)
 transform = Transform2D(1, 0, 0, 1, 0, 650)
 
 [node name="Label" type="Label" parent="UI"]
+visible = false
 offset_left = 529.0
 offset_top = 31.0
 offset_right = 643.0
@@ -387,28 +398,28 @@ position = Vector2(-1, -8)
 texture = ExtResource("9_7ub3w")
 hframes = 4
 vframes = 3
-frame = 2
+frame = 3
 
 [node name="Legs" type="Sprite2D" parent="Sprites"]
 position = Vector2(-1, -8)
 texture = ExtResource("10_0sx8c")
 hframes = 4
 vframes = 3
-frame = 2
+frame = 3
 
 [node name="Torso" type="Sprite2D" parent="Sprites"]
 position = Vector2(-1, -8)
 texture = ExtResource("11_rso1h")
 hframes = 4
 vframes = 3
-frame = 2
+frame = 3
 
 [node name="Head" type="Sprite2D" parent="Sprites"]
 position = Vector2(-1, -8)
 texture = ExtResource("12_2futp")
 hframes = 4
 vframes = 3
-frame = 2
+frame = 3
 
 [node name="Item" type="Sprite2D" parent="Sprites"]
 position = Vector2(0, -7)
@@ -422,7 +433,7 @@ position = Vector2(-1, -8)
 texture = ExtResource("13_betk5")
 hframes = 4
 vframes = 3
-frame = 2
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

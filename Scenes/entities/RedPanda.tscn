@@ -1,0 +1,105 @@
+[gd_scene load_steps=9 format=3 uid="uid://ct1e5tm38mdm1"]
+
+[ext_resource type="PackedScene" uid="uid://glol8kequn0v" path="res://Scenes/entities/Creature.tscn" id="1_7hcjd"]
+[ext_resource type="Texture2D" uid="uid://blxdvd65vhneo" path="res://assets/entities/red panda/red_panda.png" id="2_0q6it"]
+
+[sub_resource type="Animation" id="Animation_xvj7s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="Animation" id="Animation_n3tww"]
+resource_name = "idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_7tdtg"]
+resource_name = "sleep"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_dgmay"]
+resource_name = "walk"
+length = 0.45
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ji0bk"]
+_data = {
+&"RESET": SubResource("Animation_xvj7s"),
+&"idle": SubResource("Animation_n3tww"),
+&"sleep": SubResource("Animation_7tdtg"),
+&"walk": SubResource("Animation_dgmay")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vvisi"]
+resource_local_to_scene = true
+size = Vector2(11, 5)
+
+[node name="RedPanda" instance=ExtResource("1_7hcjd")]
+sleep_targets = Dictionary[int, bool]({
+5: false
+})
+food_targets = Dictionary[int, bool]({
+8: false
+})
+ID = 1
+
+[node name="AnimationPlayer" parent="." index="2"]
+libraries = {
+&"": SubResource("AnimationLibrary_ji0bk")
+}
+
+[node name="Hitbox" parent="." index="3"]
+z_index = 1
+position = Vector2(2.5, 3.5)
+shape = SubResource("RectangleShape2D_vvisi")
+
+[node name="Sprite" parent="." index="4"]
+texture = ExtResource("2_0q6it")
+
+[node name="Area2D" parent="." index="6"]
+visible = false

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dqjrd71l5bh4c" path="res://Scripts/environment/objects/tree_object.gd" id="1_233qe"]
 [ext_resource type="PackedScene" uid="uid://c1jd5ck53bdth" path="res://Scenes/environment/objects/MapObject.tscn" id="1_okcoh"]
 [ext_resource type="Resource" uid="uid://hxyas03lwbjx" path="res://resources/items/wood.tres" id="2_lib3u"]
-[ext_resource type="Texture2D" uid="uid://yc67d3gdckbf" path="res://assets/environment/forest_tree.png" id="3_i0yfl"]
+[ext_resource type="Texture2D" uid="uid://yc67d3gdckbf" path="res://assets/objects/forest_tree.png" id="3_i0yfl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_233qe"]
 size = Vector2(12, 20)
@@ -16,6 +16,7 @@ drop_count = 20
 tile_footprint = Array[Vector2i]([Vector2i(0, 0), Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1)])
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
+z_index = 1
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_233qe")
 

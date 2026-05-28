@@ -4,23 +4,27 @@ class_name Inventory
 var inventory: Array[ItemSlot] = []
 
 var empty_slot = preload("res://Scenes/ui/ItemSlot.tscn")
-@onready var grid_container: GridContainer = $GridContainer
-@onready var background : TextureRect = $Background
+@export var grid_container: GridContainer
+@export var background : TextureRect
 var hotbar_size : int = 6
 @export var max_slots: int = 24
 var selected_slot: ItemSlot = null
 
 var showing : bool = true
+@export var coordinate_label : Label
 
 func _ready():
+	#initialize_empty_inventory()
+	update_display()
+	switch_visible()
+
+func initialize_empty_inventory() -> void:
 	for i in range(max_slots):
 		var new_slot = empty_slot.instantiate()
 		grid_container.add_child(new_slot)
 		inventory.append(new_slot)
 	selected_slot = inventory[-1]
-	update_display()
-	switch_visible()
-	
+		
 func add_item(item: Item, amount: int) -> void:
 		
 	for i in range(max_slots):
@@ -94,6 +98,7 @@ func reset():
 		child.free()
 
 func load_inventory(inventory_data: InventoryData):
+	initialize_empty_inventory()
 	for i in range(len(inventory_data.items)):
 		var slot = inventory_data.slots[i]
 		inventory[slot].item = References.ITEMS[inventory_data.items[i]]
@@ -106,12 +111,14 @@ func switch_visible():
 		for i in range(hotbar_size, max_slots):
 			inventory[i].visible = false
 		background.visible = false
+		coordinate_label.visible = false
 		showing = false
 	
 	else:
 		for i in range(hotbar_size, max_slots):
 			inventory[i].visible = true
 		background.visible = true
+		coordinate_label.visible = true
 		showing = true
 		
 func _on_tree_entered() -> void:

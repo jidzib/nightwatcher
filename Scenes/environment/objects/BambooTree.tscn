@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://30btioigk3pk"]
+
+[ext_resource type="PackedScene" uid="uid://c1jd5ck53bdth" path="res://Scenes/environment/objects/MapObject.tscn" id="1_2fe2h"]
+[ext_resource type="Texture2D" uid="uid://b4sd1h6kx1g21" path="res://assets/objects/bamboo_tree.png" id="2_oo4t0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4a6np"]
+size = Vector2(12, 10)
+
+[node name="Bamboo" instance=ExtResource("1_2fe2h")]
+ID = 8
+tile_footprint = Array[Vector2i]([Vector2i(0, 0), Vector2i(0, -1)])
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_4a6np")
+
+[node name="Shadow" parent="." index="1"]
+position = Vector2(-3.57628e-07, 2)
+scale = Vector2(0.875, 1)
+
+[node name="Sprite" parent="." index="2"]
+z_index = 1
+z_as_relative = false
+position = Vector2(0, -27)
+texture = ExtResource("2_oo4t0")

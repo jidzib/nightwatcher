@@ -1,8 +1,8 @@
-extends Control
+extends UIButton
 
-@onready var world_name = $VBoxContainer/NameContainer/NameInput
-@onready var seed_input = $VBoxContainer/SeedContainer/SeedInput
-@onready var size_option = $VBoxContainer/SizeContainer/SizeInput
+@export var world_name : TextEdit
+@export var seed_input : TextEdit
+@export var size_option : OptionButton
 
 var SIZE = { 
 	WORLD_SIZES.SMALL : 128,
@@ -19,10 +19,13 @@ enum WORLD_SIZES {
 }
 
 func create_world():
-	var world = load("res://Scenes/core/World.tscn").instantiate()
+	var world = load("uid://bycs45aiqiben").instantiate()
 	world.SIZE = SIZE[size_option.get_selected_id()]
 	get_tree().root.add_child(world)
 	world.setup(world_name.text, int(seed_input.text))
 	world.load_world()
 	get_tree().current_scene.queue_free()
 	get_tree().current_scene = world
+
+func _on_pressed() -> void:
+	create_world()

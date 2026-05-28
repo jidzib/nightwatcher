@@ -3,7 +3,7 @@ class_name World
 
 var chunk_manager : ChunkManager
 @onready var map_generator : MapGenerator = $MapGenerator
-@onready var player: Player = $Player
+#@onready var player: Player = $Player
 @onready var loading_screen = $LoadingScreen
 
 @onready var interaction_manager : InteractionManager = $InteractionManager
@@ -17,10 +17,12 @@ var SIZE : int  = 64 # IN TILES
 
 @onready var fps_counter : Label = $FPSCounter/Label
 
+func _ready():
+	fps_counter.add_theme_font_override("font", load("res://assets/fonts/Retro Gaming.ttf"))
+
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("save"):
 		chunk_manager.save_all()
-		player.save_player()
 	
 	fps_counter.text = str(Engine.get_frames_per_second()) + " FPS"
 		
@@ -48,8 +50,8 @@ func setup(world_name: String, seed: int):
 	map_generator.set_size(SIZE)
 	
 func load_world():
-	player.set_physics_process(false)
-	player.set_process(false)
+	#player.set_physics_process(false)
+	#player.set_process(false)
 	var world_data = ResourceLoader.load(DIR + "world_data.tres")
 	if not world_data:
 		print("World directory does not exist")
@@ -58,16 +60,11 @@ func load_world():
 	chunk_manager = ChunkManager.new_chunk_manager(DIR + "chunks/", SEED, Vector2i(-SIZE/Util.CHUNK_SIZE, SIZE/Util.CHUNK_SIZE))
 	add_child(chunk_manager)
 	interaction_manager.chunk_manager = chunk_manager
-	player.interaction_manager = interaction_manager
+	chunk_manager.interaction_manager = interaction_manager
 	Util.BOUNDS = chunk_manager.BOUNDS
 	#chunk_manager.DIR = DIR + "chunks/"
 	#chunk_manager.rng.seed = SEED
 	#chunk_manager.BOUNDS = Vector2i(-SIZE/Util.CHUNK_SIZE, SIZE/Util.CHUNK_SIZE)
-	
-	player.camera.limit_left = -SIZE*Util.TILE_SIZE
-	player.camera.limit_right = SIZE*Util.TILE_SIZE
-	player.camera.limit_bottom = SIZE*Util.TILE_SIZE
-	player.camera.limit_top = -SIZE*Util.TILE_SIZE
 	
 	#player.interaction_manager.chunk_manager = chunk_manager 
 	
@@ -88,14 +85,15 @@ func load_world():
 			chunk_manager.offload_chunk(Vector2i(x, y))
 			chunks.append(Vector2i(x, y))
 			await get_tree().process_frame
-			
-	await chunk_manager.load_all(Util.get_chunk_from_world(player.position))
 	
-	player.load_player()
-	player.set_physics_process(true)
-	player.set_process(true)
+	var player : Player = Player.new_player()
+	player.load_player(self)
+	await chunk_manager.load_all(Util.get_chunk_from_world(player.position))
+	add_child(player)
+	#player.set_physics_process(true)
+	#player.set_process(true)
 	loading_screen.visible = false
 
 	# TEMP
-	var entity : Entity = Entity.new_entity(chunk_manager.blocked_tiles)
-	add_child(entity)
+	#var entity : Entity = Entity.new_entity(chunk_manager.blocked_tiles)
+	#add_child(entity)

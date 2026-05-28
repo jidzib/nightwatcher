@@ -19,6 +19,8 @@ func _process(delta: float):
 func initialize_commands():
 	COMMANDS.set("add", add_item)
 	COMMANDS.set("test", get_tile_in_neighbor)
+	COMMANDS.set("setspeed", set_speed)
+	COMMANDS.set("setcamera", set_camera)
 
 func try_command():
 	var command = command_line.text.split(" ")
@@ -47,6 +49,28 @@ func add_item(command: PackedStringArray):
 	else:
 		add_to_log("Item does not exist", Color.RED)
 
+func set_speed(command: PackedStringArray):
+	if command.size() != 2:
+		add_to_log("Incorrect number of inputs", Color.RED)
+		return
+	var new_speed : float = float(command[1])
+	if new_speed < 0:
+		add_to_log("Incorect input: Speed must be non-negative", Color.RED)
+		return
+	player.speed = new_speed
+	add_to_log(str("Set player's speed to ", new_speed), Color.GREEN)
+	
+func set_camera(command: PackedStringArray):
+	if command.size() != 2:
+		add_to_log("Incorrect number of inputs", Color.RED)
+		return
+	var zoom : float = float(command[1])
+	if zoom <= 0:
+		add_to_log("Incorect input: Camera zoom must be non-zero and non-negative", Color.RED)
+		return
+	player.camera.zoom = Vector2(zoom, zoom)
+	add_to_log(str("Set camera zoom to ", zoom), Color.GREEN)
+	
 func get_tile_in_neighbor(command: PackedStringArray):
 	var original_tile_coords_x = int(command[1]) # 0 
 	var original_tile_coords_y = int(command[2]) # 40
@@ -59,7 +83,9 @@ func get_tile_in_neighbor(command: PackedStringArray):
 															
 func add_to_log(line: String, color: Color = Color.WHITE):
 	var log_line : Label = Label.new()
+	
 	log_line.add_theme_font_size_override("font_size", 12)
+	log_line.add_theme_font_override("font", load("res://assets/fonts/Retro Gaming.ttf"))
 	log_line.text = line
 	log_line.modulate = color
 	log.add_child(log_line)

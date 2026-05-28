@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://ncnpt6lufuea" path="res://Scripts/systems/interaction_manager.gd" id="3_5opad"]
 [ext_resource type="Script" uid="uid://cp2vt7y33na3m" path="res://Scripts/systems/map_generator.gd" id="3_ehr0e"]
 [ext_resource type="Script" uid="uid://b0n6acf8tbi8q" path="res://Scripts/ui/grid_overlay.gd" id="4_ghfue"]
-[ext_resource type="PackedScene" uid="uid://42a07bj3ivdt" path="res://Scenes/entities/Player.tscn" id="5_ehr0e"]
 [ext_resource type="Shader" uid="uid://luva4dxcuots" path="res://shaders/canvas_item.gdshader" id="6_41i0c"]
+[ext_resource type="PackedScene" uid="uid://cxfqx7i4hynqj" path="res://Scenes/systems/SoundManager.tscn" id="7_75kd4"]
 [ext_resource type="PackedScene" uid="uid://6xdx0k40qebe" path="res://Scenes/ui/LoadingScreen.tscn" id="8_5opad"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_e0an3"]
@@ -56,8 +56,8 @@ frequency = 0.006
 noise = SubResource("FastNoiseLite_5opad")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_75kd4"]
+render_priority = 0
 shader = ExtResource("6_41i0c")
-shader_parameter/strength = 0.5
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -78,8 +78,6 @@ metadata/_custom_type_script = "uid://cp2vt7y33na3m"
 
 [node name="GridOverlay" type="Node2D" parent="."]
 script = ExtResource("4_ghfue")
-
-[node name="Player" parent="." instance=ExtResource("5_ehr0e")]
 
 [node name="PostProcess" type="CanvasLayer" parent="."]
 layer = 100
@@ -111,3 +109,5 @@ shadow_color = Color(0, 0, 1, 0.615686)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 visible = false
+
+[node name="SoundManager" parent="." instance=ExtResource("7_75kd4")]

@@ -1,0 +1,105 @@
+[gd_scene load_steps=9 format=3 uid="uid://blt4heox85vi7"]
+
+[ext_resource type="PackedScene" uid="uid://glol8kequn0v" path="res://Scenes/entities/Creature.tscn" id="1_2lmrk"]
+[ext_resource type="Texture2D" uid="uid://cyq574qnc8m4r" path="res://assets/entities/red panda/bunny.png" id="2_dg21q"]
+
+[sub_resource type="Animation" id="Animation_yd0ob"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_y57u3"]
+resource_name = "idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_krna5"]
+resource_name = "sleep"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_y1dy7"]
+resource_name = "walk"
+length = 0.45
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g5dsp"]
+_data = {
+&"RESET": SubResource("Animation_yd0ob"),
+&"idle": SubResource("Animation_y57u3"),
+&"sleep": SubResource("Animation_krna5"),
+&"walk": SubResource("Animation_y1dy7")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5keo"]
+resource_local_to_scene = true
+size = Vector2(10, 5)
+
+[node name="Bunny" instance=ExtResource("1_2lmrk")]
+sleep_targets = Dictionary[int, bool]({
+0: false
+})
+food_targets = Dictionary[int, bool]({
+2: false
+})
+ID = 2
+
+[node name="AnimationPlayer" parent="." index="2"]
+libraries = {
+&"": SubResource("AnimationLibrary_g5dsp")
+}
+
+[node name="Hitbox" parent="." index="3"]
+position = Vector2(0, 4.5)
+shape = SubResource("RectangleShape2D_v5keo")
+
+[node name="Sprite" parent="." index="4"]
+texture = ExtResource("2_dg21q")
+frame = 1
+
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+visible = false

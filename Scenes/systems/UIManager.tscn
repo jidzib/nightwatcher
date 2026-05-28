@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkjxewxc0tkuj"]
+
+[ext_resource type="Script" uid="uid://dg171j4q8xqta" path="res://Scripts/systems/UI_manager.gd" id="1_ysuwa"]
+
+[node name="UiManager" type="CanvasLayer"]
+script = ExtResource("1_ysuwa")
+metadata/_custom_type_script = "uid://dg171j4q8xqta"
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

@@ -6,11 +6,11 @@ class_name Chunk
 #@onready var navigation_region : NavigationRegion2D = $NavigationRegion2D
 
 var OBJECTS : Dictionary = {}
+var ENTITY_LIST : Dictionary = {}
 
-var OBJECT_MAPS : Dictionary = {}
 var TILE_MAPS: Dictionary = {}
 					
-var load_distance: int = 8
+var load_distance: int = 2
 
 var loading := false
 var changed = false
@@ -56,19 +56,18 @@ func add_object(object, local_origin_coords: Vector2i) -> bool:
 		tile_footprint.append(tile+global_origin_coords)
 	
 	for tile in tile_footprint:
-		if tile in parent.occupied_tiles:
+		if tile in parent.occupied_tiles or tile in parent.blocked_tiles:
 			return false
 	
 	for tile in tile_footprint:
 		parent.occupied_tiles.set(tile, object)
 		if object.is_collider:
-			parent.blocked_tiles.set(tile, object)
+			parent.blocked_tiles.set(tile, Enums.TerrainType.BLOCKED)
 	
 	object.position = local_origin_coords * Util.TILE_SIZE
 	OBJECTS.set(global_origin_coords, object)
 	object.tile_coords = global_origin_coords
 	add_child(object)
-	
 	return true
 
 func remove_object(tile_coords : Vector2i):
@@ -82,7 +81,34 @@ func remove_object(tile_coords : Vector2i):
 			parent.blocked_tiles.erase(tile)
 	OBJECTS.erase(tile_coords)
 	object.queue_free()
+
+func add_entity(entity : Entity, local_origin_coords: Vector2i) -> bool:
+	var global_origin_coords : Vector2i = local_origin_coords + chunk_coords * Util.CHUNK_SIZE
+	var global_tile_footprint : Array[Vector2i] = []
 	
+	for tile in entity.tile_footprint:
+		global_tile_footprint.append(tile + global_origin_coords)
+	
+	for global_tile in global_tile_footprint:
+		if global_tile in parent.blocked_tiles:
+			return false
+	entity.position = global_origin_coords * Util.TILE_SIZE + Vector2i(Util.TILE_SIZE/2, Util.TILE_SIZE/2)
+	entity.tile_coords = global_origin_coords
+	entity.initialize(parent.blocked_tiles, parent.interaction_manager)
+	ENTITY_LIST.set(entity, false)
+	parent.add_child(entity)
+	print("~~~~~~~~~~~~~~~")
+	print("ADDING ENTITY")
+	print("LOCAL :", local_origin_coords, " | GLOBAL :", global_origin_coords, " | CHUNK : ", chunk_coords)
+	return true
+
+func remove_entity(entity : Entity) -> bool:
+	if entity not in ENTITY_LIST:
+		return false
+	ENTITY_LIST.erase(entity)
+	entity.queue_free()
+	return true
+
 func save_self(chunk_manager : ChunkManager, new_chunk_square : Dictionary):
 	var chunks = chunk_manager.CHUNKS.duplicate()
 	var chunks_to_save = []
@@ -99,8 +125,7 @@ func load_self(chunk_manager : ChunkManager, new_chunk_square : Dictionary):
 	for chunk in new_chunk_square:
 		if (chunk not in chunk_manager.CHUNKS
 			and chunk_manager.chunk_in_bounds(chunk)):
-			chunks_to_load.append(chunk)
-	
+			chunks_to_load.append(chunk)	
 	chunk_manager.load_chunks(chunks_to_load)
 
 func get_object_data() -> PackedByteArray:
@@ -108,6 +133,12 @@ func get_object_data() -> PackedByteArray:
 	for tile_coords in OBJECTS:
 		OBJECTS[tile_coords].encode(object_data)
 	return object_data
+
+func get_entity_data() -> PackedByteArray:
+	var entity_data : PackedByteArray = []
+	for entity in ENTITY_LIST.keys():
+		entity.encode(entity_data)
+	return entity_data
 
 func get_object_at_tile(tile_coords: Vector2i) -> MapObject:
 	if tile_coords in OBJECTS:

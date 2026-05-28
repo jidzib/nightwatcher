@@ -1,8 +1,6 @@
 extends BreakableObject
 class_name TreeObject
 
-@onready var vision_box : Area2D = $VisionBox
-
 #func _ready():
 	#initialize()
 	#sway()

@@ -3,11 +3,11 @@ class_name ItemSlot
 
 var item: Item
 var quantity: int = 0
-@onready var sprite: Sprite2D = $Sprite2D
-@onready var label: Label = $Label
-@onready var selected: Sprite2D = $Selected
+@export var sprite: Sprite2D
+@export var label: Label
+@export var selected: Sprite2D
 
-@onready var tier_color : ColorRect = $ColorRect
+@export var tier_color : ColorRect
 
 func _ready():
 	update()

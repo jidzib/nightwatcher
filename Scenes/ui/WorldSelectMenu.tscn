@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0fdqr5ce1vym"]
+
+[ext_resource type="Script" uid="uid://dftcnblcl2fgd" path="res://Scripts/ui/world_select_menu.gd" id="1_4fcnv"]
+[ext_resource type="PackedScene" uid="uid://bxe6h3jtx30o4" path="res://Scenes/ui/UIBackButton.tscn" id="2_vwsoc"]
+[ext_resource type="PackedScene" uid="uid://dlreflr0lk78m" path="res://Scenes/ui/UITransitionButton.tscn" id="5_j8y3p"]
+
+[node name="WorldSelectMenu" type="CanvasLayer" node_paths=PackedStringArray("world_list")]
+script = ExtResource("1_4fcnv")
+world_list = NodePath("ScrollContainer/WorldList")
+metadata/_custom_type_script = "uid://dftcnblcl2fgd"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_left = 450.0
+offset_top = 180.0
+offset_right = 891.0
+offset_bottom = 596.0
+
+[node name="WorldList" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+
+[node name="UIBackButton" parent="." instance=ExtResource("2_vwsoc")]
+offset_left = 11.0
+offset_top = 659.0
+offset_right = 109.0
+offset_bottom = 706.0
+theme_override_font_sizes/font_size = 30
+
+[node name="UITransitionButton2" parent="." instance=ExtResource("5_j8y3p")]
+offset_left = 128.0
+offset_top = 659.0
+offset_right = 383.0
+offset_bottom = 706.0
+theme_override_font_sizes/font_size = 30
+text = "Create World"
+destination = 2

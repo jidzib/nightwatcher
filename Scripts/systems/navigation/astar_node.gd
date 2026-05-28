@@ -1,4 +1,3 @@
-extends Node
 class_name AStarNode
 
 var pos : Vector2i

@@ -1,0 +1,105 @@
+[gd_scene load_steps=13 format=3 uid="uid://glol8kequn0v"]
+
+[ext_resource type="PackedScene" uid="uid://c4p5rxumolxnq" path="res://Scenes/entities/Entity.tscn" id="1_s322n"]
+[ext_resource type="Script" uid="uid://dcpndd4fxywkk" path="res://Scripts/entities/creature.gd" id="2_git7y"]
+[ext_resource type="Script" uid="uid://db27tosi5iv5" path="res://Scripts/systems/state machines/state_machine.gd" id="3_d6glg"]
+[ext_resource type="PackedScene" uid="uid://dhi5s5t680q7m" path="res://Scenes/entities/states/Wander.tscn" id="4_u3s8u"]
+[ext_resource type="PackedScene" uid="uid://c0geddb77lx1v" path="res://Scenes/entities/states/SearchingFood.tscn" id="5_5vvyb"]
+[ext_resource type="PackedScene" uid="uid://dy88ql0fb3spm" path="res://Scenes/entities/states/SearchingBed.tscn" id="6_68w0v"]
+[ext_resource type="PackedScene" uid="uid://wiwm00wctiec" path="res://Scenes/entities/states/Idle.tscn" id="7_f37fi"]
+[ext_resource type="Script" uid="uid://bisplcn1kb7gq" path="res://Scripts/entities/states/sleeping.gd" id="8_shdfb"]
+[ext_resource type="Script" uid="uid://bh5e2brhjpspq" path="res://Scripts/entities/states/eating.gd" id="9_lyir1"]
+[ext_resource type="Script" uid="uid://bki3w7xjlhb3d" path="res://Scripts/systems/need.gd" id="10_qo6k1"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8y7sh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qh2o4"]
+resource_local_to_scene = true
+size = Vector2(17, 7)
+
+[node name="Creature" node_paths=PackedStringArray("hunger", "energy", "action_state_machine", "IDLE", "WANDER", "SEARCHING_FOOD", "SEARCHING_BED", "SLEEPING", "EATING") instance=ExtResource("1_s322n")]
+script = ExtResource("2_git7y")
+hunger = NodePath("Hunger")
+energy = NodePath("Energy")
+action_state_machine = NodePath("ActionStateMachine")
+IDLE = NodePath("ActionStateMachine/Idle")
+WANDER = NodePath("ActionStateMachine/Wander")
+SEARCHING_FOOD = NodePath("ActionStateMachine/SearchingFood")
+SEARCHING_BED = NodePath("ActionStateMachine/SearchingBed")
+SLEEPING = NodePath("ActionStateMachine/Sleeping")
+EATING = NodePath("ActionStateMachine/Eating")
+sleep_targets = Dictionary[int, bool]({})
+food_targets = Dictionary[int, bool]({})
+speed = 50.0
+acceleration = 50.0
+
+[node name="AnimationPlayer" parent="." index="2"]
+libraries = {
+&"": SubResource("AnimationLibrary_8y7sh")
+}
+
+[node name="Hitbox" parent="." index="3"]
+position = Vector2(1.5, 2.5)
+shape = SubResource("RectangleShape2D_qh2o4")
+
+[node name="Sprite" type="Sprite2D" parent="." index="4"]
+hframes = 3
+vframes = 3
+frame = 3
+
+[node name="Label" parent="." index="5"]
+z_index = 3
+z_as_relative = false
+offset_left = -25.0
+offset_top = -59.0
+offset_right = 26.0
+offset_bottom = -9.0
+theme_override_font_sizes/font_size = 4
+
+[node name="ColorRect" type="ColorRect" parent="Label" index="0"]
+z_index = 2
+z_as_relative = false
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 53.0
+offset_bottom = 52.0
+color = Color(0, 0, 0, 0.301961)
+
+[node name="ActionStateMachine" type="Node" parent="." index="7" node_paths=PackedStringArray("starting_state")]
+script = ExtResource("3_d6glg")
+starting_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://db27tosi5iv5"
+
+[node name="Wander" parent="ActionStateMachine" index="0" instance=ExtResource("4_u3s8u")]
+
+[node name="SearchingFood" parent="ActionStateMachine" index="1" instance=ExtResource("5_5vvyb")]
+
+[node name="SearchingBed" parent="ActionStateMachine" index="2" instance=ExtResource("6_68w0v")]
+
+[node name="Idle" parent="ActionStateMachine" index="3" instance=ExtResource("7_f37fi")]
+
+[node name="Sleeping" type="Node" parent="ActionStateMachine" index="4"]
+script = ExtResource("8_shdfb")
+metadata/_custom_type_script = "uid://drkh3ol85ppw1"
+
+[node name="Eating" type="Node" parent="ActionStateMachine" index="5"]
+script = ExtResource("9_lyir1")
+metadata/_custom_type_script = "uid://drkh3ol85ppw1"
+
+[node name="Hunger" type="Node" parent="." index="8"]
+script = ExtResource("10_qo6k1")
+max_value = 100.0
+threshold = 30.0
+increment_amount = 20.0
+decrement_amount = 0.5
+metadata/_custom_type_script = "uid://bki3w7xjlhb3d"
+
+[node name="Energy" type="Node" parent="." index="9"]
+script = ExtResource("10_qo6k1")
+type = 1
+max_value = 100.0
+threshold = 20.0
+increment_amount = 20.0
+decrement_amount = 0.2
+metadata/_custom_type_script = "uid://bki3w7xjlhb3d"

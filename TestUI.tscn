@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://o5uj57kiwwuf"]
+
+[ext_resource type="Script" uid="uid://cbgq7mckt2kxt" path="res://Scripts/ui/UI.gd" id="1_af6lf"]
+
+[node name="TestUi" type="CanvasLayer"]
+script = ExtResource("1_af6lf")
+metadata/_custom_type_script = "uid://cbgq7mckt2kxt"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 407.0
+offset_top = 281.0
+offset_right = 762.0
+offset_bottom = 418.0
+theme_override_font_sizes/font_size = 100
+text = "TEST UI"

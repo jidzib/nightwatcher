@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0geddb77lx1v"]
+
+[ext_resource type="Script" uid="uid://b3y1xhjjvpph0" path="res://Scripts/entities/states/searching_food.gd" id="1_11kx0"]
+
+[node name="SearchingFood" type="Node"]
+script = ExtResource("1_11kx0")
+metadata/_custom_type_script = "uid://drkh3ol85ppw1"

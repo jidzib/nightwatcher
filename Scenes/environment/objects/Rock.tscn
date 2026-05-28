@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c1jd5ck53bdth" path="res://Scenes/environment/objects/MapObject.tscn" id="1_qtmrw"]
 [ext_resource type="Script" uid="uid://bj5m5eterc7pm" path="res://Scripts/environment/objects/breakable_object.gd" id="1_r0hvw"]
-[ext_resource type="Texture2D" uid="uid://dvauddy61ab0q" path="res://assets/environment/rock.png" id="2_h6nw4"]
+[ext_resource type="Texture2D" uid="uid://dvauddy61ab0q" path="res://assets/objects/rock.png" id="2_h6nw4"]
 [ext_resource type="Resource" uid="uid://s61wh3uw4wa0" path="res://resources/items/stone.tres" id="2_r1q7f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_flig4"]

@@ -115,17 +115,26 @@ func _generate_chunk(chunk_coords: Vector2i, chunk_manager: ChunkManager) -> voi
 			if h > 0.4:
 				var r : float = randf()
 				if biome == Biomes.JUNGLE:
-					if r < 0.04:
+					if r < 0.2:
 						chunk.add_object(References.OBJECTS[Enums.ObjectType.JUNGLE_TREE].instantiate(),
 									 Vector2i(x, y))
-					elif r < 0.06:
+					elif r < 0.4:
 						chunk.add_object(References.OBJECTS[Enums.ObjectType.FOLIAGE].instantiate(),
-									 Vector2i(x, y))	
+									 Vector2i(x, y))
+					elif r < 0.41:
+						chunk.add_entity(References.ENTITIES[Enums.EntityType.RED_PANDA].instantiate(),
+										Vector2i(x, y))
+					elif r < 0.55:
+						chunk.add_object(References.OBJECTS[Enums.ObjectType.BAMBOO_TREE].instantiate(),
+									 Vector2i(x, y))
 				elif biome == Biomes.FOREST:
 					if r < 0.04:
 						chunk.add_object(References.OBJECTS[Enums.ObjectType.FOREST_TREE].instantiate(),
 									 Vector2i(x, y))
-					elif r < 0.06:
+					elif r < 0.041:
+						chunk.add_entity(References.ENTITIES[Enums.EntityType.BUNNY].instantiate(),
+								Vector2i(x, y))
+					elif r < 0.08:
 						chunk.add_object(References.OBJECTS[Enums.ObjectType.FOLIAGE].instantiate(),
 									 Vector2i(x, y))
 				elif biome == Biomes.DESERT:
@@ -136,10 +145,12 @@ func _generate_chunk(chunk_coords: Vector2i, chunk_manager: ChunkManager) -> voi
 					if r < 0.04:
 						chunk.add_object(References.OBJECTS[Enums.ObjectType.SNOW_TREE].instantiate(),
 									Vector2i(x, y))
+					elif r < 0.041:
+						chunk.add_entity(References.ENTITIES[Enums.EntityType.SNOW_LEOPARD].instantiate(),
+								Vector2i(x, y))	
 					elif r < 0.06:
 						chunk.add_object(References.OBJECTS[Enums.ObjectType.ROCK].instantiate(),
 									 Vector2i(x, y))
-				
 
 	chunk.GROUND.set_cells_terrain_connect(forest_cells, 0, GRASS_ID)
 	chunk.GROUND.set_cells_terrain_connect(water_cells, 0, WATER_ID)
